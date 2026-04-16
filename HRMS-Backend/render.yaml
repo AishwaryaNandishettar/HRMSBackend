@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: hrmsbackend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_DATA_MONGODB_URI
+        value: mongodb://localhost:27017/Data_base_hrms
+      - key: SPRING_MAIL_USERNAME
+        value: aishushettar95@gmail.com
+      - key: SPRING_MAIL_PASSWORD
+        value: bbfskhrhtnujkokk
+      - key: JWT_SECRET
+        value: MyFixedSecretKey123456
+      - key: PORT
+        value: 8082
