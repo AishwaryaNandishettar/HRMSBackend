@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
-import "../Pages/Payroll/payroll.css";
+import "./payroll.css";
 import { PayrollContext } from "../Context/PayrollContext";
 import { processPayroll } from "../api/payrollApi";
 import { useNavigate , useLocation} from "react-router-dom";
