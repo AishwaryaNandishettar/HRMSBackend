@@ -1,6 +1,6 @@
 // src/Components/EmployeeList.jsx
 import React from "react";
-import "./payroll.css"; // reuse same styles
+import "../Pages/Payroll/Payroll.css"; // reuse same styles
 
 const EmployeeList = ({ employees, onSelect }) => {
   return (

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StickyNotesContext } from "./StickyNotesProvider";
 import StickyNote from "./StickyNote";
-import "./sticky.css";
+import "./Sticky.css";
 
 const colors = ["#FFF59D", "#FFAB91", "#90CAF9", "#A5D6A7"];
 

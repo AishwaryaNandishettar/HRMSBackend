@@ -1,7 +1,7 @@
 // src/Pages/InsurancePlans.jsx
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./Insurance.css";
+import "./PersonalInsurance.css";
 
 // sample plans by company id (simple dataset)
 const plansByCompany = {
