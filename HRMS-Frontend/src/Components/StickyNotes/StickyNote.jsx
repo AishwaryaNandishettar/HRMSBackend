@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StickyNotesContext } from "./StickyNotesProvider";
 
+
 const StickyNote = ({ note }) => {
   const { notes, setNotes } = useContext(StickyNotesContext);
   const [pos, setPos] = useState({ x: note.x, y: note.y });
