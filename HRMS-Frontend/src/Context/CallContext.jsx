@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState, useRef } from 'r
 import { AuthContext } from './Authcontext';
 import { connectSocket, sendCallSignal } from '../api/socket';
 import webrtcPeer from '../Services/webrtcPeer';
-import ringtoneManager from '../utils/ringtone';
+import ringtoneManager from '../Utils/ringtone';
 
 const CallContext = createContext();
 
