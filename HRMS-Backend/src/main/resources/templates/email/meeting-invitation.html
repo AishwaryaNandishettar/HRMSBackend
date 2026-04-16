@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Invitation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            border-bottom: 4px solid #4f46e5;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            color: #4f46e5;
+            margin: 0;
+            font-size: 24px;
+        }
+        .meeting-info {
+            background-color: #f9fafb;
+            border-left: 4px solid #4f46e5;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .meeting-info p {
+            margin: 10px 0;
+        }
+        .label {
+            font-weight: bold;
+            color: #4f46e5;
+            min-width: 120px;
+            display: inline-block;
+        }
+        .value {
+            color: #333;
+        }
+        .action-button {
+            display: inline-block;
+            background-color: #4f46e5;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .action-button:hover {
+            background-color: #4338ca;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 12px;
+            text-align: center;
+        }
+        .update-flag {
+            background-color: #fef3c7;
+            border: 1px solid #fcd34d;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 20px 0;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 th:if="${isUpdate == null or !isUpdate}">📅 Meeting Invitation</h1>
+        <h1 th:if="${isUpdate}">📝 Meeting Updated</h1>
+    </div>
+
+    <p th:text="'Hello,' + ${recipientName != null ? recipientName : 'Participant'}"></p>
+
+    <div th:if="${isUpdate}">
+        <div class="update-flag">
+            <strong>Meeting Details Updated</strong><br>
+            <span th:text="${updateReason != null ? updateReason : 'The meeting details have been updated. Please review the new information below.'}"></span>
+        </div>
+    </div>
+
+    <p th:if="${isInvitation == null or !isInvitation}">You have been invited to the following meeting:</p>
+    <p th:if="${isInvitation}">You have been invited to the following meeting:</p>
+
+    <div class="meeting-info">
+        <p>
+            <span class="label">Title:</span>
+            <span class="value" th:text="${title != null ? title : 'N/A'}"></span>
+        </p>
+        <p>
+            <span class="label">Date & Time:</span>
+            <span class="value" th:text="${formattedStartTime != null ? formattedStartTime : 'N/A'}"></span>
+        </p>
+        <p>
+            <span class="label">Duration:</span>
+            <span class="value" th:text="${duration != null ? duration : 'N/A'}"></span>
+        </p>
+        <p>
+            <span class="label">Location:</span>
+            <span class="value" th:text="${location != null ? location : 'Virtual / To be confirmed'}"></span>
+        </p>
+        <p th:if="${description != null}">
+            <span class="label">Description:</span><br>
+            <span class="value" th:text="${description}"></span>
+        </p>
+        <p>
+            <span class="label">Organizer:</span>
+            <span class="value" th:text="${organizerName != null ? organizerName : 'N/A'}"></span>
+        </p>
+    </div>
+
+    <p>Please mark your calendar and prepare for this meeting. If you have any questions, feel free to contact the organizer.</p>
+
+    <p>
+        <a href="#" class="action-button">View Meeting Details</a>
+    </p>
+
+    <div class="footer">
+        <p>This is an automated email from HRMS Meeting System. Please do not reply to this email.</p>
+        <p>&copy; 2026 Omoika Innovations. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* ================= ROOT RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================= APP LAYOUT ================= */
+
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #f5f6fa;
+  overflow: hidden; /* VERY IMPORTANT */
+}
+
+/* ================= SIDEBAR WRAPPER ================= */
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 220px;
+  height: 100vh;              /* FIXED */
+  background-color: rgb(3, 1, 107);
+  color: #ffffff;
+  padding-top: 20px;
+  position: relative;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
+
+  overflow-y: auto;           /* ✅ ENABLE SCROLL */
+  overflow-x: hidden;
+}
+
+.sidebar.closed {
+  width: 90px;
+}
+
+/* Optional: smooth scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
+
+/* ================= CONTENT AREA ================= */
+
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f5f6fa;
+  overflow: hidden; /* ONLY INNER SCROLL */
+}
+
+/* ================= NAVBAR ================= */
+
+.content-area > nav {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+/* ================= PAGE CONTENT ================= */
+
+.page-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto; /* ONLY CONTENT SCROLLS */
+  background-color: #f5f6fa;
+}
+
+/* Smooth scroll look */
+.page-content::-webkit-scrollbar {
+  width: 6px;
+}
+.page-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}

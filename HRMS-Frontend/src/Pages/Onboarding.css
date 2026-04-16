@@ -1,0 +1,433 @@
+  /* Onboarding.css — modern HRMS accordion form */
+
+  .onboard-root {
+    padding: 28px;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    background: #f4fbff;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .onboard-root h1 {
+    color: #0b6fbf;
+    margin-bottom: 14px;
+  }
+
+  .onboard-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(8, 45, 79, 0.05);
+    overflow: hidden;
+    border: 1px solid #e8f3fb;
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* section header (accordion) */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    cursor: pointer;
+    gap: 12px;
+    border-bottom: 1px solid #f1f8fd;
+    background: linear-gradient(180deg, rgba(11,111,191,0.03), rgba(11,111,191,0));
+    width: 100%;
+  }
+
+  .section-body {
+    width: 100%;
+  }
+
+  .section-header:hover {
+    background: linear-gradient(180deg, rgba(11,111,191,0.05), rgba(11,111,191,0));
+  }
+
+  .section-title {
+    font-weight: 700;
+    color: #0b4f7a;
+    font-size: 15px;
+  }
+
+  .section-sub {
+    font-size: 12px;
+    color: #557089;
+    margin-top: 4px;
+  }
+
+  .chev {
+    font-size: 18px;
+    color: #0b6fbf;
+  }
+
+  /* body */
+  .section-body {
+    padding: 14px 16px 18px;
+    background: #fff;
+  }
+
+  /* grid */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .grid-3 input,
+  .grid-3 select,
+  .grid-3 textarea {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #e3eef7;
+    background: #fbfeff;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  /* textarea full width */
+  .form-grid textarea,
+  .grid-3 textarea {
+    min-height: 64px;
+    grid-column: 1 / -1;  /* ✅ THIS MAKES FULL WIDTH */
+  }
+
+  /* exp / ref entry block */
+  .exp-entry,
+  .ref-entry {
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f8fcff;
+    border: 1px solid #e7f4fb;
+  }
+
+  /* actions */
+  .exp-actions {
+    margin-top: 6px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .primary-btn,
+  .submit-btn {
+    background: #0b6fbf;
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .secondary-btn {
+    background: transparent;
+    border: 1px solid #d3e7fb;
+    color: #0b6fbf;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .file-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #333;
+  }
+
+  .file-input input[type="file"] {
+    padding: 6px 0;
+  }
+
+  .file-name {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 12px 0;
+  }
+
+  /* photo previews */
+  .photo-preview,
+  .residence-photo-preview {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #eef7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .photo-preview img,
+  .residence-photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .no-photo-small {
+    color: #0b6fbf;
+    font-weight: 700;
+    padding: 8px;
+  }
+
+  /* responsive */
+  @media (max-width: 1100px) {
+    .grid-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+    .form-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .section-header {
+      padding: 12px;
+    }
+    .section-body {
+      padding: 12px;
+    }
+  }
+  /* NEW FORM GRID LIKE EMPLOYEE DIRECTORY */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* cleaner */
+    gap: 16px;
+  }
+
+  /* FULL WIDTH FIELD */
+  .full-width {
+    grid-column: span 2;
+  }
+  .full-width {
+    grid-column: 1 / -1;
+  }
+  /* INPUT STYLE IMPROVED */
+  .form-grid input,
+  .form-grid select,
+  .form-grid textarea {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 14px;
+  }
+
+  /* SECTION BODY LIKE CARD */
+  .section-body {
+    padding: 20px;
+    background: #fafafa;
+  }
+
+  /* CARD IMPROVEMENT */
+  .card {
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
+  }
+
+  /* BUTTON ALIGNMENT */
+  .form-actions {
+    margin-top: 20px;
+  }
+  .form-grid textarea {
+    resize: vertical;
+  }
+  .form-group {
+    position: relative;
+  }
+
+  /* INPUT STYLE */
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 18px 14px 8px;
+    border-radius: 10px;
+    border: 1px solid #d0d7de;
+    font-size: 14px;
+    background: #fff;
+  }
+
+  /* FLOATING LABEL */
+  .form-group label {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-size: 13px;
+    color: #6b7280;
+    background: #fff;
+    padding: 0 4px;
+    transition: 0.2s ease;
+    pointer-events: none;
+  }
+
+  /* FLOAT ON FOCUS OR VALUE */
+  .form-group input:focus + label,
+  .form-group select:focus + label,
+  .form-group textarea:focus + label,
+  .form-group input:not(:placeholder-shown) + label,
+  .form-group textarea:not(:placeholder-shown) + label,
+  .form-group select:not([value=""]) + label {
+    top: -6px;
+    left: 10px;
+    font-size: 11px;
+    color: #0b6fbf;
+  }
+
+  /* better inputs */
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid #d0d7de;
+    font-size: 14px;
+    background: #fff;
+    transition: 0.2s;
+  }
+
+  /* focus effect */
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #0b6fbf;
+    box-shadow: 0 0 0 3px rgba(11,111,191,0.1);
+    outline: none;
+  }
+
+  /* full width */
+  .full-width {
+    grid-column: 1 / -1;
+  }
+  /* DOCUMENT GRID IMPROVEMENT */
+  .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px; /* 🔥 increase from 16px → 24px or 28px */
+    max-width: 900px; /* 🔥 LIMIT WIDTH to remove empty space */
+    margin: 0 auto; /* 🔥 center grid */
+  }
+  .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 260px); /* fixed card size */
+    gap: 24px;
+    justify-content: center; /* 🔥 center cards nicely */
+  }
+
+  /* DOCUMENT CARD */
+  .doc-card {
+    background: #ffffff;
+    border: 1px solid #e3eef7;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: 0.2s;
+    position: relative;
+  }
+  .doc-card {
+    background: #ffffff;
+    border: 1px solid #e3eef7;
+    border-radius: 12px;
+    padding: 16px; /* slightly more padding */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    height: 120px;
+    width: 100%; /* keep consistent */
+  }
+  .section-body {
+    padding: 24px 32px; /* 🔥 increase side padding */
+    background: #fafafa;
+  }
+  /* HOVER EFFECT */
+  .doc-card:hover {
+    border-color: #0b6fbf;
+    box-shadow: 0 6px 18px rgba(11,111,191,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* LABEL */
+  .doc-card label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0b4f7a;
+  }
+
+  /* FILE INPUT */
+  .doc-card input[type="file"] {
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  /* FILE NAME */
+  .doc-card .file-name {
+    font-size: 12px;
+    color: #16a34a;
+    font-weight: 500;
+    word-break: break-all;
+  }
+
+  /* PHOTO CARD SPECIAL */
+  .photo-card {
+    grid-column: span 1; /* keep equal size */
+  }
+
+  /* PHOTO PREVIEW ENHANCED */
+  .photo-preview {
+    height: 140px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e3eef7;
+  }
+
+  /* EMPTY STATE (optional future) */
+  .doc-card::after {
+    content: "Upload file";
+    font-size: 11px;
+    color: #94a3b8;
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+  }
+  .doc-card {
+    height: 110px; /* keeps all cards equal */
+    justify-content: space-between;
+  }
+  .file-input input[type="file"] {
+    color: transparent;   /* hides "No file chosen" text */
+  }
+
+  .file-input input[type="file"]::-webkit-file-upload-button {
+    color: black;         /* keep button text visible */
+  }
+  .file-input {
+  border: 1px dashed #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}

@@ -1,0 +1,89 @@
+.postjob-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  max-width: 700px;
+}
+
+.postjob-header h2 {
+  margin: 0;
+}
+
+.postjob-header p {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.postjob-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 12px;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.field input,
+.field textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.field textarea {
+  min-height: 90px;
+}
+
+.field.full {
+  grid-column: span 2;
+}
+
+/* JSON PREVIEW (IMPORTANT PART FOR "PAYSLIP FEEL") */
+.postjob-preview {
+  margin-top: 15px;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  overflow-x: auto;
+}
+
+.postjob-preview pre {
+  margin: 0;
+}
+
+/* ACTION BUTTONS */
+.postjob-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.postjob-actions .primary {
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+}
+
+.postjob-actions .secondary {
+  background: #e5e7eb;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+}

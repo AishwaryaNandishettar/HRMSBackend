@@ -1,0 +1,158 @@
+/* Fullscreen Background with Centered Glassmorphic Login Box */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background: url(../assets/HRMSbg2.jpeg) no-repeat center center / cover;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay for better contrast */
+.login-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left:700px;
+}
+
+/* Login box styling (glass effect) */
+.login-form {
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  padding: 40px 35px; /* Reduced padding for smaller height */
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 380px; /* Slightly smaller width */
+  text-align: center;
+  z-index: 1;
+}
+
+/* Header section containing logo and title */
+.header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px; /* Less spacing */
+}
+
+/* Logo wrapper */
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+/* Logo image */
+.logo-logo {
+  width: 130px; /* Slightly smaller for compactness */
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* App title */
+.app-title {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Inputs */
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.login-form input:focus {
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 200, 255, 0.4);
+}
+
+/* Login button */
+.login-form button {
+  background-color: #00c8ff;
+  color: white;
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width: 100%;
+}
+
+.login-form button:hover {
+  background-color: #00a0cc;
+  transform: translateY(-2px);
+}
+
+/* Error message */
+.error-message {
+  color: #ffdddd;
+  background-color: rgba(255, 50, 50, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* Forgot & back links */
+.forgot-link,
+.back-link {
+  color: white;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  text-decoration: underline;
+}
+
+.forgot-link:hover,
+.back-link:hover {
+  color: #00a0cc;
+}
+
+/* Reset title */
+.reset-title {
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-form {
+    padding: 30px 25px;
+    max-width: 320px;
+  }
+  .logo {
+    width: 180px;
+  }
+  .app-title {
+    font-size: 1.2rem;
+  }
+}

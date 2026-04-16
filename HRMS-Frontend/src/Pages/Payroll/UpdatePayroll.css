@@ -1,0 +1,195 @@
+.update-payroll-container {
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+.stepper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stepper div {
+  padding: 8px 14px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.stepper .active {
+  background: #2563eb;
+  color: #fff;
+}
+
+.card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.grid input {
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.emp-box {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.summary {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-start;   /* ✅ move everything left */
+  align-items: center;
+  gap: 10px;                     /* ✅ spacing between buttons */
+  margin-top: 20px;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  width: fit-content;           /* ✅ shrink to content */
+}
+.actions button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+}
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.full-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px; /* forces horizontal scroll instead of breaking layout */
+}
+.full-table th {
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+.full-table tbody tr:hover {
+  background: #f0f7ff;
+  transition: 0.2s;
+}
+.full-table th {
+  border-bottom: 2px solid #0f172a;
+}
+.full-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+.table-wrapper {
+  overflow-x: auto;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.full-table th,
+.full-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.full-table input {
+  width: 80px;
+}
+.full-table {
+  width: 100%;
+  min-width: 1800px;
+  border-collapse: collapse;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.full-table th {
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #0f172a;
+}
+/* ❌ REMOVE INPUT BORDERS INSIDE TABLE */
+.full-table input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 14px;
+}
+
+.full-table th {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+/* optional: remove ugly focus border too */
+.full-table input:focus {
+  outline: none;
+  box-shadow: none;
+}
+.full-table td {
+  padding: 8px;
+  vertical-align: middle;
+}

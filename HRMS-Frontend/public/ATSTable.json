@@ -1,0 +1,232 @@
+{
+  "title": "Open Positions",
+  "stats": [
+    { "label": "Total Jobs", "value": 12, "color": "blue" },
+    { "label": "High Priority", "value": 4, "color": "red" },
+    { "label": "Closing Soon", "value": 2, "color": "orange" }
+  ],
+  "columns": [
+    { "key": "jobTitle", "label": "Job Title" },
+    { "key": "department", "label": "Department" },
+    { "key": "location", "label": "Location" },
+    { "key": "vacancies", "label": "Vacancies" },
+    { "key": "positionsFilled", "label": "Filled" },
+    { "key": "status", "label": "Status", "type": "badge" },
+    { "key": "deadline", "label": "Deadline" },
+    { "key": "actions", "label": "Actions" }
+
+  ],
+  "data": [
+    {
+      "id": 1,
+      "jobTitle": "Frontend Developer",
+      "department": "Engineering",
+      "location": "Bangalore",
+      "vacancies": 3,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-01"
+    },
+    {
+      "id": 1,
+      "jobTitle": "Frontend Developer",
+      "department": "Engineering",
+      "location": "Bangalore",
+      "vacancies": 3,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-01"
+    },
+    {
+      "id": 2,
+      "jobTitle": "Backend Developer",
+      "department": "Engineering",
+      "location": "Hyderabad",
+      "vacancies": 4,
+      "positionsFilled": 2,
+      "status": "Open",
+      "deadline": "2026-03-05"
+    },
+    {
+      "id": 3,
+      "jobTitle": "HR Executive",
+      "department": "HR",
+      "location": "Bangalore",
+      "vacancies": 2,
+      "positionsFilled": 2,
+      "status": "Filled",
+      "deadline": "2026-02-20"
+    },
+    {
+      "id": 4,
+      "jobTitle": "QA Engineer",
+      "department": "Quality",
+      "location": "Pune",
+      "vacancies": 3,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-10"
+    },
+    {
+      "id": 5,
+      "jobTitle": "DevOps Engineer",
+      "department": "Engineering",
+      "location": "Chennai",
+      "vacancies": 2,
+      "positionsFilled": 0,
+      "status": "Open",
+      "deadline": "2026-03-15"
+    },
+    {
+      "id": 6,
+      "jobTitle": "UI/UX Designer",
+      "department": "Design",
+      "location": "Mumbai",
+      "vacancies": 1,
+      "positionsFilled": 0,
+      "status": "Open",
+      "deadline": "2026-03-18"
+    },
+    {
+      "id": 7,
+      "jobTitle": "Product Manager",
+      "department": "Product",
+      "location": "Bangalore",
+      "vacancies": 1,
+      "positionsFilled": 1,
+      "status": "Filled",
+      "deadline": "2026-02-25"
+    },
+    {
+      "id": 8,
+      "jobTitle": "Business Analyst",
+      "department": "Business",
+      "location": "Delhi",
+      "vacancies": 2,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-12"
+    },
+    {
+      "id": 9,
+      "jobTitle": "Technical Support",
+      "department": "Support",
+      "location": "Noida",
+      "vacancies": 5,
+      "positionsFilled": 3,
+      "status": "Open",
+      "deadline": "2026-03-22"
+    },
+    {
+      "id": 10,
+      "jobTitle": "Data Analyst",
+      "department": "Analytics",
+      "location": "Bangalore",
+      "vacancies": 2,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-08"
+    },
+    {
+      "id": 11,
+      "jobTitle": "Data Scientist",
+      "department": "Analytics",
+      "location": "Hyderabad",
+      "vacancies": 2,
+      "positionsFilled": 0,
+      "status": "Open",
+      "deadline": "2026-03-30"
+    },
+    {
+      "id": 12,
+      "jobTitle": "Marketing Executive",
+      "department": "Marketing",
+      "location": "Mumbai",
+      "vacancies": 3,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-14"
+    },
+    {
+      "id": 13,
+      "jobTitle": "Content Writer",
+      "department": "Marketing",
+      "location": "Remote",
+      "vacancies": 2,
+      "positionsFilled": 2,
+      "status": "Filled",
+      "deadline": "2026-02-18"
+    },
+    {
+      "id": 14,
+      "jobTitle": "Sales Executive",
+      "department": "Sales",
+      "location": "Chennai",
+      "vacancies": 4,
+      "positionsFilled": 2,
+      "status": "Open",
+      "deadline": "2026-03-25"
+    },
+    {
+      "id": 15,
+      "jobTitle": "Account Manager",
+      "department": "Finance",
+      "location": "Bangalore",
+      "vacancies": 1,
+      "positionsFilled": 0,
+      "status": "Open",
+      "deadline": "2026-03-28"
+    },
+    {
+      "id": 16,
+      "jobTitle": "Finance Analyst",
+      "department": "Finance",
+      "location": "Pune",
+      "vacancies": 2,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-19"
+    },
+    {
+      "id": 17,
+      "jobTitle": "System Administrator",
+      "department": "IT",
+      "location": "Bangalore",
+      "vacancies": 1,
+      "positionsFilled": 0,
+      "status": "Open",
+      "deadline": "2026-04-01"
+    },
+    {
+      "id": 18,
+      "jobTitle": "Network Engineer",
+      "department": "IT",
+      "location": "Hyderabad",
+      "vacancies": 2,
+      "positionsFilled": 1,
+      "status": "Open",
+      "deadline": "2026-03-26"
+    },
+    {
+      "id": 19,
+      "jobTitle": "Recruiter",
+      "department": "HR",
+      "location": "Bangalore",
+      "vacancies": 3,
+      "positionsFilled": 2,
+      "status": "Open",
+      "deadline": "2026-03-21"
+    },
+    {
+      "id": 20,
+      "jobTitle": "Office Administrator",
+      "department": "Admin",
+      "location": "Mumbai",
+      "vacancies": 1,
+      "positionsFilled": 1,
+      "status": "Filled",
+      "deadline": "2026-02-15"
+    }
+  ]
+}
+

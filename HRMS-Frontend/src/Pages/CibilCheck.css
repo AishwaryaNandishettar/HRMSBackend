@@ -1,0 +1,88 @@
+
+.cibil-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.cibil-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.cibil-subtitle {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.cibil-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.cibil-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.cibil-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.cibil-form button {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cibil-form button:hover {
+  background: #0056b3;
+}
+
+.cibil-result {
+  background: #e6ffed;
+  border-left: 5px solid #28a745;
+  padding: 20px;
+  border-radius: 6px;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.status.excellent { color: green; font-weight: bold; }
+.status.good { color: blue; font-weight: bold; }
+.status.fair { color: orange; font-weight: bold; }
+.status.poor { color: red; font-weight: bold; }
+
+.cibil-history h3 {
+  margin-bottom: 10px;
+}
+
+.cibil-history table {
+  width: 100%;
+  border-collapse: collapse;
+  max-width: 600px;
+}
+
+.cibil-history th, .cibil-history td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.cibil-history th {
+  background: #f4f4f4;
+  font-weight: bold;
+}

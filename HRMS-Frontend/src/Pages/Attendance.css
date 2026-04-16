@@ -1,0 +1,240 @@
+.attendance-container table thead th {
+  background:blue;   /* white background */
+  color: white !important;       /* blue text */
+  font-size: 13px;
+  text-transform: uppercase;
+  padding: 12px;
+  border: 1px solid #ddd;
+  position: relative;
+   text-align: center;        /* horizontal center */
+  vertical-align: middle;    /* vertical center */
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #1e3c72;
+}
+
+.top-panel {
+  display: flex;
+  justify-content: space-between;
+  background: #f4f6fb;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.checkin {
+  background: #0d6efd;
+  color: white;
+}
+
+.checkout {
+  background: #dc3545;
+  color: white;
+}
+
+.export {
+  background: #198754;
+  color: white;
+}
+
+.approve {
+  background: orange;
+  color: white;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+   overflow-y: visible;   /* 🔥 ADD THIS */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* ✅ CLEAN HEADER STYLE */
+thead th {
+  background: #1e3a8a;   /* solid color like timesheet */
+  color: white;
+  font-size: 13px;
+  text-transform: uppercase;
+  padding: 12px;
+  border: 1px solid #ddd;
+  position: relative;
+  z-index: 20;   /* 🔥 ADD THIS */
+}
+
+/* header layout */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.header {
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: center;       /* center vertically */
+  gap: 5px;                  /* space between text & arrow */
+}
+
+/* filter arrow */
+.header span {
+  font-size: 12px;
+  margin-left: 6px;
+  cursor: pointer;
+}
+.header input,
+.header .filter-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  z-index: 9999;     /* 🔥 VERY IMPORTANT */
+  border: 1px solid #ccc;
+  padding: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+tbody tr {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* Table cells */
+th, td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+/* Body cells */
+tbody td {
+  background: white ;
+}
+
+/* Zebra rows */
+tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+/* Bold first 2 columns */
+tbody td:first-child,
+tbody td:nth-child(2) {
+  font-weight: 600;
+  color: #1e3c72;
+}
+
+/* Late / Early styling */
+.late {
+  color: red;
+  font-weight: bold;
+}
+
+.early {
+  color: red;
+  font-weight: bold;
+}
+
+/* Date input */
+.date-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+input[type="date"] {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Manager panel */
+.manager-panel {
+  background: #fff3cd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.manager-mark {
+  margin-right: 10px;
+  margin-top: 5px;
+  background: #6f42c1;
+  color: white;
+}
+/* Smooth table look */
+table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Row hover */
+tbody tr:hover {
+  background: #eef4ff;
+  transition: 0.2s;
+}
+
+/* Buttons better */
+.button-group button {
+  transition: 0.2s;
+}
+
+.button-group button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Status colors */
+td:nth-child(12) {
+  font-weight: 600;
+}
+
+td:nth-child(12):contains("Approved") {
+  color: green;
+}
+
+td:nth-child(12):contains("Pending") {
+  color: orange;
+}
+.birthday-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.birthday-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}

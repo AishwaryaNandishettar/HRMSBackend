@@ -1,0 +1,199 @@
+/* MAIN CONTAINER */
+.settings-container {
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.settings-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* LAYOUT */
+.settings-layout {
+  display: flex;
+  gap: 20px;
+}
+
+/* LEFT MENU */
+.settings-menu {
+  width: 240px;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+}
+
+.settings-menu button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 12px;
+  font-size: 15px;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  transition: 0.2s;
+}
+
+.settings-menu button:hover {
+  background: #f0f4ff;
+}
+
+.settings-menu button.active {
+  background: #2f6bff;
+  color: white;
+}
+
+/* RIGHT PANEL */
+.settings-pane {
+  flex: 1;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+}
+
+/* SECTION TITLE */
+.settings-section h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* FORM GROUP */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.inline-form input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.inline-form input:focus,
+textarea:focus {
+  border-color: #2f6bff;
+}
+
+/* TEXTAREA */
+.form-group textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* SAVE BUTTON */
+.save-btn {
+  padding: 10px 18px;
+  background: #2f6bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.save-btn:hover {
+  background: #1e4dcc;
+}
+
+/* INLINE FORM */
+.inline-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.add-btn {
+  background: #00b894;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #009d80;
+}
+
+/* LIST BOX */
+.list-box {
+  list-style: none;
+  padding: 0;
+}
+
+.list-box li {
+  padding: 10px;
+  background: #f4f6ff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* ROLE TABLE */
+.role-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.role-table th,
+.role-table td {
+  border: 1px solid #e5e5e5;
+  padding: 10px;
+  text-align: center;
+}
+
+.role-table th {
+  background: #f2f5ff;
+  font-weight: 600;
+}
+
+/* TOGGLE INPUT */
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+/* COMPANY FORM FIX */
+.settings-section .form-group input,
+.settings-section .form-group textarea {
+  color: #000 !important;       /* Ensure text is black */
+  background-color: #fff !important; /* White background */
+  caret-color: #000 !important; /* Cursor color */
+}
+
+/* Placeholder text */
+.settings-section .form-group input::placeholder,
+.settings-section .form-group textarea::placeholder {
+  color: #888 !important;
+  opacity: 1 !important; /* Ensure placeholder is visible */
+}
+
+/* Focus state */
+.settings-section .form-group input:focus,
+.settings-section .form-group textarea:focus {
+  border-color: #2f6bff;
+  box-shadow: 0 0 5px rgba(47, 107, 255, 0.3);
+}

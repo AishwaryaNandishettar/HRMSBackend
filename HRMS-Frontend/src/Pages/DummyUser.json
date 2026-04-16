@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Raj Kumar",
+    "email": "raj@example.com",
+    "password": "12345",
+    "role": "employee",
+    "designation": "Software - Development",
+    "stats": {
+      "presentDays": 23,
+      "avgHours": "9:05",
+      "leaveTaken": 3
+    },
+    "salary": {
+      "earnings": [
+        { "name": "Basic", "value": 18500 },
+        { "name": "HRA", "value": 11500 },
+        { "name": "Bonus", "value": 5000 }
+      ],
+      "deductions": [
+        { "name": "Tax", "value": 1800 },
+        { "name": "PF", "value": 200 },
+        { "name": "Insurance", "value": 1600 }
+      ]
+    },
+    "events": [
+      { "date": "2025-03-23", "title": "Ugadi Festival" },
+      { "date": "2025-03-27", "title": "Holiday" },
+      { "date": "2025-04-02", "title": "Leave" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Sita Sharma",
+    "email": "sita@example.com",
+    "password": "12345",
+    "role": "manager",
+    "designation": "HR Manager",
+    "stats": {
+      "presentDays": 9,
+      "avgHours": "8:55",
+      "leaveTaken": 1
+    },
+    "salary": {
+      "earnings": [
+        { "name": "Basic", "value": 25000 },
+        { "name": "HRA", "value": 12000 },
+        { "name": "Bonus", "value": 5000 }
+      ],
+      "deductions": [
+        { "name": "Tax", "value": 2500 },
+        { "name": "PF", "value": 500 },
+        { "name": "Insurance", "value": 1000 }
+      ]
+    },
+    "events": [
+      { "date": "2025-03-24", "title": "Team Meeting" },
+      { "date": "2025-03-28", "title": "Holiday" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "mahi",
+    "email": "admin@example.com",
+    "password": "12345",
+    "role": "admin",
+    "designation": "",
+    "stats": {
+      "presentDays": 30,
+      "avgHours": "1",
+      "leaveTaken": 7
+    },
+    "salary": {
+      "earnings": [
+        { "name": "Basic", "value": 50000 },
+        { "name": "HRA", "value": 25000 },
+        { "name": "Bonus", "value": 10000 }
+      ],
+      "deductions": [
+        { "name": "Tax", "value": 5000 },
+        { "name": "PF", "value": 1000 },
+        { "name": "Insurance", "value": 2000 }
+      ]
+    },
+    "events": [
+      { "date": "2025-03-25", "title": "System Maintenance" },
+      { "date": "2025-03-29", "title": "Audit Meeting" }
+    ]
+  }
+]

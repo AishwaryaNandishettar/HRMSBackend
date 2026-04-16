@@ -1,0 +1,137 @@
+/* ===== Personal Insurance — Fully Scoped ===== */
+
+.insurance-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.insurance-title {
+  margin-bottom: 20px;
+}
+
+/* Tabs */
+
+.insurance-tabs {
+  margin-bottom: 20px;
+}
+
+.insurance-tab-btn {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  background: #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.insurance-tab-btn.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* Section */
+
+.insurance-section {
+  margin-top: 20px;
+}
+
+/* Company buttons */
+
+.insurance-company-buttons {
+  margin-bottom: 15px;
+}
+
+.insurance-company-btn {
+  margin-right: 10px;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: #f3f4f6;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.insurance-company-btn.selected {
+  background: #2563eb;
+  color: white;
+}
+
+/* Plans */
+
+.insurance-plans-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.insurance-plan-card {
+  width: 300px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+/* Upload */
+
+.insurance-upload-section label {
+  display: block;
+  margin-top: 10px;
+}
+
+/* Buttons */
+
+.insurance-submit-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #16a34a;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.insurance-renew-btn {
+  background: #f59e0b;
+  border: none;
+  padding: 6px 14px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* History table */
+
+.insurance-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.insurance-history-table th,
+.insurance-history-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Status colors */
+
+.insurance-status-active {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.insurance-status-expired {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* Current plan */
+
+.insurance-current-card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  width: 420px;
+  border-radius: 8px;
+  background: #eff6ff;
+}

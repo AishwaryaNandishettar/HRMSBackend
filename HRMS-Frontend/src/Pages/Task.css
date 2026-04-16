@@ -1,0 +1,185 @@
+.task-container {
+  padding: 20px;
+  background: #f4f6fb;
+  min-height: 100vh;
+}
+
+/* KPI */
+.kpi {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.kpi div {
+  background: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.kpi span {
+  display: block;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+/* ROLE */
+.role-switch button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  border: none;
+  background: #e5e7eb;
+}
+
+.role-switch .active {
+  background: #4f46e5;
+  color: white;
+}
+
+/* FORM */
+.task-form {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.task-form input,
+.task-form select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-btn {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  width: 220px;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* FILTER */
+.filters button {
+  margin-right: 10px;
+}
+
+.filters .active {
+  background: #22c55e;
+  color: white;
+}
+
+/* MAIN */
+.main {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+  align-items: start;   /* ✅ IMPORTANT FIX */
+}
+
+/* TABLE */
+.table-box {
+  background: white;
+  border-radius: 10px;
+  overflow-x: auto;   /* ✅ horizontal scroll fix */
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+.table-box {
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+td, th {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+/* STATUS */
+.status.Completed { color: #16a34a; }
+.status.In\ Progress { 
+  color: #2563eb; 
+}
+.status.Assigned { color: #f59e0b; }
+
+/* PRIORITY */
+.priority.High { color: red; }
+.priority.Medium { color: orange; }
+.priority.Low { color: green; }
+
+/* ACTIVITY */
+.activity {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+
+  /* ✅ FIX OVERLAP */
+  max-height: 70vh;
+  overflow-y: auto;
+  position: sticky;
+  top: 20px;
+}
+
+.activity-item {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+.dropdown {
+  position: relative;   /* ADD THIS */
+}
+
+.dropdown-content {
+  position: absolute;   /* ADD THIS */
+  top: 100%;
+  left: 0;
+  width: 250px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  z-index: 9999;   /* IMPORTANT: bring above table */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  z-index: 999;
+  border: 1px solid #ddd;
+  width: 250px;
+  max-height: 200px;
+  overflow-y: auto;
+}

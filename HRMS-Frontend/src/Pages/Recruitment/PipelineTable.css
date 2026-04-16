@@ -1,0 +1,330 @@
+:root {
+  --bg-main: #f5f7fb;
+  --card-bg: #ffffff;
+  --table-bg: #ffffff;
+  --text-main: #111827;
+  --text-light: #6b7280;
+  --border-color: #e5e7eb;
+  --hover-row: #f3f4f6;
+}
+
+[data-theme="dark"] {
+  --bg-main: #111827;
+  --card-bg: #1f2937;
+  --table-bg: #1f2937;
+  --text-main: #e5e7eb;
+  --text-light: #9ca3af;
+  --border-color: #374151;
+  --hover-row: #1f2937;
+}
+
+/* PAGE */
+.pipeline-wrapper {
+  padding: 20px;
+  background: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* =============================== */
+/* ✨ UPGRADED STAT CARDS (PIPELINE) */
+/* =============================== */
+
+.stats-row {
+  display: flex;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+/* base stat card */
+.stat {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  color: #ffffff;
+  font-weight: 600;
+
+  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+/* hover like dashboard */
+.stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  filter: brightness(1.05);
+}
+
+/* active state */
+.active-stat {
+  outline: 3px solid rgba(255,255,255,0.8);
+  outline-offset: 2px;
+}
+
+/* =============================== */
+/* 🎨 GRADIENT VARIANTS (UPGRADED) */
+/* =============================== */
+
+.stat.blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.stat.yellow {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #1f2937; /* 👈 improves readability */
+}
+
+.stat.yellow span,
+.stat.yellow strong {
+  color: #1f2937;
+}
+
+.stat.orange {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+}
+
+.stat.red {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.stat.green {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+.stat.red,
+.stat.green {
+  color: #ffffff !important;
+}
+
+/* force ALL inner text visible */
+.stat.red span,
+.stat.red strong,
+.stat.green span,
+.stat.green strong {
+  color: #ffffff !important;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+/* =============================== */
+/* 📊 TEXT POLISH INSIDE CARD */
+/* =============================== */
+
+.stat span {
+  font-size: 13px;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.stat strong {
+  font-size: 20px;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+
+/* optional icon support */
+.stat svg {
+  font-size: 22px;
+  opacity: 0.95;
+}
+/* SEARCH */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.table-controls input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.export-btn {
+  background: #2563eb;
+  border: none;
+  padding: 10px 16px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* TABLE */
+.table-container {
+  background: var(--table-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+
+.recruitment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recruitment-table th {
+  text-align: center;
+  padding: 14px;
+  font-size: 14px;
+  color: white;
+}
+
+.recruitment-table td {
+  padding: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+.recruitment-table tr:hover {
+  background: var(--hover-row);
+}
+.recruitment-table thead {
+  background: #111827;   /* dark header background */
+}
+
+.recruitment-table th {
+  color: #ffffff !important;
+  font-weight: 600;
+  text-transform: capitalize;
+  border-bottom: 1px solid #374151;
+}
+
+/* AVATARS */
+.candidate-cell,
+.recruiter-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.candidate-cell img,
+.recruiter-cell img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* ================================================= */
+/* 🔥 PIPELINE BADGES — CONFLICT-PROOF VERSION */
+/* ================================================= */
+
+.pipeline-wrapper .pipeline-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff !important;
+  display: inline-block;
+}
+
+/* Applied */
+.pipeline-wrapper .applied {
+  background: #3b82f6 !important;
+}
+
+/* Shortlisted */
+.pipeline-wrapper .shortlisted {
+  background: #f59e0b !important;
+}
+
+/* Interview */
+.pipeline-wrapper .interview {
+  background: #f97316 !important;
+}
+
+/* Rejected */
+.pipeline-wrapper .rejected {
+  background: #ef4444 !important;
+}
+
+/* Selected */
+.pipeline-wrapper .selected {
+  background: #22c55e !important;
+}
+
+/* ACTION BUTTON */
+.action-btn {
+  background:#6b7280;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  color:white;
+}
+
+/* ACTION MENU */
+.action-cell { position: relative; }
+
+.action-menu {
+  position: absolute;
+  right: 0;
+  top: 35px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 9999;
+  width: 180px;
+}
+
+.action-menu div {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.action-menu div:hover {
+  background: #f1f5f9;
+}
+
+/* EXPORT MODAL */
+.export-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.export-modal {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 260px;
+  text-align: center;
+}
+
+/* PAGINATION */
+.pagination {
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+
+.pagination button {
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  background:#374151;
+  color:white;
+}

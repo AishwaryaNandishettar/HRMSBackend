@@ -1,0 +1,92 @@
+/* MAIN CONTAINER */
+
+.sidebarContainer {
+  width: 220px;
+  height: 100vh;
+  background-color: rgb(3, 1, 107);
+  color: white;
+  padding-top: 20px;
+  position: relative;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* STATES */
+
+.open {
+  width: 220px;
+}
+
+.closed {
+  width: 90px;
+}
+
+/* TITLE */
+
+.sidebarTitle {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #00c8ff;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* MENU */
+
+.sidebarMenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarMenu li {
+  margin: 10px 0;
+}
+
+.sidebarMenu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  color: #eaf6ff;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.sidebarMenu a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.sidebarMenu a.active {
+  background-color: #00c8ff;
+  color: white;
+  font-weight: bold;
+}
+
+/* TOGGLE BUTTON */
+
+.toggleBtn {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* SCROLLBAR */
+
+.sidebarContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebarContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}

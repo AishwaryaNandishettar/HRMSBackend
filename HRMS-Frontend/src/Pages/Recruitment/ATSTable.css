@@ -1,0 +1,232 @@
+/* ===================================================== */
+/* 🔒 PIPELINE / ATS PAGE — FULLY ISOLATED STYLES */
+/* ===================================================== */
+
+.pipeline-wrapper {
+  padding: 20px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  color: #111827;
+}
+
+/* HEADER */
+.pipeline-wrapper .top-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pipeline-wrapper .back-btn {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #111827;
+}
+
+/* ===================================================== */
+/* 🔥 STAGE CARDS — FIXED VISIBILITY */
+/* ===================================================== */
+
+.pipeline-wrapper .stats-row {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.pipeline-wrapper .pipeline-stat {
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+  color: #ffffff !important;   /* FORCE WHITE */
+}
+
+/* Unique Class Names (NO MORE .blue .green etc) */
+
+.pipeline-wrapper .stat-applied {
+  background: linear-gradient(90deg,#3b82f6,#2563eb);
+}
+
+.pipeline-wrapper .stat-shortlisted {
+  background: linear-gradient(90deg,#fbbf24,#f59e0b);
+}
+
+.pipeline-wrapper .stat-interview {
+  background: linear-gradient(90deg,#fb923c,#f97316);
+}
+
+.pipeline-wrapper .stat-rejected {
+  background: linear-gradient(90deg,#ef4444,#dc2626);
+}
+
+.pipeline-wrapper .stat-selected {
+  background: linear-gradient(90deg,#22c55e,#16a34a);
+}
+
+.pipeline-wrapper .pipeline-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+.pipeline-wrapper .active-stat {
+  outline: 3px solid #ffffff;
+}
+
+/* ===================================================== */
+/* SEARCH + EXPORT */
+/* ===================================================== */
+
+.pipeline-wrapper .table-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.pipeline-wrapper .table-controls input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.pipeline-wrapper .export-btn {
+  background: #2563eb;
+  border: none;
+  padding: 10px 16px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===================================================== */
+/* TABLE */
+/* ===================================================== */
+
+.pipeline-wrapper .table-container {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  overflow-x: auto;
+}
+
+.pipeline-wrapper .recruitment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pipeline-wrapper .recruitment-table th {
+  text-align: left;
+  padding: 14px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.pipeline-wrapper .recruitment-table td {
+  padding: 14px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.pipeline-wrapper .recruitment-table tr:hover {
+  background: #f3f4f6;
+}
+
+/* ===================================================== */
+/* BADGES — COMPLETELY ISOLATED */
+/* ===================================================== */
+
+.pipeline-wrapper .pipeline-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white !important;
+  display: inline-block;
+}
+
+.pipeline-wrapper .badge-applied {
+  background: #3b82f6;
+}
+
+.pipeline-wrapper .badge-shortlisted {
+  background: #f59e0b;
+}
+
+.pipeline-wrapper .badge-interview {
+  background: #f97316;
+}
+
+.pipeline-wrapper .badge-rejected {
+  background: #ef4444;
+}
+
+.pipeline-wrapper .badge-selected {
+  background: #22c55e;
+}
+
+/* ===================================================== */
+/* ACTION BUTTONS */
+/* ===================================================== */
+
+.pipeline-wrapper .action-btn {
+  background:#6b7280;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  color:white;
+  margin-right:6px;
+}
+
+/* ===================================================== */
+/* EXPORT MODAL */
+/* ===================================================== */
+
+.pipeline-wrapper .export-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pipeline-wrapper .export-modal {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 260px;
+  text-align: center;
+}
+
+.pipeline-wrapper .export-modal button {
+  margin: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===================================================== */
+/* PAGINATION */
+/* ===================================================== */
+
+.pipeline-wrapper .pagination {
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+
+.pipeline-wrapper .pagination button {
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  background:#374151;
+  color:white;
+}

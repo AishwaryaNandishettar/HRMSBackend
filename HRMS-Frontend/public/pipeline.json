@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "role": "Software Engineer",
+    "stage": "Applied",
+    "exp": "3 yrs",
+    "source": "LinkedIn",
+    "recruiter": "Sarah Lee",
+    "date": "2024-04-10",
+    "status": "Active",
+    "avatar": "https://i.pravatar.cc/40?img=1",
+    "recruiterImg": "https://i.pravatar.cc/40?img=5"
+  },
+  {
+    "id": 2,
+    "name": "Emma Wilson",
+    "role": "Product Manager",
+    "stage": "Shortlisted",
+    "exp": "8 yrs",
+    "source": "Referral",
+    "recruiter": "Mark Chen",
+    "date": "2024-04-08",
+    "status": "Active",
+    "avatar": "https://i.pravatar.cc/40?img=2",
+    "recruiterImg": "https://i.pravatar.cc/40?img=6"
+  },
+  {
+    "id": 3,
+    "name": "David Kim",
+    "role": "UI Designer",
+    "stage": "Interview Stage",
+    "exp": "5 yrs",
+    "source": "Indeed",
+    "recruiter": "Sarah Lee",
+    "date": "2024-04-05",
+    "status": "Active",
+    "avatar": "https://i.pravatar.cc/40?img=3",
+    "recruiterImg": "https://i.pravatar.cc/40?img=5"
+  },
+  {
+    "id": 4,
+    "name": "Ava Brown",
+    "role": "QA Engineer",
+    "stage": "Rejected",
+    "exp": "4 yrs",
+    "source": "Naukri",
+    "recruiter": "Mark Chen",
+    "date": "2024-04-03",
+    "status": "Closed",
+    "avatar": "https://i.pravatar.cc/40?img=4",
+    "recruiterImg": "https://i.pravatar.cc/40?img=6"
+  },
+  {
+    "id": 5,
+    "name": "Liam Scott",
+    "role": "DevOps Engineer",
+    "stage": "Selected",
+    "exp": "6 yrs",
+    "source": "Referral",
+    "recruiter": "Sarah Lee",
+    "date": "2024-04-01",
+    "status": "Hired",
+    "avatar": "https://i.pravatar.cc/40?img=5",
+    "recruiterImg": "https://i.pravatar.cc/40?img=5"
+  }
+]

@@ -1,0 +1,334 @@
+/* PAGE */
+.financial-assessment-page {
+  padding: 24px;
+  background: #f4f6fb;
+  font-family: Inter, system-ui;
+}
+
+/* TITLE */
+.fa-title {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* KPI GRID */
+.fa-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* KPI CARD */
+.fa-kpis {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.fa-kpi-revenue {
+  background: #ecfdf5;
+  border-left: 5px solid #16a34a;
+}
+
+.fa-kpi-expense {
+  background: #fef2f2;
+  border-left: 5px solid #ef4444;
+}
+
+.fa-kpi-profit {
+  background: #eff6ff;
+  border-left: 5px solid #2563eb;
+}
+
+.fa-kpi-loss {
+  background: #fff7ed;
+  border-left: 5px solid #f97316;
+}
+
+.fa-kpi-payroll {
+  background: #f5f3ff;
+  border-left: 5px solid #7c3aed;
+}
+
+/* MAIN GRID */
+.fa-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* CARD */
+.fa-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.fa-card h4 {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* FULL WIDTH */
+.fa-full {
+  grid-column: span 3;
+}
+
+/* TWO WIDTH */
+.fa-span-2 {
+  grid-column: span 2;
+}
+
+/* LIST */
+.fa-dept-list {
+  list-style: none;
+  padding: 0;
+}
+
+.fa-dept-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* FORM */
+.fa-expense-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.fa-expense-form input,
+.fa-expense-form select {
+  padding: 7px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.fa-expense-form button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ACTION BUTTONS */
+.fa-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fa-actions button {
+  background: #0f172a;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+  background: #f1f5f9;
+}
+
+td {
+  padding: 8px;
+  border-top: 1px solid #eee;
+}
+
+/* DELETE */
+.fa-delete-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+}
+.fa-workforce {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.fa-work-item {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.fa-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fa-actions button {
+  background: #0f172a;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+/* KPI CARD BASE */
+.fa-kpi-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.fa-kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+/* CONTENT */
+.fa-kpi-content h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.fa-kpi-content p {
+  font-size: 13px;
+  color: #475569;
+}
+
+/* GRID FIX */
+.fa-kpis {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.fa-card {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.fa-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+}
+/* SEARCH BOX */
+.fa-search-box {
+  margin-bottom: 10px;
+}
+
+.fa-search-box input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.fa-search-box input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+/* LIST IMPROVEMENT */
+.fa-dept-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 6px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+}
+
+.fa-dept-list li:hover {
+  background: #f8fafc;
+  border-radius: 6px;
+}
+/* PNL CARD LAYOUT */
+.fa-pnl-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* DONUT WRAPPER */
+.fa-pnl-chart {
+  position: relative;
+  width: 50%;
+}
+
+/* CENTER TEXT */
+.fa-pnl-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.fa-pnl-center h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.fa-pnl-center p {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* LEGEND */
+.fa-pnl-legend {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* LEGEND ITEM */
+.fa-legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+/* DOT */
+.fa-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* ALIGN TEXT */
+.fa-legend-item span {
+  flex: 1;
+  margin-left: 6px;
+}

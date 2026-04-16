@@ -1,0 +1,78 @@
+/* Floating icon */
+.sticky-icon {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #ffd54f;
+  padding: 14px;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 9999;
+}
+
+/* Panel */
+.sticky-panel {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 260px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 9999;
+}
+
+.sticky-panel textarea {
+  width: 100%;
+  height: 80px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+.color-row {
+  margin: 10px 0;
+  display: flex;
+  gap: 8px;
+}
+
+.color-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 8px;
+  background: #42a5f5;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Draggable Sticky Note */
+.sticky-note {
+  position: fixed;
+  padding: 12px;
+  width: 180px;
+  min-height: 120px;
+  border-radius: 8px;
+  z-index: 9998;
+  cursor: grab;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+.delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
