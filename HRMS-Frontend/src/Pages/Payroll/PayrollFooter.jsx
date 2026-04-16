@@ -1,5 +1,5 @@
 import React from "react";
-import "./payroll.css";
+import "./Payroll.css";
 
 const PayrollFooter = ({ currentPage, setCurrentPage, totalPages }) => {
   return (

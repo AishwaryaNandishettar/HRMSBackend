@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./payroll.css";
+import "./Payroll.css";
 
 const PayrollHeader = () => {
   const navigate = useNavigate();
