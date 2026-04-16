@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect , useRef} from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";
-import "./EmployeeDirectory.css";
+import "./Employeedirectory.css";
 import InviteEmployee from "../Components/InviteEmployee";
 const sampleEmployees = [
   {
