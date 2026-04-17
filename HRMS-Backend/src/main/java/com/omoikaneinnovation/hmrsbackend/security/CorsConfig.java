@@ -23,7 +23,8 @@ public class CorsConfig {
 
         config.setAllowedOrigins(List.of(
                 "http://localhost:5176",
-                "http://localhost:5173"
+                "http://localhost:5173",
+                "https://hrmsfrontendapp2.vercel.app"
         ));
 
         
