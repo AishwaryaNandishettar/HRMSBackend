@@ -1,5 +1,8 @@
-[phases.build]
-cmds = ["./mvnw clean package -DskipTests"]
+[phases.setup]
+nixPkgs = ['...', 'maven']
 
-[phases.start]
-cmd = "java -Dserver.port=$PORT -jar target/*.jar"
+[phases.build]
+cmds = ['chmod +x ./mvnw', './mvnw clean package -DskipTests']
+
+[start]
+cmd = 'java -jar target/*.jar'
