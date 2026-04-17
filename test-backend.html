@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Backend Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background: #5568d3;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            display: block;
+        }
+        
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            display: block;
+        }
+        
+        .result.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            display: block;
+        }
+        
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status.online {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 HRMS Backend Test</h1>
+        <p class="subtitle">Test your backend API connection and login</p>
+        
+        <div class="form-group">
+            <label for="apiUrl">Backend URL:</label>
+            <input 
+                type="text" 
+                id="apiUrl" 
+                value="https://trowel-eldercare-scouting.ngrok-free.dev"
+                placeholder="https://your-backend-url.com"
+            >
+        </div>
+        
+        <button onclick="testConnection()">🌐 Test Connection</button>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input 
+                type="email" 
+                id="email" 
+                value="aishwarya@company.com"
+                placeholder="your@email.com"
+            >
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input 
+                type="password" 
+                id="password" 
+                value=""
+                placeholder="Your password"
+            >
+        </div>
+        
+        <button onclick="testLogin()">🔐 Test Login</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function testConnection() {
+            const apiUrl = document.getElementById('apiUrl').value.trim();
+            const resultDiv = document.getElementById('result');
+            
+            if (!apiUrl) {
+                showResult('error', 'Please enter a backend URL');
+                return;
+            }
+            
+            showResult('info', '⏳ Testing connection...');
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                
+                const response = await fetch(`${apiUrl}/api/auth/login`, {
+                    method: 'OPTIONS',
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                const corsHeader = response.headers.get('access-control-allow-origin');
+                
+                let message = `✅ Backend is reachable!<br>`;
+                message += `Status: ${response.status}<br>`;
+                message += `CORS: ${corsHeader ? '✅ Enabled' : '❌ Not configured'}<br>`;
+                
+                showResult('success', message);
+                
+            } catch (error) {
+                let message = `❌ Connection failed: ${error.message}<br><br>`;
+                
+                if (error.name === 'AbortError') {
+                    message += 'Possible causes:<br>';
+                    message += '• Backend is not running<br>';
+                    message += '• ngrok URL has expired<br>';
+                    message += '• Network/firewall blocking<br>';
+                } else {
+                    message += 'Possible causes:<br>';
+                    message += '• Invalid URL<br>';
+                    message += '• CORS blocking<br>';
+                    message += '• Backend not accessible<br>';
+                }
+                
+                showResult('error', message);
+            }
+        }
+        
+        async function testLogin() {
+            const apiUrl = document.getElementById('apiUrl').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!apiUrl || !email || !password) {
+                showResult('error', 'Please fill in all fields');
+                return;
+            }
+            
+            showResult('info', '⏳ Attempting login...');
+            
+            try {
+                const startTime = Date.now();
+                
+                const response = await fetch(`${apiUrl}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const duration = Date.now() - startTime;
+                const data = await response.json().catch(() => response.text());
+                
+                if (response.ok) {
+                    let message = `✅ Login successful! (${duration}ms)<br><br>`;
+                    message += `<strong>Response:</strong><br>`;
+                    message += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    
+                    if (data.token) {
+                        message += `<br>✅ Token received<br>`;
+                        message += `Token: ${data.token.substring(0, 30)}...<br>`;
+                    }
+                    
+                    if (data.email) message += `Email: ${data.email}<br>`;
+                    if (data.name) message += `Name: ${data.name}<br>`;
+                    if (data.role) message += `Role: ${data.role}<br>`;
+                    if (data.empId) message += `Employee ID: ${data.empId}<br>`;
+                    
+                    showResult('success', message);
+                } else {
+                    let message = `❌ Login failed (${duration}ms)<br><br>`;
+                    message += `Status: ${response.status} ${response.statusText}<br>`;
+                    message += `<strong>Response:</strong><br>`;
+                    message += `<pre>${typeof data === 'string' ? data : JSON.stringify(data, null, 2)}</pre>`;
+                    
+                    showResult('error', message);
+                }
+                
+            } catch (error) {
+                let message = `❌ Request failed: ${error.message}<br><br>`;
+                
+                if (error.message.includes('Failed to fetch')) {
+                    message += 'This usually means:<br>';
+                    message += '• Backend is not running<br>';
+                    message += '• CORS is blocking the request<br>';
+                    message += '• Network error<br>';
+                }
+                
+                showResult('error', message);
+            }
+        }
+        
+        function showResult(type, message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = message;
+        }
+        
+        // Test connection on load
+        window.addEventListener('load', () => {
+            setTimeout(testConnection, 500);
+        });
+    </script>
+</body>
+</html>

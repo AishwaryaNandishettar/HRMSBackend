@@ -4,8 +4,8 @@ const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/chat`;
 
 export const fetchChatUsers = async (token) => {
   if (!token) throw new Error("JWT token missing");
+  const res = await API.get(`/api/chat/users`, {
 
-  const res = await axios.get(`${BASE_URL}/users`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

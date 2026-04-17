@@ -1,8 +1,15 @@
 import axios from "axios";
 
+// Debug: Log the environment variable
+console.log('🔍 VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+console.log('🔍 All env vars:', import.meta.env);
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
+
+// Debug: Log the baseURL being used
+console.log('🔍 Axios baseURL:', api.defaults.baseURL);
 
 /* ================= REQUEST INTERCEPTOR ================= */
 api.interceptors.request.use(

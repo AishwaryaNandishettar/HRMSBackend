@@ -29,12 +29,29 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
+    // Debug logging
+    console.log('🔍 Environment check:');
+    console.log('  VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+    console.log('  Full URL will be:', `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`);
+
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, {
+      const apiUrl = import.meta.env.VITE_API_BASE_URL;
+      
+      if (!apiUrl) {
+        console.error('❌ VITE_API_BASE_URL is not defined!');
+        setError("Configuration error: API URL not set. Please contact administrator.");
+        return;
+      }
+
+      console.log('📤 Sending login request to:', `${apiUrl}/api/auth/login`);
+
+      const res = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
+      console.log('📥 Response status:', res.status);
 
       if (!res.ok) {
         throw new Error("Invalid credentials");

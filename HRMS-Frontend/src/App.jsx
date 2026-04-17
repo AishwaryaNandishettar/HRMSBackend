@@ -20,6 +20,7 @@ import ATSTable from "./Pages/Recruitment/ATSTable";
 
 /* Pages */
 import Login from "./Pages/Login";
+import DebugLogin from "./Pages/DebugLogin";
 import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
 import Timesheet from "./Pages/Timesheet";
@@ -381,6 +382,7 @@ export default function App() {
           <CallProvider>   {/* ✅ Global Call Provider */}
             <Routes>
               <Route path="/" element={<Login />} />
+              <Route path="/debug-login" element={<DebugLogin />} />
 
               <Route
                 path="/onboarding"

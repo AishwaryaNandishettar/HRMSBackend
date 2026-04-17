@@ -33,13 +33,14 @@ export const checkOut = async (record) => {
 // Get My Attendance
 // Get My Attendance
 export const getMyAttendance = async (empId) => {
-  const res = await fetch(`${BASE_URL}/api/attendance/my/${empId}`);
+  const res = await API.get(`/api/attendance/my/${empId}`);
+
   return res.json();
 };
 /* ================= MANAGER APPROVAL ================= */
 export const approveAttendance = async (empId, date) => {
-  return api.put("/api/attendance/approve", { empId, date })
-    .then(res => res.data);
+  const res = await API.put("/api/attendance/approve", { empId, date });
+  return res.data;
 };
 
 /* ================= MANAGER CUSTOM MARK ================= */

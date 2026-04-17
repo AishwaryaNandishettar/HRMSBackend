@@ -1,0 +1,112 @@
+========================================
+COPY AND PASTE THESE COMMANDS
+========================================
+
+STEP 1: Get MongoDB Password
+-----------------------------
+1. Go to: https://cloud.mongodb.com
+2. Click "Database Access"
+3. Find "hrmsadmin" user
+4. Click "Edit" → "Edit Password"
+5. Click "Autogenerate Secure Password"
+6. COPY THE PASSWORD!
+7. Click "Update User"
+
+Write your password here: ___________________
+
+
+STEP 2: Edit Migration Script
+------------------------------
+1. Open file: migrate-to-atlas.bat
+2. Find line: set ATLAS_PASSWORD=YOUR_PASSWORD_HERE
+3. Replace YOUR_PASSWORD_HERE with your actual password
+4. Save file
+
+
+STEP 3: Run Migration (Windows)
+--------------------------------
+Open Command Prompt and run:
+
+cd E:\HRMSProject
+migrate-to-atlas.bat
+
+
+STEP 4: Verify in MongoDB Compass
+----------------------------------
+1. Open MongoDB Compass
+2. Click "New Connection"
+3. Paste (replace YOUR_PASSWORD):
+
+mongodb+srv://hrmsadmin:YOUR_PASSWORD@cluster0.axepf8t.mongodb.net/Data_base_hrms
+
+4. Click "Connect"
+5. Check if data is there
+
+
+STEP 5: Push to GitHub
+-----------------------
+cd HRMS-Backend
+git add .
+git commit -m "Ready for deployment"
+git push origin main
+
+
+STEP 6: Deploy to Render
+-------------------------
+1. Go to: https://render.com
+2. Sign up with GitHub
+3. Click "New +" → "Web Service"
+4. Select "HRMS-Backend" repo
+5. Fill in:
+   Name: hrms-backend
+   Runtime: Java
+   Build Command: ./mvnw clean package -DskipTests
+   Start Command: java -jar target/*.jar
+   Instance Type: Free
+
+6. Click "Advanced" and add these environment variables:
+
+MONGODB_URI = mongodb+srv://hrmsadmin:YOUR_PASSWORD@cluster0.axepf8t.mongodb.net/Data_base_hrms?retryWrites=true&w=majority
+SPRING_MAIL_USERNAME = aishushettar95@gmail.com
+SPRING_MAIL_PASSWORD = bbfskhrhtnujkokk
+JWT_SECRET = MyFixedSecretKey123456
+PORT = 8082
+
+(Replace YOUR_PASSWORD with your actual password!)
+
+7. Click "Create Web Service"
+8. Wait 5-10 minutes
+9. Copy your Render URL (like: https://hrms-backend.onrender.com)
+
+
+STEP 7: Update Vercel
+----------------------
+1. Go to: https://vercel.com/dashboard
+2. Click your HRMS project
+3. Settings → Environment Variables
+4. Edit VITE_API_BASE_URL
+5. Set to: https://hrms-backend.onrender.com (your Render URL)
+6. Save
+7. Deployments → Redeploy → "Redeploy from scratch"
+
+
+STEP 8: Test
+------------
+Open: https://hrmsfrontendapp2.vercel.app
+Try to login
+Should work! ✅
+
+
+========================================
+THAT'S IT! YOU'RE DONE! 🎉
+========================================
+
+Your app is now fully deployed:
+- Frontend: Vercel
+- Backend: Render
+- Database: MongoDB Atlas
+
+No more ngrok needed!
+Everything works 24/7!
+
+========================================

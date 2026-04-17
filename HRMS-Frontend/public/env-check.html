@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Check</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .error { color: #ff0000; }
+        .success { color: #00ff00; }
+        .warning { color: #ffaa00; }
+        pre {
+            background: #000;
+            padding: 15px;
+            border: 1px solid #333;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 HRMS Environment Check</h1>
+    <div id="output"></div>
+
+    <script type="module">
+        const output = document.getElementById('output');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = message;
+            output.appendChild(div);
+        }
+
+        log('<h2>Environment Variables:</h2>');
+        
+        // Check if import.meta.env is available
+        if (typeof import.meta !== 'undefined' && import.meta.env) {
+            log('✅ import.meta.env is available', 'success');
+            
+            const apiUrl = import.meta.env.VITE_API_BASE_URL;
+            const turnUser = import.meta.env.VITE_TURN_USERNAME;
+            const turnCred = import.meta.env.VITE_TURN_CREDENTIAL;
+            
+            log('<pre>');
+            log(`VITE_API_BASE_URL: ${apiUrl || '❌ NOT SET'}`, apiUrl ? 'success' : 'error');
+            log(`VITE_TURN_USERNAME: ${turnUser || '❌ NOT SET'}`, turnUser ? 'success' : 'error');
+            log(`VITE_TURN_CREDENTIAL: ${turnCred ? '✅ SET' : '❌ NOT SET'}`, turnCred ? 'success' : 'error');
+            log('</pre>');
+            
+            if (!apiUrl) {
+                log('<h3 class="error">❌ CRITICAL: VITE_API_BASE_URL is not set!</h3>');
+                log('<p class="warning">This means environment variables are not configured in Vercel.</p>');
+                log('<p>Steps to fix:</p>');
+                log('<ol>');
+                log('<li>Go to Vercel Dashboard → Your Project</li>');
+                log('<li>Settings → Environment Variables</li>');
+                log('<li>Add: VITE_API_BASE_URL = https://trowel-eldercare-scouting.ngrok-free.dev</li>');
+                log('<li>Select all environments (Production, Preview, Development)</li>');
+                log('<li>Save and REDEPLOY</li>');
+                log('</ol>');
+            } else {
+                log('<h3 class="success">✅ Environment variables are loaded!</h3>');
+                log(`<p>API URL: <strong>${apiUrl}</strong></p>`);
+            }
+            
+            // Show all env vars
+            log('<h3>All Environment Variables:</h3>');
+            log('<pre>' + JSON.stringify(import.meta.env, null, 2) + '</pre>');
+            
+        } else {
+            log('❌ import.meta.env is not available', 'error');
+            log('This should not happen in a Vite app!', 'error');
+        }
+    </script>
+</body>
+</html>
