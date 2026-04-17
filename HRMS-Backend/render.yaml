@@ -1,12 +1,13 @@
 services:
   - type: web
     name: hrmsbackend
-    env: docker
-    dockerfilePath: ./Dockerfile
+    env: java
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -jar target/*.jar
     plan: free
     envVars:
-      - key: SPRING_DATA_MONGODB_URI
-        value: mongodb://localhost:27017/Data_base_hrms
+      - key: MONGODB_URI
+        sync: false
       - key: SPRING_MAIL_USERNAME
         value: aishushettar95@gmail.com
       - key: SPRING_MAIL_PASSWORD

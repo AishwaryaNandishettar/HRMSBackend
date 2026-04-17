@@ -29,7 +29,8 @@ public class CorsConfig {
         
        config.setAllowedOriginPatterns(List.of(
         "https://*.ngrok-free.dev",
-        "https://*.ngrok.io"
+        "https://*.ngrok.io",
+         "https://*.vercel.app"
 ));
 
         config.setAllowedHeaders(List.of("*"));
