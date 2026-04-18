@@ -1,0 +1,118 @@
+═══════════════════════════════════════════════════════════════
+  🚀 COPY-PASTE THESE COMMANDS TO FIX 502 ERROR
+═══════════════════════════════════════════════════════════════
+
+STEP 1: PUSH FIXED CODE TO GITHUB
+──────────────────────────────────────────────────────────────
+
+cd HRMS-Backend
+git add .
+git commit -m "Fix environment variables for Render deployment"
+git push origin main
+cd ..
+
+✅ After running these commands, continue to STEP 2!
+
+═══════════════════════════════════════════════════════════════
+
+STEP 2: SET ENVIRONMENT VARIABLES IN RENDER
+──────────────────────────────────────────────────────────────
+
+1. Go to: https://dashboard.render.com/
+2. Click on your "HRMS-Backend" service
+3. Click "Environment" tab (left sidebar)
+4. Click "Add Environment Variable" button
+5. Add these 5 variables (copy-paste exactly):
+
+───────────────────────────────────────────────────────────────
+Variable 1:
+───────────────────────────────────────────────────────────────
+Key:
+MONGODB_URI
+
+Value:
+mongodb+srv://hrms_user:yWkztlbtsW7RGube@cluster0.aexpf8t.mongodb.net/Data_base_hrms?retryWrites=true&w=majority&appName=Cluster0
+
+───────────────────────────────────────────────────────────────
+Variable 2:
+───────────────────────────────────────────────────────────────
+Key:
+SPRING_MAIL_USERNAME
+
+Value:
+aishushettar95@gmail.com
+
+───────────────────────────────────────────────────────────────
+Variable 3:
+───────────────────────────────────────────────────────────────
+Key:
+SPRING_MAIL_PASSWORD
+
+Value:
+bbfskhrhtnujkokk
+
+───────────────────────────────────────────────────────────────
+Variable 4:
+───────────────────────────────────────────────────────────────
+Key:
+JWT_SECRET
+
+Value:
+MyFixedSecretKey123456
+
+───────────────────────────────────────────────────────────────
+Variable 5 (if not already there):
+───────────────────────────────────────────────────────────────
+Key:
+PORT
+
+Value:
+8080
+
+───────────────────────────────────────────────────────────────
+
+6. Click "Save Changes" button at the bottom
+
+═══════════════════════════════════════════════════════════════
+
+STEP 3: WAIT FOR DEPLOYMENT (10 minutes)
+──────────────────────────────────────────────────────────────
+
+1. Click "Logs" tab in Render
+2. Wait for these messages:
+   ✅ BUILD SUCCESSFUL
+   ✅ Started HmrsBackendApplication
+   ✅ Tomcat started on port 8080
+
+3. Check service status shows "Live" (green)
+
+═══════════════════════════════════════════════════════════════
+
+STEP 4: TEST YOUR BACKEND
+──────────────────────────────────────────────────────────────
+
+1. Copy your Render URL (e.g., https://hrms-backend-xxxx.onrender.com)
+2. Open it in browser
+3. Should NOT show 502 error!
+
+═══════════════════════════════════════════════════════════════
+
+🚨 IMPORTANT RULES:
+──────────────────────────────────────────────────────────────
+
+❌ DON'T add quotes around values
+❌ DON'T add angle brackets < > in MongoDB URI
+❌ DON'T add spaces around =
+✅ Copy-paste exactly as shown above
+
+═══════════════════════════════════════════════════════════════
+
+📚 NEED MORE HELP?
+──────────────────────────────────────────────────────────────
+
+Open these files:
+- START_HERE_FIX_502.md (Quick guide)
+- FIX_502_ERROR_COMPLETE_SOLUTION.md (Detailed guide)
+- RENDER_ENVIRONMENT_VARIABLES_VISUAL_GUIDE.md (Visual guide)
+
+═══════════════════════════════════════════════════════════════

@@ -1,0 +1,18 @@
+# 🚀 COPY-PASTE THESE COMMANDS TO PUSH FIXED CODE
+
+## STEP 1: Navigate to Backend folder
+cd HRMS-Backend
+
+## STEP 2: Add all changes
+git add .
+
+## STEP 3: Commit with message
+git commit -m "Fix environment variables for Render deployment"
+
+## STEP 4: Push to GitHub
+git push origin main
+
+## STEP 5: Go back to root folder
+cd ..
+
+# ✅ DONE! Now go to Render dashboard and follow the visual guide.
