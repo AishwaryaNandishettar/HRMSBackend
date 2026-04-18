@@ -30,30 +30,27 @@ public class SecurityConfig {
         this.jwtFilter = jwtFilter;
     }
 
-    /* ================= CORS ================= */
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+   @Bean
+public CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
+    CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5176",
-                "http://localhost:5173"
-        ));
+    config.setAllowCredentials(true);
 
-       config.setAllowedOriginPatterns(List.of(
-        "https://*.ngrok-free.dev",
-        "https://*.ngrok.io"
-));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
-        config.setExposedHeaders(List.of("Authorization"));
+    // ✅ ONLY THIS (REMOVE allowedOrigins completely)
+    config.setAllowedOriginPatterns(List.of(
+        "https://hrms-frontend-production.vercel.app"
+    ));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+    config.setAllowedHeaders(List.of("*"));
+    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+    config.setExposedHeaders(List.of("Authorization"));
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+
+    return source;
+}
 
     /* ================= ROLE HIERARCHY ================= */
     @Bean
@@ -86,7 +83,8 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
            .authorizeHttpRequests(auth -> auth
-
+                // ✅ ALLOW PREFLIGHT (THIS IS KEY FIX)
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
     // PUBLIC APIs
      .requestMatchers("/error").permitAll()
     
@@ -144,6 +142,10 @@ public class SecurityConfig {
     .anyRequest().authenticated()
 )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+
+
+
 
         return http.build();
     }
