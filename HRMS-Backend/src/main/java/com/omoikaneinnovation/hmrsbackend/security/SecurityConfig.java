@@ -45,7 +45,8 @@ public CorsConfigurationSource corsConfigurationSource() {
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5176",
     "https://hrmsbackendfullrenderingapplication.vercel.app",
-    "https://hrmsbackendfrontendapp.vercel.app"
+    "https://hrmsbackendfrontendapp.vercel.app",
+    "https://hrmsbackendapplication.vercel.app"
 ));
 
    
