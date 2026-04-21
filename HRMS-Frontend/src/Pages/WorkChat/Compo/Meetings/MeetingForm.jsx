@@ -34,6 +34,9 @@ export default function MeetingForm({
   const [timeError, setTimeError] = useState("");
   const [pastTimeError, setPastTimeError] = useState(""); // ✅ ADD PAST TIME ERROR STATE
   
+  const [repeatUntil, setRepeatUntil] = useState("");
+const [repeatCount, setRepeatCount] = useState("");
+const [selectedDays, setSelectedDays] = useState([]);
   // Add Participant Modal state
   const [showAddParticipantModal, setShowAddParticipantModal] = useState(false);
   
@@ -154,6 +157,17 @@ export default function MeetingForm({
       return;
     }
 
+    // Validate repeat settings when repeat is enabled
+    if (repeat !== "none" && !repeatUntil && !repeatCount) {
+      alert("Please set either a repeat end date or number of occurrences for repeating meetings.");
+      return;
+    }
+
+    if (repeat === "weekly" && selectedDays.length === 0) {
+      alert("Please select at least one weekday for weekly repeating meetings.");
+      return;
+    }
+
     // Validate that end time is after start time
     const startDate = new Date(start);
     const endDate = new Date(end);
@@ -177,15 +191,19 @@ export default function MeetingForm({
       return date.toISOString();
     };
 
-    const payload = {
-      title,
-      participantEmails: emails,
-      remarks, // ✅ ADD REMARKS TO PAYLOAD
-      startTime: formatDateTimeForBackend(start),
-      endTime: formatDateTimeForBackend(end),
-      status,
-      repeat
-    };
+   const payload = {
+  title,
+  participantEmails: emails,
+  remarks,
+  startTime: formatDateTimeForBackend(start),
+  endTime: formatDateTimeForBackend(end),
+  status,
+  repeat,
+
+  repeatUntil: repeatUntil || null,
+  repeatCount: repeatCount ? parseInt(repeatCount) : null,
+  daysOfWeek: repeat === "weekly" ? selectedDays : []
+};
 
     try {
       const res = meeting && meeting.id
@@ -413,6 +431,58 @@ export default function MeetingForm({
             </select>
           </div>
         </div>
+
+        {/* ✅ ADVANCED REPEAT OPTIONS */}
+{repeat !== "none" && (
+  <div className="form-section">
+    <label className="form-label">
+      <span className="label-icon">📅</span>
+      Repeat Settings
+    </label>
+
+    {/* Weekly Days */}
+    {repeat === "weekly" && (
+      <div className="weekdays">
+        {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((day, i) => (
+          <button
+            key={i}
+            type="button"
+            className={`weekday-btn ${selectedDays.includes(i) ? "active" : ""}`}
+            onClick={() => {
+              setSelectedDays(prev =>
+                prev.includes(i)
+                  ? prev.filter(d => d !== i)
+                  : [...prev, i]
+              );
+            }}
+          >
+            {day}
+          </button>
+        ))}
+      </div>
+    )}
+
+    {/* Repeat Until */}
+    <input
+      type="date"
+      className="input modern-input"
+      value={repeatUntil}
+      onChange={(e) => setRepeatUntil(e.target.value)}
+      min={start ? start.split("T")[0] : undefined}
+    />
+
+    <div style={{ textAlign: "center", margin: "6px 0" }}>OR</div>
+
+    {/* Occurrences */}
+    <input
+      type="number"
+      className="input modern-input"
+      placeholder="Number of occurrences"
+      value={repeatCount}
+      onChange={(e) => setRepeatCount(e.target.value)}
+    />
+  </div>
+)}
 
         <div className="wc-modal-actions modern-actions">
           <button className="btn modern-btn btn-secondary" onClick={onClose}>

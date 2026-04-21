@@ -21,12 +21,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns(
-                        "http://localhost:*",
-                        "http://127.0.0.1:*",
-                        "https://*.ngrok-free.dev",
-                        "https://*.ngrok.io"
-                )
+               .setAllowedOrigins(
+                    "http://localhost:5173",
+                    "https://hrmsbackendfullrenderingapplication.vercel.app"
+            )
                 .withSockJS()
                 .setSessionCookieNeeded(false);
 

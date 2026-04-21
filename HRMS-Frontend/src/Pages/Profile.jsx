@@ -16,6 +16,10 @@
       const [allEmployees, setAllEmployees] = useState([]);
       const [showEditModal, setShowEditModal] = useState(false);
       const [showJobModal, setShowJobModal] = useState(false);
+
+      const [profileImage, setProfileImage] = useState(
+  localStorage.getItem("profileImage") || ""
+);
   const [jobEdit, setJobEdit] = useState(() => {
   const saved = localStorage.getItem("jobEdit");
   return saved
@@ -44,14 +48,29 @@
 
       
       const [exitData, setExitData] = useState({
-        reason: "",
-        notice: "60 Days",
-        lwd: "",
-      });
+  reason: "",
+  notice: "60 Days",
+  lwd: "",
+  manager: [],   // ✅ now array
+  cc: [],        // ✅ now array
+  remarks: ""
+});
+const [searchTo, setSearchTo] = useState("");
+const [searchCc, setSearchCc] = useState("");
+const users = [
+  { id: 1, name: "Aishwarya Nandishettar", email: "Aishwarya@company.com" },
+  { id: 2, name: "Prakash", email: "Aishmanager@omoi.com" }
+  
+];
     const [skills, setSkills] = useState([]);
     const [profileData, setProfileData] = useState(null);
     
-
+const Chip = ({ user, onRemove }) => (
+  <span className={styles.chip}>
+    {user.name}
+    <button onClick={onRemove}>×</button>
+  </span>
+);
 
 
 
@@ -120,6 +139,7 @@
         useEffect(() => {
   const load = async () => {
     const data = await fetchMyProfile();
+    console.log("PROFILE API RESPONSE:", data);
     setProfileData(data);
 
     // ✅ ADD THIS LINE HERE
@@ -134,11 +154,11 @@
   name: user?.name || profileData?.name || "N/A",
   role: user?.role || profileData?.role || "N/A",
 
-  id:
-    profileData?.employeeId ||
-    user?.employeeId ||
-    localStorage.getItem("empId") ||
-    "N/A",
+ id:
+  profileData?.employeeId ??
+  user?.employeeId ??
+  empId ??
+  "N/A",
 
   phone: profileData?.phone || "N/A",
   email: user?.email || profileData?.email || "N/A",
@@ -252,6 +272,12 @@ const documents = [
   { name: "Aadhaar.pdf" },
   { name: "Offer_Letter.pdf" }
 ];
+
+const getDesignation = () => {
+  if (role === "ADMIN") return "HR Manager / CEO";
+  if (role === "MANAGER") return "Engineering Manager";
+  return "Software Developer";
+};
       return (
         <div className={styles.profilePage}>
           <div className={styles.profileContainer}>
@@ -259,16 +285,43 @@ const documents = [
             {/* ================= LEFT PANEL ================= */}
             <div className={styles.profileLeft}>
               <div className={styles.profileCard}>
-                <img
-                  src="https://randomuser.me/api/portraits/men/32.jpg"
-                  alt="profile"
-                  className={styles.profileImage}
-                />
+             <div className={styles.imageWrapper}>
+  <img
+    src={profileImage || "https://randomuser.me/api/portraits/men/32.jpg"}
+    alt="profile"
+    className={styles.profileImage}
+  />
+
+  {/* Hidden file input */}
+  <input
+    id="profileUpload"
+    type="file"
+    accept="image/*"
+    style={{ display: "none" }}
+    onChange={(e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProfileImage(reader.result);
+        localStorage.setItem("profileImage", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }}
+  />
+
+  {/* Edit button */}
+  <label htmlFor="profileUpload" className={styles.editImageBtn}>
+    ✎ Edit
+  </label>
+</div>
 
                 <h3>{employee.name}</h3>
                 <p className={styles.role}>{employee.role}</p>
+                <p className={styles.role}>{getDesignation()}</p>
 
-                <span className={styles.statusBadge}>{status}</span>
+               
 
                 <div className={styles.infoList}>
                   <p><strong>Employee ID</strong> {employee.id}</p>
@@ -277,16 +330,7 @@ const documents = [
                   <p>{employee.location}</p>
                 </div>
 
-                <select
-                  className={styles.statusSelect}
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                >
-                  <option>Available</option>
-                  <option>Active</option>
-                  <option>Offline</option>
-                  <option>Do Not Disturb</option>
-                </select>
+              
 
                 <div className={styles.quickLinks}>
                   <p onClick={() => setView("overview")}>Overview</p>
@@ -303,8 +347,7 @@ const documents = [
               {/* HEADER */}
               <div className={styles.profileHeader}>
                 <div>
-                  <h2>{employee.name}</h2>
-                  <p>{employee.role}</p>
+                 
                 </div>
 
                 <select
@@ -717,33 +760,68 @@ const documents = [
                     </div>
                   </div>
 
-                  {showIncrementLetter && (
-                    <div className={styles.incrementPreview}>
-                      <h4>Increment Letter</h4>
-                      <p>Date: 01 January 2025</p>
+                 {showIncrementLetter && selectedEmployee && (
+  <div className={styles.incrementPreview}>
+    
+    <div style={{ textAlign: "center", marginBottom: "20px" }}>
+      <h2>💼 Salary Revision Letter</h2>
+      <p style={{ color: "#888" }}>Human Resources Department</p>
+      <hr />
+    </div>
 
-                      <p>
-                      Dear {selectedEmployee?.name || employee.name},<br /><br />
-                        We are pleased to inform you that based on your
-                        performance and contributions, your compensation
-                        has been revised effective 01 January 2025.
-                      </p>
+    <p><strong>Date:</strong> 01 January 2025</p>
 
-                      <p>Please contact HR for further details.</p>
+    <p>
+      Dear <strong>{selectedEmployee.name}</strong>,
+    </p>
 
-                      <p>
-                        Regards,<br />
-                        Human Resources Department
-                      </p>
+    <p>
+      We are pleased to inform you that based on your performance,
+      your compensation has been revised as follows:
+    </p>
 
-                      <button
-                        className={styles.closePreviewBtn}
-                        onClick={() => setShowIncrementLetter(false)}
-                      >
-                        Close
-                      </button>
-                    </div>
-                  )}
+    <div style={{ marginTop: "15px", lineHeight: "1.8" }}>
+      <p><strong>Employee ID:</strong> {selectedEmployee.employeeId || selectedEmployee.id}</p>
+      <p><strong>Department:</strong> {selectedEmployee.department}</p>
+      <p><strong>Designation:</strong> {selectedEmployee.designation}</p>
+
+      <hr />
+
+      <p><strong>Previous CTC:</strong> ₹{selectedEmployee.ctc || "N/A"}</p>
+      <p><strong>Hike Percentage:</strong> {selectedEmployee.hikePercent || "0"}%</p>
+      <p><strong>Hike Value:</strong> ₹{selectedEmployee.hikeValue || "0"}</p>
+
+      <hr />
+
+      <p>
+        <strong>Revised CTC:</strong>{" "}
+        ₹
+        {selectedEmployee.ctc && selectedEmployee.hikeValue
+          ? Number(selectedEmployee.ctc) + Number(selectedEmployee.hikeValue)
+          : "N/A"}
+      </p>
+    </div>
+
+    <p style={{ marginTop: "20px" }}>
+      This revision reflects your contribution and performance in the organization.
+    </p>
+
+    <p>
+      Regards,<br />
+      <strong>Human Resources Team</strong>
+    </p>
+
+    <button
+      className={styles.closePreviewBtn}
+      onClick={() => {
+        setShowIncrementLetter(false);
+        setSelectedEmployee(null);
+      }}
+    >
+      Close
+    </button>
+  </div>
+)}
 
                   {role === "ADMIN" && (
     <>
@@ -753,11 +831,15 @@ const documents = [
         <thead>
           <tr>
             <th>Emp ID</th>
-            <th>Name</th>
+            <th>Employee Name</th>
             <th>DOB</th>
             <th>DOJ</th>
             <th>Tenure</th>
-            <th>Salary</th>
+              {/* NEW COLUMNS */}
+          <th>CTC</th>
+          <th>Hike Value</th>
+          <th>Hike %</th>
+          <th>Hike Year</th>
             <th>Designation</th>
             <th>Department</th>
             <th>Increment Letter</th>
@@ -769,35 +851,45 @@ const documents = [
   {Array.isArray(allEmployees) &&
   allEmployees.map((emp, i) => (
       <tr key={i}>
-        <td>{emp.id}</td>
-        <td>{emp.name}</td>
+       <td>{emp.employeeId || emp.id}</td>
+       
+        <td>
+  {emp.name || emp.employeeName || emp.fullName }
+</td>
         <td>{emp.dob}</td>
         <td>{emp.joiningDate}</td>
         <td>{emp.tenure}</td>
-        <td>{emp.salary}</td>
+       
+         {/* NEW VALUES (adjust field names if backend differs) */}
+              <td>{emp.ctc || "-"}</td>
+              <td>{emp.hikeValue || "-"}</td>
+              <td>{emp.hikePercent || "-"}</td>
+              <td>{emp.hikeYear || "-"}</td>
         <td>{emp.designation}</td>
         <td>{emp.department}</td>
 
         <td>{emp.incrementLetter || "Available"}</td>
 
-        <td>
-          <button
-            className={styles.actionBtn}
-            onClick={() => {
-              setShowIncrementLetter(true);
-              setSelectedEmployee(emp);
-            }}
-          >
-            View
-          </button>
+       <td>
+  <div className={styles.actionGroup}>
+    <button
+      className={styles.viewBtn}
+      onClick={() => {
+        setShowIncrementLetter(true);
+        setSelectedEmployee(emp);
+      }}
+    >
+      👁 View
+    </button>
 
-          <button
-            className={styles.actionBtnOutline}
-            onClick={() => downloadPDF(emp)}
-          >
-            Download
-          </button>
-        </td>
+    <button
+      className={styles.downloadBtn}
+      onClick={() => downloadPDF(emp)}
+    >
+      ⬇ Download
+    </button>
+  </div>
+</td>
       </tr>
     ))}
   </tbody>
@@ -844,24 +936,111 @@ const documents = [
         setExitData({ ...exitData, remarks: e.target.value })
       }
     />
-    <label>TO (Reporting Manager)</label>
-    <input
-      type="text"
-      className={styles.input}
-      value={exitData.manager || reporting[0]?.name}
-      onChange={(e) =>
-        setExitData({ ...exitData, manager: e.target.value })
-      }
-    />
-    <label>CC (Reporting Manager)</label>
-    <input
-      type="text"
-      className={styles.input}
-      value={exitData.cc || reporting[0]?.name}
-      onChange={(e) =>
-        setExitData({ ...exitData, cc: e.target.value })
-      }
-    />
+   <label>TO (Reporting Manager)</label>
+
+<div className={styles.inputBox}>
+  
+  {/* chips */}
+  <div className={styles.chipContainer}>
+    {exitData.manager.map((u, idx) => (
+      <Chip
+        key={idx}
+        user={u}
+        onRemove={() => {
+          const updated = exitData.manager.filter((_, i) => i !== idx);
+          setExitData({ ...exitData, manager: updated });
+        }}
+      />
+    ))}
+  </div>
+
+  {/* input */}
+  <input
+    type="text"
+    className={styles.input}
+    placeholder="Add recipients..."
+    value={searchTo}
+    onChange={(e) => setSearchTo(e.target.value)}
+  />
+
+  {/* dropdown */}
+  {searchTo && (
+    <div className={styles.suggestionBox}>
+      {users
+        .filter(u =>
+          u.name.toLowerCase().includes(searchTo.toLowerCase())
+        )
+        .map(u => (
+          <div
+            key={u.id}
+            className={styles.suggestionItem}
+            onClick={() => {
+              if (!exitData.manager.find(x => x.id === u.id)) {
+                setExitData({
+                  ...exitData,
+                  manager: [...exitData.manager, u]
+                });
+              }
+              setSearchTo("");
+            }}
+          >
+            {u.name} ({u.email})
+          </div>
+        ))}
+    </div>
+  )}
+</div>
+<label>CC (Copy Manager)</label>
+
+<div className={styles.inputBox}>
+  
+  <div className={styles.chipContainer}>
+    {exitData.cc.map((u, idx) => (
+      <Chip
+        key={idx}
+        user={u}
+        onRemove={() => {
+          const updated = exitData.cc.filter((_, i) => i !== idx);
+          setExitData({ ...exitData, cc: updated });
+        }}
+      />
+    ))}
+  </div>
+
+  <input
+    type="text"
+    className={styles.input}
+    placeholder="Add CC recipients..."
+    value={searchCc}
+    onChange={(e) => setSearchCc(e.target.value)}
+  />
+
+  {searchCc && (
+    <div className={styles.suggestionBox}>
+      {users
+        .filter(u =>
+          u.name.toLowerCase().includes(searchCc.toLowerCase())
+        )
+        .map(u => (
+          <div
+            key={u.id}
+            className={styles.suggestionItem}
+            onClick={() => {
+              if (!exitData.cc.find(x => x.id === u.id)) {
+                setExitData({
+                  ...exitData,
+                  cc: [...exitData.cc, u]
+                });
+              }
+              setSearchCc("");
+            }}
+          >
+            {u.name} ({u.email})
+          </div>
+        ))}
+    </div>
+  )}
+</div>
                       <label>Notice Period</label>
                       <select
                         className={styles.input}

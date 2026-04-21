@@ -39,14 +39,13 @@ public CorsConfigurationSource corsConfigurationSource() {
     config.setAllowCredentials(true);
 
     // Allow both localhost (development) and production URLs
-   config.setAllowedOrigins(List.of(
+   config.setAllowedOriginPatterns(List.of(
     "http://localhost:5173",
     "http://localhost:5176",
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5176",
-    "https://hrmsbackendfullrenderingapplication.vercel.app",
-    "https://hrmsbackendfrontendapp.vercel.app",
-    "https://hrmsbackendapplication.vercel.app"
+    // ✅ ADD YOUR CURRENT VERCEL URL
+         "https://*.vercel.app"   // ✅ BEST FIX (dynamic URLs)
 ));
 
    
@@ -86,7 +85,10 @@ public CorsConfigurationSource corsConfigurationSource() {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())
+           .csrf(csrf -> csrf
+    .ignoringRequestMatchers("/ws/**")
+    .disable()
+)
             .cors(Customizer.withDefaults())
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -143,7 +145,7 @@ public CorsConfigurationSource corsConfigurationSource() {
   .requestMatchers("/api/chat/users").permitAll()
 
     // WEBSOCKET
-    .requestMatchers("/ws/**","/ws/info","/info","/app/**","/topic/**","/user/**").permitAll()
+   .requestMatchers("/ws/**", "/**/ws/**", "/info/**", "/app/**", "/topic/**", "/user/**").permitAll()
 
     // OPTIONS
     .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()

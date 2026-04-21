@@ -11,7 +11,7 @@
   } from "../api/attendanceApi";
 
   /* ================= ROLE MOCK ================= */
-  const loggedUser = JSON.parse(localStorage.getItem("user"));
+  const loggedUser = JSON.parse(localStorage.getItem("user")) || {};
 
   const teamMembers = [
     { name: "John Smith", department: "Engineering", empId: "EMP001", tos: "Full-Time" },
@@ -31,23 +31,28 @@ const popupRef = useRef();
     const [records, setRecords] = useState(
       JSON.parse(localStorage.getItem("attendanceRecords")) || []
     );
-
+// ✅ ADD THESE
+const [fromDate, setFromDate] = useState("");
+const [toDate, setToDate] = useState("");
     /* ================= FETCH RECORDS ================= */
     const fetchRecords = async () => {
       try {
       const empId = loggedUser.empId || loggedUser.id;
 
+const role = loggedUser?.role?.toLowerCase();
+
 const response =
-  loggedUser.role?.toLowerCase() === "admin"
-    ? await getAllAttendance()
+  role === "admin" || role === "manager"
+    ? await getAllAttendance()   // ✅ manager also gets all
     : await getMyAttendance(empId);
 const rawData = Array.isArray(response) ? response : response?.data || [];
 
 const data = rawData.map(r => ({
-  empId: r.userId,
+empId: r.empId || r.employeeId || loggedUser.empId || "-",
   name: r.name || r.userId,
-  department: loggedUser.department,
-  tos: loggedUser.tos,
+   // ✅ FIX HERE
+  department: r.department || "-",
+  tos: r.tos || "-",
   date: r.date,
   checkIn: r.checkIn || "-",
   checkOut: r.checkOut || "-",
@@ -67,6 +72,7 @@ const data = rawData.map(r => ({
         }));
 
         const merged = [...normalizedOld, ...data].reduce((acc, curr) => {
+          localStorage.removeItem("attendanceRecords"); // ✅ clear stale cache
   const exists = acc.find(r => r.empId === curr.empId && r.date === curr.date);
   if (!exists) acc.push(curr);
   return acc;
@@ -77,7 +83,7 @@ const cleaned = merged.filter(r =>
   role === "admin"
     ? true
     : role === "manager"
-    ? teamMembers.some(t => t.empId === r.empId)
+    ? true   // ✅ allow all for now
     : r.empId === empId
 );
 
@@ -131,7 +137,7 @@ setRecords(cleaned);
           locationOut: "-",
           late: hour > 9 ? "Yes" : "No",
           earlyLeave: "-",
-          status: loggedUser.role === "employee" ? "Pending Approval" : "Approved",
+          status: "Pending Approval",
           attendanceType: "Office",
           reason: ""
         };
@@ -237,23 +243,34 @@ setRecords(cleaned);
     };
 
     /* ================= FILTER ================= */
-   const role = loggedUser.role?.toLowerCase();
+   const role = loggedUser?.role?.toLowerCase();
     const filteredRecords =
   role === "employee"
         ? records.filter(
 r => r.empId === (loggedUser.empId || loggedUser.id)
           )
         : role === "manager"
-        ? records.filter(r =>
-            teamMembers.some(t => t.empId === r.empId)
-          )
+? records   // ✅ show all (backend controls later)
          : records; // ✅ admin gets ALL
 
          const getUnique = (key) => [...new Set(filteredRecords.map(r => r[key]))];
 
-const filteredRecordsFinal = filteredRecords.filter(r =>
-  Object.keys(filters).every(key => r[key] === filters[key])
-);
+const filteredRecordsFinal = filteredRecords
+  .filter(r =>
+    Object.keys(filters).every(key => r[key] === filters[key])
+  )
+  .filter(r => {
+    if (!fromDate && !toDate) return true;
+
+    const recordDate = new Date(r.date);
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate) : null;
+
+    if (from && recordDate < from) return false;
+    if (to && recordDate > to) return false;
+
+    return true;
+  });
 
 const suggestions =
   activeFilter &&
@@ -261,11 +278,47 @@ const suggestions =
     String(v).toLowerCase().includes(filterText.toLowerCase())
   );
 
+
+  // ✅ EXPORT FUNCTION
+const handleExport = () => {
+  const headers = [
+    "EMP ID","DATE","NAME","DEPT","CHECK IN","CHECK OUT",
+    "TOTAL HOURS","IN LOCATION","OUT LOCATION","LATE","EARLY","STATUS","TOS","TYPE"
+  ];
+
+  const rows = filteredRecordsFinal.map(r => [
+    r.empId,
+    r.date,
+    r.name,
+    r.department,
+    r.checkIn,
+    r.checkOut,
+    calculateHours(r.checkIn, r.checkOut),
+    r.locationIn,
+    r.locationOut,
+    r.late,
+    r.earlyLeave,
+    r.status,
+    r.tos,
+    r.attendanceType
+  ]);
+
+  const csvContent =
+    "data:text/csv;charset=utf-8," +
+    [headers, ...rows].map(e => e.join(",")).join("\n");
+
+  const link = document.createElement("a");
+  link.href = encodeURI(csvContent);
+  link.download = "attendance_report.csv";
+  link.click();
+};
     return (
       <div className="attendance-container">
         <h2>Attendance Management</h2>
 
         <div className="top-panel">
+
+         
           <div className="date-section">
             <label>Select Date:</label>
             <input
@@ -277,6 +330,12 @@ const suggestions =
           </div>
 
           <div className="button-group">
+
+            {role === "admin" && (
+  <button className="export" onClick={handleExport}>
+    Export
+  </button>
+)}
         
               <>
                 <button className="checkin" onClick={handleCheckIn}>Check In</button>
@@ -290,6 +349,29 @@ const suggestions =
         <div className="table-wrapper">
           <table>
 <thead>
+
+   {/* ✅ ADMIN FILTER */}
+{role === "admin" && (
+  <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+    <div>
+      <label>From:</label>
+      <input
+        type="date"
+        value={fromDate}
+        onChange={(e) => setFromDate(e.target.value)}
+      />
+    </div>
+
+    <div>
+      <label>To:</label>
+      <input
+        type="date"
+        value={toDate}
+        onChange={(e) => setToDate(e.target.value)}
+      />
+    </div>
+  </div>
+)}
   <tr>
     {[
       { key: "empId", label: "EMP ID" },

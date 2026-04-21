@@ -24,6 +24,7 @@ import {
   sendGroupMessageWS,
   sendCallSignal
 } from "../../api/socket";
+import TokenManager from "../../Utils/tokenManager";
 
 /* API */
 import { fetchChatMessages } from "../../api/chatapi";
@@ -37,7 +38,7 @@ export default function WorkChat() {
   const { user, token } = useContext(AuthContext);
   
   // Use global call context
-  const { call, callState, startCall, endCall } = useCall();
+  const { call, incomingCall, callState, startCall, endCall, acceptCall, rejectCall } = useCall();
 
   // Try multiple ways to get the logged-in user's email
   const LOGGED_IN_EMAIL = (() => {
@@ -97,9 +98,15 @@ export default function WorkChat() {
     
     const connectForChat = async () => {
       try {
+        const activeToken = await TokenManager.getValidToken();
+        if (!activeToken) {
+          console.error('❌ [WorkChat] No valid token available for WebSocket chat');
+          return;
+        }
+
         await connectSocket(
           LOGGED_IN_EMAIL,
-          TOKEN,
+          activeToken,
           
           (incomingMsg) => {
             // Handle incoming private messages
@@ -144,17 +151,9 @@ export default function WorkChat() {
   useEffect(() => {
     if (!TOKEN || !LOGGED_IN_EMAIL) return;
     fetchChatUsers(TOKEN)
-      .then((data) => {
-        // Filter out current user and remove duplicates by email
-        const filtered = data.filter((u) => u.email !== LOGGED_IN_EMAIL);
-        const uniqueUsers = filtered.reduce((acc, user) => {
-          if (!acc.find(u => u.email === user.email)) {
-            acc.push(user);
-          }
-          return acc;
-        }, []);
-        setUsers(uniqueUsers);
-      })
+      .then((data) =>
+        setUsers(data.filter((u) => u.email !== LOGGED_IN_EMAIL))
+      )
       .catch(() => setUsers([]));
   }, [TOKEN, LOGGED_IN_EMAIL]);
 
@@ -166,7 +165,7 @@ export default function WorkChat() {
   useEffect(() => {
     if (!TOKEN) return;
     fetchMyGroups(TOKEN)
-      .then(setGroups)
+      .then((data) => setGroups(data || []))
       .catch(() => setGroups([]));
   }, [TOKEN]);
 
@@ -253,23 +252,32 @@ export default function WorkChat() {
   return (
     <div className="wc-root modern-bg">
       {/* 📞 CALL SCREEN - Shows when there's an active call */}
-      {call && (
+      {(call || incomingCall) && (
         <CallScreen
-          user={call.user}
-          type={call.type}
-          onEnd={endCall}
-          isInitiator={call.isInitiator}
-          callId={call.callId}
-          waitingForAccept={call.waitingForAccept}
+          user={call?.user || {
+            email: incomingCall?.fromEmail,
+            name: incomingCall?.fromName || incomingCall?.fromEmail
+          }}
+          type={call?.type || incomingCall?.type}
+          onEnd={call ? endCall : rejectCall}
+          onAccept={!call && incomingCall ? acceptCall : undefined}
+          onReject={!call && incomingCall ? rejectCall : undefined}
+          isInitiator={call?.isInitiator || false}
+          callId={call?.callId || incomingCall?.callId}
+          waitingForAccept={call?.waitingForAccept || (!!incomingCall && !call)}
           callState={callState}
           currentUserEmail={LOGGED_IN_EMAIL}
           onSignal={(signal) => {
-            // Send WebRTC signals (OFFER/ANSWER/ICE_CANDIDATE) via WebSocket
+            const toEmail = call?.user?.email || incomingCall?.fromEmail;
+            if (!toEmail) {
+              console.warn('Unable to send signal, missing recipient email', { signal, call, incomingCall });
+              return;
+            }
             console.log('📡 Sending WebRTC signal via WebSocket:', signal);
             sendCallSignal({
               ...signal,
               fromEmail: LOGGED_IN_EMAIL,
-              toEmail: call.user.email
+              toEmail
             });
           }}
         />

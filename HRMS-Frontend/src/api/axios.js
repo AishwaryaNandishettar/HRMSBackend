@@ -5,7 +5,8 @@ console.log('🔍 VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
 console.log('🔍 All env vars:', import.meta.env);
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8082",
+  withCredentials: true   // ✅ ADD THIS LINE
 });
 
 // Debug: Log the baseURL being used

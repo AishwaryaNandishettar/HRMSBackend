@@ -9,7 +9,18 @@ const ROLE_MGR = "manager";
 const ROLE_ADMIN = "admin";
 
 export default function TimesheetManager() {
-  const [role, setRole] = useState(ROLE_ADMIN);
+ const loggedUser = JSON.parse(localStorage.getItem("user")) || {};
+ console.log("Logged User:", loggedUser);
+const normalizeRole = (r) => (r || "").trim().toLowerCase();
+
+const [role, setRole] = useState(
+  normalizeRole(loggedUser?.role)
+);
+
+
+console.log("ROLE VALUE:", role);
+
+
   const [records, setRecords] = useState([]);
   const [activeFilter, setActiveFilter] = useState(null);
   const [filterText, setFilterText] = useState("");
@@ -35,7 +46,10 @@ const managerName = "Manager1"; // TODO: get from AuthContext
   //};
   //load();
 //}, [month]);
-
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  setRole(normalizeRole(user?.role));
+}, []);
 
   useEffect(() => {
   const load = async () => {
@@ -195,16 +209,11 @@ setRecords(mapped);
   }
 
   // 🏢 ADMIN → only approved/rejected
-  if (role === ROLE_ADMIN) {
-    return (
-      matchesFilter &&
-      (r.status === "Approved" || r.status === "Rejected")
-    );
-  }
-
-  return matchesFilter;
+ if (role === ROLE_ADMIN) {
+  return matchesFilter; // ✅ show all statuses
+}
+return matchesFilter;
 });
-
   const suggestions =
     activeFilter &&
     getUnique(activeFilter).filter((v) =>
@@ -307,29 +316,7 @@ const handleReject = (empId, month) => {
   />
 </div>
       {/* ROLE */}
-    {/* ROLE SWITCH */}
-<div className={styles.roleSwitch}>
-  <button
-    className={role === ROLE_EMP ? styles.activeRole : ""}
-    onClick={() => setRole(ROLE_EMP)}
-  >
-    EMPLOYEE
-  </button>
-
-  <button
-    className={role === ROLE_MGR ? styles.activeRole : ""}
-    onClick={() => setRole(ROLE_MGR)}
-  >
-    MANAGER
-  </button>
-
-  <button
-    className={role === ROLE_ADMIN ? styles.activeRole : ""}
-    onClick={() => setRole(ROLE_ADMIN)}
-  >
-    ADMIN
-  </button>
-</div>
+    
 
       <div className={styles.tableWrap}>
         <table className={styles.table}>
@@ -404,7 +391,7 @@ const handleReject = (empId, month) => {
 )}
                 </th>
               ))}
-              {role === ROLE_MGR && <th>APPROVAL</th>}
+             {role === ROLE_MGR && <th>APPROVAL</th>}
             </tr>
           </thead>
 
@@ -431,7 +418,7 @@ const handleReject = (empId, month) => {
 {role === ROLE_MGR && (
   <td>
     <select
-      value={r.approval || "Pending"}
+      value={r.status || "Pending"}
       onChange={(e) => {
         const value = e.target.value;
 
@@ -441,13 +428,13 @@ const handleReject = (empId, month) => {
           handleReject(r.empId, r.month);
         }
 
-        setRecords((prev) =>
-          prev.map((rec) =>
-            rec.empId === r.empId && rec.month === r.month
-              ? { ...rec, approval: value, status: value }
-              : rec
-          )
-        );
+       setRecords((prev) =>
+  prev.map((rec) =>
+    rec.empId === r.empId && rec.month === r.month
+      ? { ...rec, status: value }   // ✅ ONLY STATUS
+      : rec
+  )
+);
       }}
     >
       <option value="Pending">Pending</option>

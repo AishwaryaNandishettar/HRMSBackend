@@ -9,6 +9,9 @@ import com.omoikaneinnovation.hmrsbackend.service.AuthService;
 import com.omoikaneinnovation.hmrsbackend.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.omoikaneinnovation.hmrsbackend.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.omoikaneinnovation.hmrsbackend.dto.ChangePasswordRequest;
 
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5176", "http://127.0.0.1:5173", "http://127.0.0.1:5176", "https://hrmsbackendfullrenderingapplication.vercel.app", "https://hrmsbackendfrontendapp.vercel.app", "https://hrmsbackendapplication.vercel.app"})
 @RestController
@@ -19,11 +22,16 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final EmployeeRepository employeeRepository; // ✅ ADD THIS
+    private final UserRepository repo;
+private final BCryptPasswordEncoder encoder;
 
-    public AuthController(AuthService authService, JwtUtil jwtUtil, EmployeeRepository employeeRepository) {
+    public AuthController(AuthService authService, JwtUtil jwtUtil, EmployeeRepository employeeRepository, UserRepository repo,
+                      BCryptPasswordEncoder encoder) {
         this.authService = authService;
         this.jwtUtil = jwtUtil;
         this.employeeRepository = employeeRepository; // ✅ ADD THIS
+         this.repo = repo;
+    this.encoder = encoder;
     }
 
     // REGISTER USER
@@ -38,7 +46,9 @@ public class AuthController {
     // LOGIN USER
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-
+  // 🔥 ADD THIS HERE
+    System.out.println("EMAIL: " + request.getEmail());
+    System.out.println("PASSWORD INPUT: " + request.getPassword());
         // Debug log
         System.out.println("Login attempt for email: " + request.getEmail());
 
@@ -46,6 +56,7 @@ public class AuthController {
                 request.getEmail(),
                 request.getPassword()
         );
+        System.out.println("USER FOUND: " + (user != null));
 
         if (user == null) {
             System.out.println("Login failed for email: " + request.getEmail());
@@ -105,5 +116,26 @@ public class AuthController {
             System.out.println("Token refresh failed: " + e.getMessage());
             return ResponseEntity.status(401).body("Token refresh failed. Please login again.");
         }
+
+        
     }
+
+    @PostMapping("/change-password")
+public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest req) {
+
+    authService.changePassword(req.getEmail(), req.getOldPassword(), req.getNewPassword());
+
+    return ResponseEntity.ok("Password changed successfully");
+}
+@PostMapping("/fix-password")
+public String fixPassword() {
+
+    User user = repo.findByEmail("Aishmanager@omoi.com").get();
+
+    user.setPassword(encoder.encode("admin123"));
+    repo.save(user);
+
+    return "Password reset to admin123";
+}
+
 }
