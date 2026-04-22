@@ -40,12 +40,9 @@ public CorsConfigurationSource corsConfigurationSource() {
 
     // Allow both localhost (development) and production URLs
    config.setAllowedOriginPatterns(List.of(
-    "http://localhost:5173",
-    "http://localhost:5176",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5176",
-    // ✅ ADD YOUR CURRENT VERCEL URL
-         "https://*.vercel.app"   // ✅ BEST FIX (dynamic URLs)
+    "http://localhost:*",
+    "http://127.0.0.1:*",
+    "https://*.vercel.app"
 ));
 
    
@@ -139,12 +136,10 @@ public CorsConfigurationSource corsConfigurationSource() {
 .requestMatchers("/api/designations/**").permitAll()
 .requestMatchers("/api/departments/**").permitAll()
 
+  // ✅ CHAT APIs - Allow authenticated users
+  .requestMatchers("/api/chat/**").authenticated()
 
-
-  // ✅ ADD THIS
-  .requestMatchers("/api/chat/users").permitAll()
-
-    // WEBSOCKET
+    // WEBSOCKET - Allow all for connection
    .requestMatchers("/ws/**", "/**/ws/**", "/info/**", "/app/**", "/topic/**", "/user/**").permitAll()
 
     // OPTIONS
