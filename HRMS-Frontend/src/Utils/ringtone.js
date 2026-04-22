@@ -1,4 +1,4 @@
-import ringtone from "../Utils/ringtone.js";// Ringtone utility for incoming calls
+import ringtone from "../Utils/ringtone.js";
 
 class RingtoneManager {
   constructor() {
