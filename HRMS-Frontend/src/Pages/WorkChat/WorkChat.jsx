@@ -263,7 +263,7 @@ timestamp: new Date().toISOString(),
 
       files.forEach((f) => formData.append("files", f));
 
-      await fetch(`${import.meta.env.VITE_API_URL}/chat/upload`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chat/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${TOKEN}`,
