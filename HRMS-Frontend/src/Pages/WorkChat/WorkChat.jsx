@@ -139,10 +139,14 @@ export default function WorkChat() {
   useEffect(() => {
     if (!TOKEN || !LOGGED_IN_EMAIL) return;
     fetchChatUsers(TOKEN)
-      .then((data) =>
-        setUsers(data.filter((u) => u.email !== LOGGED_IN_EMAIL))
-      )
-      .catch(() => setUsers([]));
+      .then((data) => {
+        console.log("✅ fetchChatUsers returned:", data);
+        setUsers(data.filter((u) => u.email?.toLowerCase() !== LOGGED_IN_EMAIL?.toLowerCase()));
+      })
+      .catch((err) => {
+        console.error("❌ fetchChatUsers failed:", err);
+        setUsers([]);
+      });
   }, [TOKEN, LOGGED_IN_EMAIL]);
 
   useEffect(() => {
