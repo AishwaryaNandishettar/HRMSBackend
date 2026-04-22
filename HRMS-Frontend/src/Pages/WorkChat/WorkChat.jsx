@@ -146,8 +146,9 @@ export default function WorkChat() {
   }, [TOKEN, LOGGED_IN_EMAIL]);
 
   useEffect(() => {
-  if (Notification.permission !== "granted") {
-    Notification.requestPermission();
+  // Only request if not already decided (not granted and not denied)
+  if (Notification.permission === "default") {
+    Notification.requestPermission().catch(() => {});
   }
 }, []);
   useEffect(() => {
@@ -263,7 +264,7 @@ timestamp: new Date().toISOString(),
 
       files.forEach((f) => formData.append("files", f));
 
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chat/upload`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/chat/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${TOKEN}`,
