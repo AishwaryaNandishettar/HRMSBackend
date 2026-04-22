@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/chat")
-@CrossOrigin(originPatterns = {"http://localhost:*", "https://*.ngrok-free.dev"})
+@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*", "https://*.vercel.app", "https://*.ngrok-free.dev"})
 @RequiredArgsConstructor
 public class ChatRestController {
 

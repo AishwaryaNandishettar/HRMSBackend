@@ -91,62 +91,50 @@ export default function WorkChat() {
   }, [selectedChat]);
 
   // Connect WebSocket for chat messages (CallContext handles call signals)
-  useEffect(() => {
-    if (!TOKEN || !LOGGED_IN_EMAIL || socketConnectedForChat.current) return;
-    
-    console.log('🔌 [WorkChat] Connecting WebSocket for chat messages');
-    
-    const connectForChat = async () => {
-      try {
-        const activeToken = await TokenManager.getValidToken();
-        if (!activeToken) {
-          console.error('❌ [WorkChat] No valid token available for WebSocket chat');
-          return;
-        }
+ useEffect(() => {
+  if (!TOKEN || !LOGGED_IN_EMAIL || socketConnectedForChat.current) return;
 
-        await connectSocket(
-          LOGGED_IN_EMAIL,
-          activeToken,
-          
-          (incomingMsg) => {
-            // Handle incoming private messages
-            const current = selectedChatRef.current;
-            if (!current || current.type !== "USER") return;
-            const isCurrentChat =
-              (incomingMsg.senderEmail === LOGGED_IN_EMAIL &&
-                incomingMsg.receiverEmail === current.email) ||
-              (incomingMsg.senderEmail === current.email &&
-                incomingMsg.receiverEmail === LOGGED_IN_EMAIL);
-            if (!isCurrentChat) return;
+  const connectForChat = async () => {
+    try {
+      const activeToken = await TokenManager.getValidToken();
 
-             // ✅ ADD THIS BLOCK HERE (IMPORTANT POSITION)
-  if (incomingMsg.senderEmail !== LOGGED_IN_EMAIL) {
-    new Notification(
-      `New message from ${incomingMsg.senderName || incomingMsg.senderEmail}`,
-      {
-        body: incomingMsg.content,
-      }
-    );
-  }
-            setMessages((prev) =>
-              prev.some((m) => m.id === incomingMsg.id)
-                ? prev
-                : [...prev, incomingMsg]
-            );
-          },
-          () => {}, // onTask
-          () => {}, // onStatus
-          () => {}  // onChat
-        );
-        socketConnectedForChat.current = true;
-        console.log('✅ [WorkChat] WebSocket connected for chat');
-      } catch (error) {
-        console.error('❌ [WorkChat] Failed to connect WebSocket for chat:', error);
-      }
-    };
-    
-    connectForChat();
-  }, [TOKEN, LOGGED_IN_EMAIL]);
+      await connectSocket(
+        LOGGED_IN_EMAIL,
+        activeToken,
+
+        (incomingMsg) => {
+          const current = selectedChatRef.current;
+          if (!current || current.type !== "USER") return;
+
+          const isCurrentChat =
+            (incomingMsg.senderEmail === LOGGED_IN_EMAIL &&
+              incomingMsg.receiverEmail === current.email) ||
+            (incomingMsg.senderEmail === current.email &&
+              incomingMsg.receiverEmail === LOGGED_IN_EMAIL);
+
+          if (!isCurrentChat) return;
+
+          // ❌ prevent duplicate
+          if (incomingMsg.senderEmail === LOGGED_IN_EMAIL) return;
+
+          setMessages((prev) => [...prev, incomingMsg]);
+        },
+
+        () => {}, // onTask
+        () => {}, // onStatus
+        () => {}  // onChat
+      );
+
+      socketConnectedForChat.current = true;
+
+    } catch (error) {
+      console.error("WebSocket error:", error);
+    }
+  };
+
+  connectForChat();
+}, [TOKEN, LOGGED_IN_EMAIL]);
+
 
   useEffect(() => {
     if (!TOKEN || !LOGGED_IN_EMAIL) return;
@@ -181,53 +169,117 @@ export default function WorkChat() {
       .catch(() => setMessages([]));
   }, [selectedChat, TOKEN, LOGGED_IN_EMAIL]);
 
-  useEffect(() => {
-    if (!selectedChat || selectedChat.type !== "GROUP" || !TOKEN) return;
-    setMessages([]);
-    fetchGroupMessages(selectedChat.id, TOKEN)
-      .then(setMessages)
-      .catch(() => setMessages([]));
-    subscribeToGroup(selectedChat.id, (groupMsg) =>
-      setMessages((prev) => [...prev, groupMsg])
-    );
-  }, [selectedChat, TOKEN]);
+useEffect(() => {
+  if (!selectedChat || selectedChat.type !== "GROUP" || !TOKEN) return;
 
-  const sendMessage = (text, file) => {
+  setMessages([]);
+
+  fetchGroupMessages(selectedChat.id, TOKEN)
+    .then(setMessages)
+    .catch(() => setMessages([]));
+
+  // 🔥 subscribe ONCE and cleanup
+  const unsubscribe = subscribeToGroup(selectedChat.id, (groupMsg) => {
+    setMessages((prev) =>
+      prev.some((m) => m.id === groupMsg.id)
+        ? prev // ❌ prevent duplicate
+        : [...prev, groupMsg]
+    );
+  });
+
+  return () => {
+    // 🔥 VERY IMPORTANT (prevents duplicate subscriptions)
+    if (unsubscribe) unsubscribe();
+  };
+
+}, [selectedChat?.id]);  // ✅ ONLY depend on group id
+
+const sendMessage = async (text, files) => {
   if (!selectedChat) return;
 
-  // ✅ If files exist → handle separately
-  if (file && file.length > 0) {
-    const formData = new FormData();
-    formData.append("text", text);
+  /* =========================
+     🔥 GROUP CHAT (FIXED)
+  ========================= */
+  if (selectedChat.type === "GROUP") {
 
-    file.forEach((f) => {
-      formData.append("files", f);
-    });
-
-    // 🔥 CALL YOUR API (NOT WebSocket)
-    fetch("/chat", {
-      method: "POST",
-      body: formData,
-    });
-
-    return; // stop here
-  }
-
-  // ✅ TEXT MESSAGE (existing logic — unchanged)
-  if (!text.trim()) return;
-
-  if (selectedChat.type === "USER") {
-    sendMessageWS({
+    const tempMessage = {
+      // id: Date.now(),
+      groupId: selectedChat.id,
       senderEmail: LOGGED_IN_EMAIL,
-      receiverEmail: selectedChat.email,
+      senderName: user?.name || LOGGED_IN_EMAIL,
       content: text,
-    });
-  } else {
+      id: "temp-" + Date.now(),
+timestamp: new Date().toISOString(),
+    };
+
+    // ✅ INSTANT UI (WhatsApp feel)
+    setMessages((prev) => [...prev, tempMessage]);
+
+    // ✅ SEND VIA SOCKET
     sendGroupMessageWS({
       groupId: selectedChat.id,
       senderEmail: LOGGED_IN_EMAIL,
+      senderName: user?.name || LOGGED_IN_EMAIL,
       content: text,
     });
+
+    return;
+  }
+
+  /* =========================
+     🔥 PRIVATE CHAT (YOUR OLD)
+  ========================= */
+  const tempMessages = [];
+
+  if (files && files.length > 0) {
+    files.forEach((file) => {
+      tempMessages.push({
+        senderEmail: LOGGED_IN_EMAIL,
+        receiverEmail: selectedChat.email,
+        content: text || "",
+        fileName: file.name,
+        fileUrl: URL.createObjectURL(file),
+        fileType: file.type,
+        timestamp: new Date().toISOString(),
+      });
+    });
+  } else if (text.trim()) {
+    tempMessages.push({
+      senderEmail: LOGGED_IN_EMAIL,
+      receiverEmail: selectedChat.email,
+      content: text,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  setMessages((prev) => [...prev, ...tempMessages]);
+
+  try {
+    if (files && files.length > 0) {
+      const formData = new FormData();
+
+      formData.append("senderEmail", LOGGED_IN_EMAIL);
+      formData.append("receiverEmail", selectedChat.email);
+      formData.append("text", text || "");
+
+      files.forEach((f) => formData.append("files", f));
+
+      await fetch(`${import.meta.env.VITE_API_URL}/chat/upload`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        body: formData,
+      });
+    } else {
+      sendMessageWS({
+        senderEmail: LOGGED_IN_EMAIL,
+        receiverEmail: selectedChat.email,
+        content: text,
+      });
+    }
+  } catch (err) {
+    console.error("Send failed", err);
   }
 };
 
@@ -314,7 +366,7 @@ export default function WorkChat() {
                   callState={callState}
                 />
 
-                <ChatMessages messages={filteredMessages} currentUser={LOGGED_IN_EMAIL} />
+                <ChatMessages messages={filteredMessages} loggedInEmail={LOGGED_IN_EMAIL} />
 
                 <ChatComposer onSend={sendMessage} />
 
@@ -332,15 +384,17 @@ export default function WorkChat() {
             )}
           </div>
 
-          {showGroupModal && (
-            <CreateGroupModal
-              onClose={() => setShowGroupModal(false)}
-              onGroupCreated={(newGroup) => {
-                setGroups((prev) => [...prev, newGroup]);
-                setShowGroupModal(false);
-              }}
-            />
-          )}
+      {showGroupModal && (
+  <CreateGroupModal
+    users={users}                 // ✅ REQUIRED
+    token={TOKEN}                 // ✅ REQUIRED
+    onCreated={(newGroup) => {    // ✅ MATCH PROP NAME
+      setGroups((prev) => [...prev, newGroup]);
+      setShowGroupModal(false);
+    }}
+    onClose={() => setShowGroupModal(false)}
+  />
+)}
 
           {showMeetings && (
             <MeetingsContainer onClose={() => setShowMeetings(false)} />

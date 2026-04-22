@@ -110,7 +110,7 @@
 
 
 .wc-message.me {
-  background: #dbeafe;
+  background:  #ffffff;
   margin-left: auto;
 }
 
@@ -545,111 +545,6 @@
   max-width: 200px;
 }
 
-/* CONTROLS */
-.call-controls {
-  display: flex;
-  gap: 16px;
-  padding-bottom: 20px;
-}
-
-.call-controls button {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  border: none;
-  background: #334155;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.call-controls button:hover {
-  background: #475569;
-}
-
-.call-controls .end-call {
-  background: #dc2626;
-}
-
-.call-controls .end-call:hover {
-  background: #b91c1c;
-}
-
-.record-icon {
-  color: red;
-  animation: pulse 1.4s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.4; }
-  100% { opacity: 1; }
-}
-
-
-.call-header {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.call-avatar {
-  width: 80px;
-  height: 80px;
-  background: #4f46e5;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 32px;
-  font-weight: bold;
-  margin: auto;
-}
-
-.call-status {
-  opacity: 0.7;
-  margin-top: 6px;
-}
-
-.video-area {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.local-video {
-  width: 320px;
-  height: 240px;
-  border-radius: 14px;
-  object-fit: cover;
-  background: black;
-}
-
-.call-controls {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 30px;
-}
-
-.call-controls button {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: none;
-  background: #1e293b;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.call-controls .end-call {
-  background: #dc2626;
-}
-
-.recording {
-  color: red;
-}
-
-
 /* ========================================
    PRODUCTION-GRADE CALL INTERFACE STYLES
    ======================================== */
@@ -856,18 +751,24 @@
 /* Call Controls */
 .call-controls {
   display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 30px;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  z-index: 50;
+  padding: 0 24px;
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
 }
 
 .control-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  min-width: 54px;
+  height: 54px;
+  border-radius: 999px;
   border: none;
   display: flex;
   align-items: center;
@@ -875,9 +776,10 @@
   font-size: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
   color: white;
   backdrop-filter: blur(5px);
+  padding: 0 16px;
 }
 
 .control-btn:hover {
