@@ -212,8 +212,7 @@ const sendMessage = async (text, files) => {
 timestamp: new Date().toISOString(),
     };
 
-    // ✅ INSTANT UI (WhatsApp feel)
-    setMessages((prev) => [...prev, tempMessage]);
+    
 
     // ✅ SEND VIA SOCKET
     sendGroupMessageWS({

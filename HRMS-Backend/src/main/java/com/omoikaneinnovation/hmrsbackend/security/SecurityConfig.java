@@ -44,9 +44,6 @@ public CorsConfigurationSource corsConfigurationSource() {
     "http://127.0.0.1:*",
     "https://*.vercel.app"
 ));
-
-   
-
     config.setAllowedHeaders(List.of("*"));
     config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
     config.setExposedHeaders(List.of("Authorization"));
@@ -148,12 +145,6 @@ public CorsConfigurationSource corsConfigurationSource() {
     .anyRequest().authenticated()
 )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-
-
-
-        return http.build();
+ return http.build();
     }
-
 } // <-- Closing brace

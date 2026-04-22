@@ -8,13 +8,17 @@ export default function ChatComposer({ onSend }) {
   const [file, setFile] = useState([]);
 
   const send = () => {
-   if (!text.trim() && file.length === 0) return;
+   if (!text.trim() && file.lengt
+   
+   === 0) return;
 
     onSend(text, file);   // 🔥 supports text OR file
     setText("");
     setFile([]);
     setEmojiOpen(false);
   };
+
+  
 
   return (
     <div className="wc-composer">

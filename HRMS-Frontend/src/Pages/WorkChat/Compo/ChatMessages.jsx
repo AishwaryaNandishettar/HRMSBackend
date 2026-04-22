@@ -32,15 +32,20 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
           m?.senderEmail?.toLowerCase() ===
           loggedInEmail?.toLowerCase();
 
-        // ✅ DATE LOGIC
-        const currentDate = m?.timestamp
-          ? new Date(m.timestamp).toDateString()
+        // ✅ FIX: support both timestamp & createdAt
+        const msgTime = m?.timestamp || m?.createdAt;
+
+        // ✅ DATE LOGIC FIXED
+        const currentDate = msgTime
+          ? new Date(msgTime).toDateString()
           : "";
 
-        const prevDate =
-          i > 0 && messages[i - 1]?.timestamp
-            ? new Date(messages[i - 1].timestamp).toDateString()
-            : "";
+        const prevMsg = messages[i - 1];
+        const prevTime = prevMsg?.timestamp || prevMsg?.createdAt;
+
+        const prevDate = prevTime
+          ? new Date(prevTime).toDateString()
+          : "";
 
         const showDate = currentDate !== prevDate;
 
@@ -48,8 +53,8 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
           m?.senderName || m?.senderEmail || "unknown";
 
         return (
-          <div key={i}>
-            {/* ✅ DATE SEPARATOR */}
+          <div key={m.id || `${m.senderEmail}-${msgTime}-${i}`}>
+            {/* DATE */}
             {showDate && (
               <div
                 style={{
@@ -63,7 +68,7 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
               </div>
             )}
 
-            {/* ✅ MESSAGE */}
+            {/* MESSAGE */}
             <div
               className={`wc-message ${isMe ? "me" : "them"}`}
               style={{
@@ -81,19 +86,20 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
                   borderLeft: `4px solid ${getUserColor(userKey)}`,
                 }}
               >
+                {/* ✅ Sender name (group chat) */}
+                {!isMe && (
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: "600",
+                      color: "#555",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {m.senderName || m.senderEmail?.split("@")[0]}
+                  </div>
+                )}
 
-                {!isMe && m.senderName && (
-  <div
-    style={{
-      fontSize: "11px",
-      fontWeight: "600",
-      color: "#555",
-      marginBottom: "4px",
-    }}
-  >
-    {m.senderName}
-  </div>
-)}
                 {/* TEXT */}
                 {m?.content && <div>{m.content}</div>}
 
@@ -123,10 +129,8 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
                           style={{
                             maxWidth: "200px",
                             borderRadius: "8px",
-                            display: "block",
                           }}
                         />
-
                         <a
                           href={`${import.meta.env.VITE_API_BASE_URL.replace(
                             "/api",
@@ -144,24 +148,12 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
                         </a>
                       </>
                     ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                        }}
-                      >
+                      <div style={{ display: "flex", gap: "8px" }}>
                         📄
                         <div>
-                          <div
-                            style={{
-                              fontSize: "13px",
-                              fontWeight: "500",
-                            }}
-                          >
+                          <div style={{ fontSize: "13px" }}>
                             {m.fileName}
                           </div>
-
                           <a
                             href={`${import.meta.env.VITE_API_BASE_URL.replace(
                               "/api",
@@ -181,7 +173,7 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
                   </div>
                 )}
 
-                {/* TIME */}
+                {/* ✅ TIME FIXED */}
                 <div
                   style={{
                     fontSize: "10px",
@@ -190,9 +182,8 @@ export default function ChatMessages({ messages = [], loggedInEmail }) {
                     textAlign: "right",
                   }}
                 >
-                  {m?.timestamp
-                    ? new Date(m.timestamp).toLocaleTimeString()
-                    : ""}
+                  {msgTime &&
+                    new Date(msgTime).toLocaleTimeString()}
                 </div>
               </div>
             </div>

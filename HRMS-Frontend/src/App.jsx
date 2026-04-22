@@ -62,6 +62,7 @@ import EmployeeCostDetails from "./Pages/Reports/EmployeeCostDetails";
 
 /* Work Chat */
 import WorkChat from "./Pages/WorkChat/WorkChat";
+import JoinMeetingPage from "./Pages/WorkChat/Compo/Meetings/JoinMeetingPage";
 
 
 /* Sticky Notes */
@@ -205,6 +206,7 @@ const [showNotif, setShowNotif] = useState(false);
                 }
               />
 
+<Route path="/join-meeting/:id" element={<JoinMeetingPage />} /> 
               {/* MANAGER / ADMIN */}
               <Route
                 path="/payroll"

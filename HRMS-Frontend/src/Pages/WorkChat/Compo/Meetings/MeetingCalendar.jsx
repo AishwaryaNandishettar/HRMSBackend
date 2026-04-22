@@ -207,5 +207,4 @@ const generateRecurringInstances = (meeting) => {
     </div>
   );
 }
-
 export default MeetingCalendar;
