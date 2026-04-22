@@ -13,6 +13,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final WebSocketAuthInterceptor webSocketAuthInterceptor;
+ @Value("${app.cors.allowedOrigins}")
+    private String allowedOrigins;
+
 
     public WebSocketConfig(WebSocketAuthInterceptor webSocketAuthInterceptor) {
         this.webSocketAuthInterceptor = webSocketAuthInterceptor;
@@ -20,14 +23,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
+
+        String[] origins = allowedOrigins.split(",");
+
         registry.addEndpoint("/ws")
-               .setAllowedOrigins(
-                    "http://localhost:5173",
-                    "https://hrmsbackendfullrenderingapplication.vercel.app"
-            )
+                .setAllowedOrigins(origins)
                 .withSockJS()
                 .setSessionCookieNeeded(false);
-
     }
     @Override
     public void configureMessageBroker(@NonNull MessageBrokerRegistry registry) {
