@@ -55,6 +55,7 @@
   height: 100vh;
   background-color: #f5f6fa;
   overflow: hidden; /* ONLY INNER SCROLL */
+  min-width: 0; /* Prevent flex child from overflowing */
 }
 
 /* ================= NAVBAR ================= */
@@ -75,7 +76,9 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto; /* ONLY CONTENT SCROLLS */
+  overflow-x: auto; /* Allow horizontal scroll for wide content */
   background-color: #f5f6fa;
+  min-width: 0; /* Prevent flex child from overflowing */
 }
 
 /* Smooth scroll look */
