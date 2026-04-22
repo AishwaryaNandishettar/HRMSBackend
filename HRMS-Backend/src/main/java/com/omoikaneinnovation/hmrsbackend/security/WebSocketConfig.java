@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final WebSocketAuthInterceptor webSocketAuthInterceptor;
- @Value("${app.cors.allowedOrigins}")
-    private String allowedOrigins;
+
 
 
     public WebSocketConfig(WebSocketAuthInterceptor webSocketAuthInterceptor) {
@@ -28,7 +27,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         String[] origins = allowedOrigins.split(",");
 
         registry.addEndpoint("/ws")
-                .setAllowedOrigins(origins)
+               .setAllowedOriginPatterns("*")
                 .withSockJS()
                 .setSessionCookieNeeded(false);
     }
