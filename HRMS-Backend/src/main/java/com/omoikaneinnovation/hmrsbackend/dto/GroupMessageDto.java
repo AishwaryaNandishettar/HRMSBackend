@@ -1,4 +1,4 @@
-package com.omoikaneinnovations.hmrsbackend.dto;
+package com.omoikaneinnovation.hmrsbackend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

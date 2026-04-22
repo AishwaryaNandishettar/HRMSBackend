@@ -1,4 +1,4 @@
-package com.omoikaneinnovations.hmrsbackend.model;
+package com.omoikaneinnovation.hmrsbackend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

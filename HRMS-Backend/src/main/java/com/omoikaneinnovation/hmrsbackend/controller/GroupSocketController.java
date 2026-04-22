@@ -1,8 +1,8 @@
-package com.omoikaneinnovations.hmrsbackend.controller;
+package com.omoikaneinnovation.hmrsbackend.controller;
 
-import com.omoikaneinnovations.hmrsbackend.dto.GroupMessageDto;
-import com.omoikaneinnovations.hmrsbackend.model.GroupMessage;
-import com.omoikaneinnovations.hmrsbackend.repository.GroupMessageRepository;
+import com.omoikaneinnovation.hmrsbackend.dto.GroupMessageDto;
+import com.omoikaneinnovation.hmrsbackend.model.GroupMessage;
+import com.omoikaneinnovation.hmrsbackend.repository.GroupMessageRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
