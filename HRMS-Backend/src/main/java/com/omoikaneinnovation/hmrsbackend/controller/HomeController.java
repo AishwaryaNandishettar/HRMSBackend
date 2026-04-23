@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 @RestController
 @RequestMapping("/api/home")
-@CrossOrigin(originPatterns = {"http://localhost:*", "https://*.ngrok-free.dev"})
+@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*", "https://*.vercel.app", "https://*.ngrok-free.dev"})
 public class HomeController {
 
     private final UserRepository userRepo;
