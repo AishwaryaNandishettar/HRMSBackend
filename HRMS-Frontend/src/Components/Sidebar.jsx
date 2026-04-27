@@ -122,15 +122,19 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </NavLink>
         </li>
 
-        {/* ✅ NEW: PERFORMANCE (Admin + HR) */}
-        {(role === "admin" || role === "hr") && (
-          <li>
-            <NavLink to="/performance">
-              <FaChartLine />
-              {isOpen && <span>Performance</span>}
-            </NavLink>
-          </li>
-        )}
+<li>
+  <NavLink to="/helpdesk">
+    <FaComments />
+    {isOpen && <span>Helpdesk</span>}
+  </NavLink>
+</li>
+        {/* ✅ PERFORMANCE (All users can view performance) */}
+        <li>
+          <NavLink to="/performance">
+            <FaChartLine />
+            {isOpen && <span>Performance</span>}
+          </NavLink>
+        </li>
 
         {/* PAYROLL */}
         {(role === "employee" || role === "manager" || role === "admin") && (

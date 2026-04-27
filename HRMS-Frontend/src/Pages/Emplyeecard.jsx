@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useEffect , useRef} from "react";
+import { useContext } from "react";
+import { AuthContext } from "../Context/Authcontext";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useLocation} from "react-router-dom";
 import "./Employeedirectory.css";
 import InviteEmployee from "../Components/InviteEmployee";
 const sampleEmployees = [
@@ -77,7 +79,8 @@ function formatDateForCompare(d) {
 export default function EmployeeDirectory() {
 
   const navigate = useNavigate();
-
+  const { user } = useContext(AuthContext);
+  const location = useLocation();
   // Filters
   const [search, setSearch] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("");
@@ -121,6 +124,9 @@ const popupRef = useRef();
   fetchEmployees();
 }, []);
 
+useEffect(() => {
+  fetchEmployees();
+}, [location]);
 useEffect(() => {
   const handleClick = (e) => {
     if (popupRef.current && !popupRef.current.contains(e.target)) {
@@ -217,6 +223,15 @@ const styles = {
   const currentDay = today.getDate();
 
   const filteredEmployees = useMemo(() => {
+
+    // ✅ ROLE BASED FILTER
+if (user?.role === "manager") {
+  if (emp.managerEmail !== user?.email) return false;
+}
+
+if (user?.role === "employee") {
+  if (emp.email !== user?.email) return false;
+}
     // COLUMN HEADER FILTERS (NEW - does not affect existing filters)
 const matchesColumnFilters = Object.keys(columnFilters).every((key) => {
   if (!columnFilters[key]) return true;
@@ -455,7 +470,7 @@ const getAvatarColor = (name) => {
              <th>
   <div className="th-header">
     Profile
-    <span onClick={() => setActiveFilter("profile")}>⏷</span>
+   
   </div>
 
   {activeFilter === "profile" && (
@@ -886,7 +901,7 @@ const getAvatarColor = (name) => {
               filteredEmployees.map((emp, index) => (
                 <tr key={`${emp.employeeId}-${emp.email}-${index}`}>
                   <td>
-                 <img
+               <img
   src={
     emp.image && emp.image !== ""
       ? emp.image
@@ -894,6 +909,14 @@ const getAvatarColor = (name) => {
   }
   alt={emp.fullName}
   className="profile-pic"
+  style={{ cursor: user?.role === "admin" ? "pointer" : "default" }}
+  onClick={() => {
+    if (user?.role === "admin") {
+     navigate("/employee-profile", {
+  state: { employee: emp }
+});
+    }
+  }}
 />
                   </td>
                   <td>{emp.fullName}</td> 

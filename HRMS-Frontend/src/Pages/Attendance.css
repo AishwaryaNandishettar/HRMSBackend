@@ -1,13 +1,12 @@
 .attendance-container table thead th {
-  background:blue;   /* white background */
-  color: white !important;       /* blue text */
+  background: #1e3c72;   /* 🔥 USE SAME VALUE FROM Profile.module.css */
+  color: #fff;
   font-size: 13px;
   text-transform: uppercase;
   padding: 12px;
   border: 1px solid #ddd;
-  position: relative;
-   text-align: center;        /* horizontal center */
-  vertical-align: middle;    /* vertical center */
+  text-align: center;
+  vertical-align: middle;
 }
 
 h2 {

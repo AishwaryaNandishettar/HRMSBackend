@@ -30,27 +30,49 @@ public class HomeController {
 
   @GetMapping("/me")
 public ResponseEntity<HomeResponse> getMyHome(@RequestParam String email) {
+    
+    System.out.println("🔍 HomeController: Received request for email: " + email);
+    
+    try {
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
 
-    User user = userRepo.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-
-    String role = user.getRole(); // ✅ FIX HERE
-
-    return ResponseEntity.ok(
-            homeService.buildEmployeeHome(user, role)
-    );
-}
- @GetMapping
-    public Map<String, Object> getHome(@RequestParam String role) {
-
-        Map<String, Object> data = new HashMap<>();
-
-        data.put("attendanceGraph", List.of()); // dummy for now
-        data.put("events", List.of(
-            Map.of("date", "10 Apr", "title", "Team Meeting"),
-            Map.of("date", "15 Apr", "title", "Holiday")
-        ));
-
-        return data;
+        System.out.println("🔍 HomeController: Found user: " + user.getEmail() + ", Role: " + user.getRole());
+        
+        String role = user.getRole();
+        
+        HomeResponse response = homeService.buildEmployeeHome(user, role);
+        
+        System.out.println("🔍 HomeController: Built response with stats: " + 
+            (response.getStats() != null ? "Present" : "Null"));
+        
+        return ResponseEntity.ok(response);
+        
+    } catch (Exception e) {
+        System.err.println("❌ HomeController Error: " + e.getMessage());
+        e.printStackTrace();
+        throw e;
     }
+}
+@GetMapping
+public ResponseEntity<HomeResponse> getHome(@RequestParam String email) {
+
+    System.out.println("🔍 Dashboard API called for: " + email);
+
+    try {
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String role = user.getRole();
+
+        // 🔥 MAIN LINE (IMPORTANT)
+        HomeResponse response = homeService.buildEmployeeHome(user, role);
+
+        return ResponseEntity.ok(response);
+
+    } catch (Exception e) {
+        System.err.println("❌ Dashboard error: " + e.getMessage());
+        throw e;
+    }
+}
 }

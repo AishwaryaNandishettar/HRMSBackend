@@ -6,6 +6,7 @@
     import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
     import org.springframework.stereotype.Service;
     import java.util.List;
+    import java.util.Optional;
     import java.time.LocalDate;
 
     import com.omoikaneinnovation.hmrsbackend.model.Employee;
@@ -44,5 +45,30 @@
                 return LocalDate.parse(emp.getDob()).getMonthValue() == currentMonth;
             })
             .toList();
+    }
+
+    public Employee updateEmployee(String employeeId, com.omoikaneinnovation.hmrsbackend.dto.EmployeeUpdateDTO dto) {
+        Optional<Employee> employeeOpt = employeeRepo.findByEmployeeId(employeeId);
+        if (employeeOpt.isEmpty()) {
+            throw new RuntimeException("Employee not found with ID: " + employeeId);
+        }
+
+        Employee employee = employeeOpt.get();
+
+        // Update fields if provided
+        if (dto.getFullName() != null && !dto.getFullName().trim().isEmpty()) {
+            employee.setFullName(dto.getFullName());
+        }
+        if (dto.getDepartment() != null && !dto.getDepartment().trim().isEmpty()) {
+            employee.setDepartment(dto.getDepartment());
+        }
+        if (dto.getDesignation() != null && !dto.getDesignation().trim().isEmpty()) {
+            employee.setDesignation(dto.getDesignation());
+        }
+        if (dto.getEmail() != null && !dto.getEmail().trim().isEmpty()) {
+            employee.setEmail(dto.getEmail());
+        }
+
+        return employeeRepo.save(employee);
     }
     }

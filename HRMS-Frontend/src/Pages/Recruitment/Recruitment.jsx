@@ -241,7 +241,7 @@ const handleSubmit = async (e) => {
                       setOpenFilter(openFilter === "title" ? null : "title")
                     }
                   >
-                     Job Title ⌵
+                     Job Domain ⌵
                   </span>
                   {openFilter === "title" && (
                     <FilterDropdown
@@ -261,10 +261,10 @@ const handleSubmit = async (e) => {
                       setOpenFilter(openFilter === "department" ? null : "department")
                     }
                   >
-                    Department ⌵
+                    Dept 
                   </span>
 
-                  {openFilter === "department" && (
+                  {openFilter === "Dept" && (
                     <FilterDropdown
                       values={["All", "IT", "Sales", "HR", "Marketing"]}
                       onSelect={setDeptFilter}
@@ -352,6 +352,7 @@ const handleSubmit = async (e) => {
   }
 }}
   >
+    <option value="Seaching">Searching Profile</option>
     <option value="Open">Open</option>
     <option value="Closed">Closed</option>
     <option value="Interview Stage">Interview Stage</option>
@@ -631,7 +632,30 @@ const CandidatePipeline = ({
 
 /* ===== Hiring Analytics Block ===== */
 
-const HiringAnalytics = () => {
+const HiringAnalytics = ({
+  jobs = [],
+  appliedCount = 0,
+  shortlistedCount = 0,
+  interviewCount = 0,
+  rejectedCount = 0,
+  selectedCount = 0
+}) => {
+  const total = appliedCount || 1; // avoid divide by 0
+
+// Candidate % (Pipeline based)
+const appliedPct = Math.round((appliedCount / total) * 100);
+const interviewPct = Math.round((interviewCount / total) * 100);
+const hiredPct = Math.round((selectedCount / total) * 100);
+
+// Department split (from table data)
+const deptMap = {};
+
+jobs.forEach(j => {
+  if (!j.department) return;
+  deptMap[j.department] = (deptMap[j.department] || 0) + 1;
+});
+
+const deptEntries = Object.entries(deptMap);
   return (
     <section className="hiring-analytics">
       {/* LEFT CARD */}
@@ -645,14 +669,14 @@ const HiringAnalytics = () => {
 
             <div className="donut">
               <div className="donut-center">
-                <strong>48%</strong>
+                <strong>{appliedPct}%</strong>
               </div>
             </div>
 
             <div className="legend">
-              <span className="dot blue" /> Applied
-              <span className="dot orange" /> Interviewing
-              <span className="dot green" /> Hired
+             <span className="dot blue" /> Applied ({appliedPct}%)
+<span className="dot orange" /> Interviewing ({interviewPct}%)
+<span className="dot green" /> Hired ({hiredPct}%)
             </div>
           </div>
 
@@ -662,8 +686,12 @@ const HiringAnalytics = () => {
 
             <div className="donut small">
               <div className="donut-center">
-                <strong>5/8</strong>
-                <small>5%</small>
+             <strong>{deptEntries.length}/{jobs.length}</strong>
+<small>
+  {jobs.length
+    ? Math.round((deptEntries.length / jobs.length) * 100)
+    : 0}%
+</small>
               </div>
             </div>
 
@@ -685,16 +713,20 @@ const HiringAnalytics = () => {
           <div>
             <h4>Candidates Overview</h4>
             <ul>
-              <li><span className="dot blue" /> Applied <b>48%</b></li>
-              <li><span className="dot orange" /> Interviewing <b>28%</b></li>
-              <li><span className="dot green" /> Hired <b>12%</b></li>
+             <li><span className="dot blue" /> Applied <b>{appliedPct}%</b></li>
+             <li><span className="dot orange" /> Interviewing <b>{interviewPct}%</b></li>
+<li><span className="dot green" /> Hired <b>{hiredPct}%</b></li>
             </ul>
           </div>
 
           <div>
             <h4>Hires by Department</h4>
             <ul>
-              <li><span className="dot blue" /> IT <b>5/8</b></li>
+             {deptEntries.map(([dept, count], i) => (
+  <li key={i}>
+    <span className="dot blue" /> {dept} <b>{count}/{jobs.length}</b>
+  </li>
+))}
               <li><span className="dot orange" /> Sales <b>4/8</b></li>
               <li><span className="dot lightblue" /> Marketing <b>2/8</b></li>
               <li><span className="dot green" /> HR <b>1/8</b></li>
@@ -826,7 +858,14 @@ const interviewJobs = jobs.filter(j => j.status === "Interview Stage");
   jobs={jobs}
 
 />
-        <HiringAnalytics jobs={jobs} />
+        <HiringAnalytics
+  jobs={jobs}
+  appliedCount={appliedCount}
+  shortlistedCount={shortlistedCount}
+  interviewCount={interviewCount}
+  rejectedCount={rejectedCount}
+  selectedCount={selectedCount}
+/>
       </section>
     </div>
   );

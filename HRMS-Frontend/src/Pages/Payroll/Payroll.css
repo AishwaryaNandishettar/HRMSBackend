@@ -1199,3 +1199,12 @@
 .dual-box {
   align-items: start; /* ✅ ADD THIS */
 }
+.grand-total-row {
+  background: #f4f6f8;
+  font-weight: 600;
+  border-top: 2px solid #ccc;
+}
+
+.grand-total-row td {
+  padding: 10px;
+}

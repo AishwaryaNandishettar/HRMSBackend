@@ -40,7 +40,7 @@
     "react-toastify": "^11.0.5",
     "recharts": "^3.7.0",
     "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1",
+    "socket.io-client": "^4.8.3",
     "sockjs-client": "^1.6.1",
     "vite": "^7.0.4",
     "xlsx": "^0.18.5"

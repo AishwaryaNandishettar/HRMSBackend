@@ -45,12 +45,24 @@ const Navbar = ({
 const sortedNotifications = [...notifications].sort(
   (a, b) => a.read - b.read
 );
+
 const markAsRead = (id) => {
   setNotifications(prev =>
     prev.map(n =>
       n.id === id ? { ...n, read: true } : n
     )
   );
+};
+
+const handleNotificationClick = (notification) => {
+  // Mark as read
+  markAsRead(notification.id);
+  
+  // Navigate based on notification type
+  if (notification.link) {
+    navigate(notification.link);
+    setShowNotif(false);
+  }
 };
   return (
     <header className={styles.navbarContainer}>
@@ -103,7 +115,8 @@ const markAsRead = (id) => {
             className={`${styles.notify} ${
               n.read ? styles.read : styles.unread
             }`}
-            onClick={() => markAsRead(n.id)}
+            onClick={() => handleNotificationClick(n)}
+            style={{ cursor: 'pointer' }}
           >
             <div>{n.message}</div>
             <small>{n.time}</small>

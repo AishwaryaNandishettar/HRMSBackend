@@ -11,7 +11,8 @@ export const connectSocket = (
   onPrivateMessage,
   onTask,
   onStatus,
-  onCallSignal
+  onCallSignal,
+   onKpiUpdate   // ✅ ADD THIS
 ) => {
   // ✅ Prevent duplicate connections
   if (stompClient && stompClient.connected) {
@@ -60,6 +61,19 @@ if (!token) {
 }
       console.log("✅ WebSocket connected");
       window.stompClient = stompClient;
+
+       // ✅ ADD THIS HERE (IMPORTANT)
+  if (!subscriptions.kpi) {
+    subscriptions.kpi = stompClient.subscribe(
+      "/topic/kpi-updates",
+      (msg) => {
+        const data = JSON.parse(msg.body);
+        console.log("📊 KPI UPDATE 👉", data);
+
+        if (onKpiUpdate) onKpiUpdate(data); // 🔥 trigger React update
+      }
+    );
+  }
 
       // ✅ Private messages
       if (!subscriptions.messages) {

@@ -78,7 +78,7 @@ body {
 }
 
 .leave-table th {
-  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  background: #1e3c72;   
   color: white;
   font-weight: 500;
 }

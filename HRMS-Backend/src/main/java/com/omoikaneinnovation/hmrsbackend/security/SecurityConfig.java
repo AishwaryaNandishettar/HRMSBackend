@@ -59,7 +59,7 @@ public CorsConfigurationSource corsConfigurationSource() {
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
        hierarchy.setHierarchy(
-    "ROLE_ADMIN > ROLE_HR \n ROLE_HR > ROLE_EMPLOYEE"
+    "ROLE_ADMIN > ROLE_HR \n ROLE_HR > ROLE_MANAGER \n ROLE_MANAGER > ROLE_EMPLOYEE"
 );
         return hierarchy;
     }
@@ -107,14 +107,15 @@ public CorsConfigurationSource corsConfigurationSource() {
     .requestMatchers("/api/admin/register", "/api/admin/login", "/api/admin/send-link/**").permitAll()
      
     // ROLE BASED APIs
-      .requestMatchers("/api/employee/create").permitAll() // ✅ ADD THIS
+      .requestMatchers("/api/employee/create").permitAll()
       .requestMatchers("/api/employee/all").permitAll()
+      .requestMatchers("/api/employee/**").hasAnyRole("ADMIN","HR","EMPLOYEE","MANAGER")
     .requestMatchers("/api/admin/**").hasRole("ADMIN")
     .requestMatchers("/api/hr/**").hasRole("HR")
-    .requestMatchers("/api/employee/**").hasAnyRole("ADMIN","HR","EMPLOYEE")
+   
     
 // ✅ ADD HERE
-.requestMatchers("/api/performance/**").hasAnyRole("ADMIN","HR","EMPLOYEE")
+.requestMatchers("/api/performance/**").hasAnyRole("ADMIN","HR","EMPLOYEE","MANAGER")
     .requestMatchers("/api/resignation/**").hasAnyRole("EMPLOYEE","HR","ADMIN")
 .requestMatchers("/api/increment/**").hasAnyRole("HR","ADMIN","EMPLOYEE")
 
@@ -137,6 +138,7 @@ public CorsConfigurationSource corsConfigurationSource() {
   .requestMatchers("/api/chat/**").authenticated()
 
     // WEBSOCKET - Allow all for connection
+    .requestMatchers("/socket.io/**", "/ws/**").permitAll()
    .requestMatchers("/ws/**", "/**/ws/**", "/info/**", "/app/**", "/topic/**", "/user/**").permitAll()
 
     // OPTIONS

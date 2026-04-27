@@ -28,6 +28,9 @@ private String pf;
 private String uan;
 private String esic;
 private String status;
+private String employmentType;
+private String managerName;
+private String hrName;
 
  // getters & setters
     public String getStatus() {
@@ -91,5 +94,14 @@ public void setUan(String uan) { this.uan = uan; }
 
 public String getEsic() { return esic; }
 public void setEsic(String esic) { this.esic = esic; }
+
+public String getEmploymentType() { return employmentType; }
+public void setEmploymentType(String employmentType) { this.employmentType = employmentType; }
+
+public String getManagerName() { return managerName; }
+public void setManagerName(String managerName) { this.managerName = managerName; }
+
+public String getHrName() { return hrName; }
+public void setHrName(String hrName) { this.hrName = hrName; }
 }
 

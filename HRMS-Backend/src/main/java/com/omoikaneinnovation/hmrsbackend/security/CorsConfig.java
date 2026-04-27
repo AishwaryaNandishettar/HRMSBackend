@@ -3,7 +3,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 import java.util.Arrays;
-@Configuration
+
+// DISABLED — CORS is handled by SecurityConfig.corsConfigurationSource()
+// Having multiple CORS configs causes "allowedOrigins cannot contain *" errors
+// @Configuration
 public class CorsConfig {
 
 

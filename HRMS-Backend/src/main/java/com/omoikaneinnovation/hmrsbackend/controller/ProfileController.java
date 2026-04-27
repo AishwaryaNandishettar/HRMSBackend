@@ -5,55 +5,68 @@ import com.omoikaneinnovation.hmrsbackend.repository.UserRepository;
 import com.omoikaneinnovation.hmrsbackend.dto.ProfileResponse;
 import com.omoikaneinnovation.hmrsbackend.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/employee")
-@CrossOrigin("*")
 public class ProfileController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired   // ✅ ADD THIS
+    @Autowired
     private ProfileService profileService;
 
     @GetMapping("/me")
-    public User getMyProfile(Principal principal) {
-
-        String email = principal.getName(); // comes from JWT
-
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public ResponseEntity<?> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+        return userRepository.findByEmail(userDetails.getUsername())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-     @GetMapping("/profile")
+    @GetMapping("/profile")
     public ProfileResponse getProfile(@RequestParam String empId) {
         return profileService.getMyProfile(empId);
     }
 
     @PutMapping("/update-job")
-public User updateJobDetails(@RequestBody User updatedUser, Principal principal) {
+    public ResponseEntity<?> updateJobDetails(
+            @RequestBody User updatedUser,
+            @AuthenticationPrincipal UserDetails userDetails) {
 
-    String email = principal.getName();
+        if (userDetails == null) {
+            return ResponseEntity.status(401).body("Unauthorized - please log in again");
+        }
 
-    User existing = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        String email = userDetails.getUsername();
 
-    // ✅ update only job fields
-    existing.setDesignation(updatedUser.getDesignation());
-    existing.setDepartment(updatedUser.getDepartment());
-    existing.setJoiningDate(updatedUser.getJoiningDate());
-    existing.setTotalExp(updatedUser.getTotalExp());
-    existing.setCurrentExp(updatedUser.getCurrentExp());
-    existing.setPf(updatedUser.getPf());
-    existing.setUan(updatedUser.getUan());
-    existing.setEsic(updatedUser.getEsic());
+        User existing = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found: " + email));
 
-    existing.setManagerId(updatedUser.getManagerId()); // optional
+        // update only non-null job fields
+        if (updatedUser.getDesignation()    != null) existing.setDesignation(updatedUser.getDesignation());
+        if (updatedUser.getDepartment()     != null) existing.setDepartment(updatedUser.getDepartment());
+        if (updatedUser.getJoiningDate()    != null) existing.setJoiningDate(updatedUser.getJoiningDate());
+        if (updatedUser.getTotalExp()       != null) existing.setTotalExp(updatedUser.getTotalExp());
+        if (updatedUser.getCurrentExp()     != null) existing.setCurrentExp(updatedUser.getCurrentExp());
+        if (updatedUser.getPf()             != null) existing.setPf(updatedUser.getPf());
+        if (updatedUser.getUan()            != null) existing.setUan(updatedUser.getUan());
+        if (updatedUser.getEsic()           != null) existing.setEsic(updatedUser.getEsic());
+        if (updatedUser.getEmploymentType() != null) existing.setEmploymentType(updatedUser.getEmploymentType());
+        if (updatedUser.getLocation()       != null) existing.setLocation(updatedUser.getLocation());
+        if (updatedUser.getManagerName()    != null) existing.setManagerName(updatedUser.getManagerName());
+        if (updatedUser.getHrName()         != null) existing.setHrName(updatedUser.getHrName());
+        if (updatedUser.getManagerId()      != null) existing.setManagerId(updatedUser.getManagerId());
 
-    return userRepository.save(existing);
-}
+        User saved = userRepository.save(existing);
+        return ResponseEntity.ok(saved);
+    }
 }

@@ -184,16 +184,23 @@ body {
   position: sticky;
   top: 0;
   z-index: 5;
-  background: #f8fafc;
+  background: #1e3c72;
+color: #ffffff;
   font-family: "Inter", system-ui, sans-serif;
   font-size: 13.5px;
   font-weight: 600;
-  color: #475569;
+  
   letter-spacing: 0.2px;
 
-  text-align: center;
+   text-align: center;    /* ✅ force center */
+  vertical-align: middle; /* ✅ fix vertical alignment */
   padding: 14px 18px;
   border-bottom: 1px solid #e5e7eb;
+}
+
+table thead th {
+  text-align: center !important;
+  vertical-align: middle !important;
 }
 
 /* Nice scrollbar */
@@ -291,7 +298,7 @@ body {
 .filter-icon {
   font-size: 13px;
   cursor: pointer;
-  color: #64748b;
+  
 }
 
 .filter-icon:hover {
@@ -956,4 +963,20 @@ tbody td {
   .dashboard {
     padding: 10px;
   }
+}
+/* 🔥 FINAL FIX FOR HEADER COLOR + ALIGNMENT */
+.table-wrapper thead th,
+.job-table thead th {
+  background: #1e3c72 !important;
+  color: #ffffff !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* 🔥 FORCE ALL TABLE HEADERS */
+thead th {
+  background: #1e3c72 !important;
+  color: #ffffff !important;
+  text-align: center !important;
+  vertical-align: middle !important;
 }

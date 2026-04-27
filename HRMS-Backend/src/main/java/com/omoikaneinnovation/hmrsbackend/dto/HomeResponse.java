@@ -34,6 +34,14 @@ public static class Stats {
     // ✅ ADD THESE (for service compatibility)
     private int totalDays;
     private int leaves;
+    
+    // ✅ NEW: Employee count fields for admin dashboard
+    private int totalEmployees;
+    private int activeEmployees;
+    
+    // ✅ NEW: Leave and Payroll KPI fields
+    private int leavePending;
+    private double payrollTotal;
 }
     /* ================= SALARY ================= */
     @Data
@@ -57,8 +65,10 @@ public static class Stats {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Event {
+        private String id;
         private String title;
         private String date;
-        private String type;   // 🔥 ADD THIS
+        private String type;
+        private String description;
     }
 }

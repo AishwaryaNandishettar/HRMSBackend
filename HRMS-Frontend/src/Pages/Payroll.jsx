@@ -131,11 +131,20 @@ useEffect(() => {
 
 
 
-  useEffect(() => {
-    if (payslipData?.length && !activeEmployee) {
-      setActiveEmployee(payslipData[0]);
+ useEffect(() => {
+  // ✅ If admin login → show admin's own record first
+  if (user && data.length > 0 && !activeEmployee) {
+    const adminRecord = data.find(
+      (emp) =>
+        String(emp.employeeId) ===
+        String(user?.empId || user?.employeeId)
+    );
+
+    if (adminRecord) {
+      setActiveEmployee(adminRecord);
     }
-  }, []); // ✅ run only once
+  }
+}, [user, data]);
 
  
 useEffect(() => {

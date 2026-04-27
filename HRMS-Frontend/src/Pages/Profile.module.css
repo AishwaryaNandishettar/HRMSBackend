@@ -311,13 +311,14 @@
 .table td {
   border: 1px solid #e5e7eb;
   padding: 8px;
+  text-align: center;
 }
 
 .table th {
   background: #2563eb;   /* 🔥 blue header */
   color: #ffffff;        /* white text */
   font-weight: 600;
-  text-align: left;
+  text-align: center;
 }
 .table th {
   background: linear-gradient(90deg, #2563eb, #1e40af);
@@ -713,4 +714,59 @@
 
 .suggestionItem:hover {
   background: #f1f3f4;
+}
+.modal {
+  pointer-events: auto;
+}
+
+.modalOverlay {
+  pointer-events: all;
+}
+.fullWidth {
+  grid-column: span 2; /* makes it take full row */
+}
+
+.bigTextarea {
+  width: 100%;
+  min-height: 120px;   /* 👈 BIG FIELD */
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical;    /* allow user to expand */
+  font-size: 14px;
+}
+.addressBox {
+  grid-column: span 2;
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 10px;
+}
+
+.addressLabel {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.addressTextarea {
+  width: 100%;
+  min-height: 100px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.addressRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.addressRow input {
+  flex: 1;
 }

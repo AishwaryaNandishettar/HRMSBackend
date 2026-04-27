@@ -1,6 +1,7 @@
 package com.omoikaneinnovation.hmrsbackend.controller;
 
 import com.omoikaneinnovation.hmrsbackend.dto.EmployeeDTO;
+import com.omoikaneinnovation.hmrsbackend.dto.EmployeeUpdateDTO;
 import com.omoikaneinnovation.hmrsbackend.dto.ParticipantDTO;
 import com.omoikaneinnovation.hmrsbackend.model.User;
 import com.omoikaneinnovation.hmrsbackend.service.EmployeeService;
@@ -25,6 +26,16 @@ public class EmployeeController {
                 dto.getName(), dto.getEmail(), dto.getPassword()
         );
         return ResponseEntity.ok(employee);
+    }
+
+    @PutMapping("/update/{employeeId}")
+    public ResponseEntity<?> updateEmployee(@PathVariable String employeeId, @RequestBody EmployeeUpdateDTO dto) {
+        try {
+            Employee updatedEmployee = employeeService.updateEmployee(employeeId, dto);
+            return ResponseEntity.ok(updatedEmployee);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to update employee: " + e.getMessage());
+        }
     }
 
     @GetMapping("/all")

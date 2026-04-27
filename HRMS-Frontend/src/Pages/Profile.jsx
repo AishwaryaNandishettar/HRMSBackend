@@ -14,9 +14,12 @@
       const [showIncrementLetter, setShowIncrementLetter] = useState(false);
       const [selectedEmployee, setSelectedEmployee] = useState(null);
       const [allEmployees, setAllEmployees] = useState([]);
+
+      
       const [showEditModal, setShowEditModal] = useState(false);
       const [showJobModal, setShowJobModal] = useState(false);
-
+      const [earlyRelease, setEarlyRelease] = useState(false);
+const [calculatedLwd, setCalculatedLwd] = useState("");
       const [profileImage, setProfileImage] = useState(
   localStorage.getItem("profileImage") || ""
 );
@@ -150,6 +153,33 @@ const Chip = ({ user, onRemove }) => (
 
   load();
 }, []);
+
+useEffect(() => {
+  if (!exitData.notice || exitData.notice === "Custom") return; // ✅ FIX
+
+  const days = parseInt(exitData.notice);
+  if (isNaN(days)) return; // extra safety
+
+  const today = new Date();
+  if (isNaN(today.getTime())) return; // ✅ FIX
+  const lwd = new Date();
+
+  lwd.setDate(today.getDate() + days);
+ if (isNaN(lwd.getTime())) return; // ✅ FIX
+  const formatted = lwd.toISOString().split("T")[0];
+
+  setCalculatedLwd(formatted);
+
+  if (!earlyRelease) {
+    setExitData(prev => ({
+      ...prev,
+      lwd: formatted
+    }));
+  }
+
+}, [exitData.notice, earlyRelease]);
+
+
       const employee = {
   name: user?.name || profileData?.name || "N/A",
   role: user?.role || profileData?.role || "N/A",
@@ -186,7 +216,7 @@ const Chip = ({ user, onRemove }) => (
 
   useEffect(() => {
     const saved = localStorage.getItem("jobEdit");
-    if (employee && profileData) {
+    if (!saved && employee && profileData) {  // ✅ ONLY if no saved data
       setJobEdit({
         designation: employee.designation,
         department: employee.department,
@@ -241,22 +271,18 @@ const Chip = ({ user, onRemove }) => (
 
  const [personalEdit, setPersonalEdit] = useState(() => {
   const saved = localStorage.getItem("personalEdit");
-  return saved ? JSON.parse(saved) : employee;
+  return saved
+    ? JSON.parse(saved)
+    : {
+        ...employee,
+        
+        city: "",
+        district: "",
+        state: "",
+        pincode: "",
+         address: "", // ✅ ADD THIS
+      };
 });
-  const states = ["Karnataka"];
-  const districts = {
-    Karnataka: ["Haveri", "Dharwad"]
-  };
-
-  const taluks = {
-    Haveri: ["Hangal", "Ranebennur"],
-    Dharwad: ["Hubli", "Dharwad"]
-  };
-
-  const cities = {
-    Hangal: ["Hangal"],
-    Hubli: ["Hubli"]
-  };
 
 const bgvRecords = JSON.parse(localStorage.getItem("bgv_records")) || [];
 
@@ -268,9 +294,9 @@ console.log("BGV Records:", bgvRecords);
 console.log("Current BGV:", currentBGV);
 
 const documents = [
-  { name: "Resume.pdf" },
-  { name: "Aadhaar.pdf" },
-  { name: "Offer_Letter.pdf" }
+  { name: "Resume.pdf", url: "/documents/Resume.pdf" },
+  { name: "Aadhaar.pdf", url: "/documents/Aadhaar.pdf" },
+  { name: "Offer_Letter.pdf", url: "/documents/Offer_Letter.pdf" }
 ];
 
 const getDesignation = () => {
@@ -335,7 +361,7 @@ const getDesignation = () => {
                 <div className={styles.quickLinks}>
                   <p onClick={() => setView("overview")}>Overview</p>
                   <p onClick={() => setView("compensation")}>Compensation</p>
-                  <p onClick={() => setView("exit")}>Exit Management</p>
+                  <p onClick={() => setView("exit")}>Resignation Letter</p>
                     <p onClick={() => setView("skills")}>Skill Matrix</p> {/* NEW */}
                 </div>
               </div>
@@ -369,12 +395,14 @@ const getDesignation = () => {
                 <div className={styles.profileSectionCard}>
     <div className={styles.sectionHeader}>
       <h3>Personal Information</h3>
-      <button
-        className={styles.editBtn}
-        onClick={() => setShowEditModal(true)}
-      >
-        Edit
-      </button>
+     {role === "ADMIN" && (
+  <button
+    className={styles.editBtn}
+    onClick={() => setShowEditModal(true)}
+  >
+    Edit
+  </button>
+)}
     </div>
 
     <div className={styles.infoGrid}>
@@ -385,10 +413,13 @@ const getDesignation = () => {
       <p><strong>Father:</strong> {personalEdit.fatherName}</p>
       <p><strong>Mother:</strong> {personalEdit.motherName}</p>
       <p><strong>Blood Group:</strong> {personalEdit.bloodGroup}</p>
-      <p><strong>State:</strong> {personalEdit.state}</p>
-      <p><strong>District:</strong> {personalEdit.district}</p>
-      <p><strong>Taluk:</strong> {personalEdit.taluk}</p>
-      <p><strong>City:</strong> {personalEdit.city}</p>
+      
+
+<p><strong>City:</strong> {personalEdit.city}</p>
+<p><strong>District:</strong> {personalEdit.district}</p>
+<p><strong>State:</strong> {personalEdit.state}</p>
+<p><strong>Pincode:</strong> {personalEdit.pincode}</p>
+ <p><strong>Address:</strong> {personalEdit.address}</p>
     </div>
     {showEditModal && (
     <div className={styles.modalOverlay}>
@@ -403,12 +434,7 @@ const getDesignation = () => {
             onChange={(e)=>setPersonalEdit({...personalEdit, name:e.target.value})}
           />
 
-          <input
-            type="date"
-            value={personalEdit.dob}
-            onChange={(e)=>setPersonalEdit({...personalEdit, dob:e.target.value})}
-          />
-
+        
           <input
             placeholder="Email"
             value={personalEdit.email}
@@ -438,32 +464,90 @@ const getDesignation = () => {
     value={personalEdit.bloodGroup}
     onChange={(e)=>setPersonalEdit({...personalEdit, bloodGroup:e.target.value})}
   />
+<div className={styles.addressBox}>
+  <label className={styles.addressLabel}>📍 Address Details</label>
 
-        <input
-    placeholder="State"
-    value={personalEdit.state}
-    onChange={(e)=>setPersonalEdit({...personalEdit, state:e.target.value})}
+  {/* Address Line */}
+  <textarea
+    className={styles.addressTextarea}
+    placeholder="House / Flat / Street / Area"
+    value={personalEdit.address || ""}
+    onChange={(e) =>
+      setPersonalEdit({ ...personalEdit, address: e.target.value })
+    }
   />
 
-        <input
-    placeholder="District"
-    value={personalEdit.district}
-    onChange={(e)=>setPersonalEdit({...personalEdit, district:e.target.value})}
-  />
+  {/* Row: Pincode + City */}
+  <div className={styles.addressRow}>
+    <input
+      className={styles.input}
+      placeholder="Pincode"
+      value={personalEdit.pincode || ""}
+      maxLength={6}
+      onChange={async (e) => {
+        const pin = e.target.value;
+
+        setPersonalEdit({ ...personalEdit, pincode: pin });
+
+        // ✅ Auto-fetch like Google Maps
+        if (pin.length === 6) {
+          try {
+            const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+            const data = await res.json();
+
+            if (data[0]?.Status === "Success") {
+              const postOffice = data[0].PostOffice[0];
+
+              setPersonalEdit(prev => ({
+                ...prev,
+                city: postOffice.District || "",
+                district: postOffice.District || "",
+                state: postOffice.State || ""
+              }));
+            }
+          } catch (err) {
+            console.error("Pincode fetch error:", err);
+          }
+        }
+      }}
+    />
+
+    <input
+      className={styles.input}
+      placeholder="City"
+      value={personalEdit.city || ""}
+      onChange={(e) =>
+        setPersonalEdit({ ...personalEdit, city: e.target.value })
+      }
+    />
+  </div>
+
+  {/* Row: District + State */}
+  <div className={styles.addressRow}>
+    <input
+      className={styles.input}
+      placeholder="District"
+      value={personalEdit.district || ""}
+      readOnly
+    />
+
+    <input
+      className={styles.input}
+      placeholder="State"
+      value={personalEdit.state || ""}
+      readOnly
+    />
+  </div>
+</div>
+
+  
+
+      
 
 
           
-  <input
-    placeholder="Taluk"
-    value={personalEdit.taluk}
-    onChange={(e)=>setPersonalEdit({...personalEdit, taluk:e.target.value})}
-  />
+ 
 
-        <input
-    placeholder="City"
-    value={personalEdit.city}
-    onChange={(e)=>setPersonalEdit({...personalEdit, city:e.target.value})}
-  />
 
         </div>
 
@@ -478,15 +562,22 @@ const getDesignation = () => {
             Save
           </button>
 
-          <button
-            className={styles.cancelBtn}
-           onClick={() => {
-  localStorage.setItem("personalEdit", JSON.stringify(personalEdit)); // ✅ SAVE
-  setShowEditModal(false);
-}}
-          >
-            Cancel
-          </button>
+    <button
+  className={styles.cancelBtn}
+  onClick={() => {
+    const saved = localStorage.getItem("personalEdit");
+
+    if (saved) {
+      setPersonalEdit(JSON.parse(saved)); // ✅ FIXED
+    } else {
+      setPersonalEdit(employee); // fallback
+    }
+
+    setShowEditModal(false);
+  }}
+>
+  Cancel
+</button>
         </div>
       </div>
     </div>
@@ -573,45 +664,106 @@ const getDesignation = () => {
         </div>
 
         <div className={styles.modalActions}>
-          <button
-    className={styles.saveBtn}
-    onClick={async () => {
-      try {
-        const response = await updateJobDetails(jobEdit);
-        
-        // Update local state with the response data
-        setJobEdit({
-          ...response,
-          joiningDate: response.joiningDate || jobEdit.joiningDate,
-          totalExp: response.totalExp || jobEdit.totalExp,
-          currentExp: response.currentExp || jobEdit.currentExp,
-          employmentType: response.employmentType || jobEdit.employmentType,
-          location: response.location || jobEdit.location,
-          manager: response.manager || jobEdit.manager,
-          hr: response.hr || jobEdit.hr
-        });
-        
-        localStorage.setItem("jobEdit", JSON.stringify(response)); // ✅ SAVE
-        await refreshProfile();
+         <button
+  type="button"
+  className={styles.saveBtn}
+  onClick={async (e) => {
+    e.preventDefault();
+    console.log("🔥 SAVE CLICKED");   // ✅ ADD THIS
 
-        alert("Job details updated successfully ✅");
+    try {
+      console.log("Sending data:", jobEdit);  // ✅ ADD THIS
 
-        setShowJobModal(false);
-      } catch (err) {
-        console.error(err);
-        alert("Failed to update job details ❌");
-      }
-    }}
-  >
-    Save
-  </button>
+      const response = await updateJobDetails({
+  designation:     jobEdit.designation,
+  department:      jobEdit.department,
+  joiningDate:     jobEdit.joiningDate,
+  totalExp:        jobEdit.totalExp,
+  currentExp:      jobEdit.currentExp,
+  pf:              jobEdit.pf,
+  uan:             jobEdit.uan,
+  esic:            jobEdit.esic,
+  employmentType:  jobEdit.employmentType,
+  location:        jobEdit.location,
+  managerName:     jobEdit.manager,   // map frontend key → backend field
+  hrName:          jobEdit.hr,        // map frontend key → backend field
+});
 
-          <button
-            className={styles.cancelBtn}
-            onClick={() => setShowJobModal(false)}
-          >
-            Cancel
-          </button>
+      console.log("API RESPONSE:", response); // ✅ ADD THIS
+
+      setJobEdit({
+        designation:    response?.designation    || jobEdit.designation,
+        department:     response?.department     || jobEdit.department,
+        joiningDate:    response?.joiningDate    || jobEdit.joiningDate,
+        totalExp:       response?.totalExp       || jobEdit.totalExp,
+        currentExp:     response?.currentExp     || jobEdit.currentExp,
+        pf:             response?.pf             || jobEdit.pf,
+        uan:            response?.uan            || jobEdit.uan,
+        esic:           response?.esic           || jobEdit.esic,
+        employmentType: response?.employmentType || jobEdit.employmentType,
+        location:       response?.location       || jobEdit.location,
+        manager:        response?.managerName    || jobEdit.manager,
+        hr:             response?.hrName         || jobEdit.hr,
+      });
+
+      localStorage.setItem("jobEdit", JSON.stringify({
+        designation:    response?.designation    || jobEdit.designation,
+        department:     response?.department     || jobEdit.department,
+        joiningDate:    response?.joiningDate    || jobEdit.joiningDate,
+        totalExp:       response?.totalExp       || jobEdit.totalExp,
+        currentExp:     response?.currentExp     || jobEdit.currentExp,
+        pf:             response?.pf             || jobEdit.pf,
+        uan:            response?.uan            || jobEdit.uan,
+        esic:           response?.esic           || jobEdit.esic,
+        employmentType: response?.employmentType || jobEdit.employmentType,
+        location:       response?.location       || jobEdit.location,
+        manager:        response?.managerName    || jobEdit.manager,
+        hr:             response?.hrName         || jobEdit.hr,
+      }));
+      await refreshProfile();
+
+      alert("Job details updated successfully ✅");
+      setShowJobModal(false);
+
+    } catch (err) {
+      console.error("❌ Job update error:", err);
+      alert(err.message || "Failed to update job details ❌");
+    }
+  }}
+>
+  Save
+</button>
+
+         <button
+  className={styles.cancelBtn}
+ onClick={() => {
+  const saved = localStorage.getItem("jobEdit");
+
+  if (saved) {
+    setJobEdit(JSON.parse(saved));
+  } else {
+    // ✅ fallback to original profile data
+    setJobEdit({
+      designation: employee.designation,
+      department: employee.department,
+      joiningDate: employee.joiningDate,
+      totalExp: employee.totalExp,
+      currentExp: employee.currentExp,
+      employmentType: "Full-Time",
+      location: "Bangalore",
+      manager: profileData?.managerName || "",
+      hr: profileData?.hrName || "",
+      pf: "",
+      uan: "",
+      esic: ""
+    });
+  }
+
+  setShowJobModal(false);
+}}
+>
+  Cancel
+</button>
         </div>
       </div>
     </div>
@@ -621,12 +773,14 @@ const getDesignation = () => {
   <div className={styles.profileSectionCard}>
     <div className={styles.sectionHeader}>
       <h3>Job Details</h3>
-      <button
-        className={styles.editBtn}
-        onClick={() => setShowJobModal(true)}
-      >
-        Edit
-      </button>
+    {role === "ADMIN" && (
+  <button
+    className={styles.editBtn}
+    onClick={() => setShowEditModal(true)}
+  >
+    Edit
+  </button>
+)}
     </div>
 
     <div className={styles.infoGrid}>
@@ -675,16 +829,17 @@ const getDesignation = () => {
     </div>
 
     <button
-      className={styles.downloadBtn}
-      onClick={() => {
-        const link = document.createElement("a");
-        link.href = "#";
-        link.download = doc.name;
-        link.click();
-      }}
-    >
-      Download
-    </button>
+  className={styles.downloadBtn}
+  onClick={() => {
+    const link = document.createElement("a");
+    link.href = doc.url;
+    link.download = doc.name;
+    link.target = "_blank"; // ✅ open correctly
+    link.click();
+  }}
+>
+  Download
+</button>
   </div>
 ))}
                   </div>
@@ -904,7 +1059,7 @@ const getDesignation = () => {
               {/* ================= EXIT MANAGEMENT ================= */}
               {view === "exit" && (
                 <div className={styles.profileSectionCard}>
-                  <h3>Exit Management</h3>
+                  <h3>Resignation Letter</h3>
 
 
 
@@ -990,7 +1145,7 @@ const getDesignation = () => {
     </div>
   )}
 </div>
-<label>CC (Copy Manager)</label>
+<label>CC </label>
 
 <div className={styles.inputBox}>
   
@@ -1052,8 +1207,26 @@ const getDesignation = () => {
                         <option>30 Days</option>
                         <option>60 Days</option>
                         <option>90 Days</option>
+                          <option>Custom</option> {/* ✅ ADD THIS */} 
+                         
                       </select>
 
+
+ {exitData.notice === "Custom" && (
+  <input
+    type="number"
+    placeholder="Enter notice period in days"
+    className={styles.input}
+    onChange={(e) => {
+      const customDays = e.target.value;
+
+      setExitData({
+        ...exitData,
+        notice: customDays + " Days"
+      });
+    }}
+  />
+)}
                       <label>Last Working Day</label>
                       <input
                         type="date"

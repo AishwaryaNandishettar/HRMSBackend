@@ -23,12 +23,14 @@ import Login from "./Pages/Login";
 import DebugLogin from "./Pages/DebugLogin";
 import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
+import EmployeeProfile from "./Pages/EmployeeProfile";
 import Timesheet from "./Pages/Timesheet";
 import Attendance from "./Pages/Attendance";
 import Leave from "./Pages/Leave";
 import InsuranceClaim from "./Pages/InsuranceClaim";
 import EmployeeCard from "./Pages/Emplyeecard";
 import Payroll from "./Pages/Payroll";
+import Helpdesk from "./Pages/Helpdesk"; // ✅ adjust path if different
 
 import UpdatePayroll from "./Pages/Payroll/UpdatePayroll";
 import ReimbursementForm from "./Pages/ReimbursementForm";
@@ -38,7 +40,7 @@ import CibilCheck from "./Pages/CibilCheck";
 import Onboarding from "./Pages/Onboarding";
 import OtpVerification from "./Pages/OtpVerification";
 import BGV from "./Pages/BGV";
-import TasksModule from "./Pages/Task";
+import TasksModule from "./Pages/TaskProfessional";
 import InvitePage from "./Pages/InvitePage";
 import InviteAccept from "./Pages/InviteAccept";
 import PersonalInsurance from "./Pages/PersonalInsurance";
@@ -63,6 +65,9 @@ import EmployeeCostDetails from "./Pages/Reports/EmployeeCostDetails";
 /* Work Chat */
 import WorkChat from "./Pages/WorkChat/WorkChat";
 import JoinMeetingPage from "./Pages/WorkChat/Compo/Meetings/JoinMeetingPage";
+
+/* Event Detail */
+import EventDetail from "./Pages/EventDetail";
 
 
 /* Sticky Notes */
@@ -170,6 +175,7 @@ const [showNotif, setShowNotif] = useState(false);
                 }
               />
 
+    <Route path="/employee-profile" element={<EmployeeProfile />} />
               <Route
                 path="/timesheet"
                 element={
@@ -361,6 +367,23 @@ const [showNotif, setShowNotif] = useState(false);
     </ProtectedRoute>
   }
 />
+<Route
+  path="/helpdesk"
+  element={
+    <ProtectedRoute>
+      <Helpdesk />
+    </ProtectedRoute>
+  }
+/>
+              {/* Event Detail — accessible by all roles */}
+              <Route
+                path="/events/:id"
+                element={
+                  <ProtectedRoute>
+                    <EventDetail />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </div>
         </div>
