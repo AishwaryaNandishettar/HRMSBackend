@@ -7,13 +7,25 @@ export default defineConfig({
   define: {
     global: "window",
   },
+  resolve: {
+    alias: {
+      'react-is': 'react-is'
+    }
+  },
+  optimizeDeps: {
+    include: ['react-is']
+  },
   build: {
+    commonjsOptions: {
+      include: [/react-is/, /node_modules/]
+    },
     rollupOptions: {
-      onwarn(warning, warn) {
-        // Ignore specific warnings
+      onwarn(warning, defaultHandler) {
+        // Suppress specific warnings
         if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
-        if (warning.code === 'UNRESOLVED_IMPORT' && warning.message.includes('react-is')) return;
-        warn(warning);
+        if (warning.code === 'UNRESOLVED_IMPORT') return;
+        // Use default handler for other warnings
+        defaultHandler(warning);
       }
     },
     chunkSizeWarningLimit: 1000,
