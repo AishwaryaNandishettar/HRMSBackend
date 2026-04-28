@@ -1,8 +1,8 @@
 {
-  "buildCommand": "cd HRMS-Frontend && npm run build",
-  "outputDirectory": "HRMS-Frontend/dist",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "cd HRMS-Frontend && npm install --legacy-peer-deps",
+  "installCommand": "npm install --legacy-peer-deps",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
