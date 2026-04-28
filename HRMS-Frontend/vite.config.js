@@ -2,20 +2,20 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "/", // ✅ ADD THIS LINE
+  base: "/",
   plugins: [react()],
   define: {
-    global: "window", // ✅ FIX for sockjs-client
+    global: "window",
   },
   build: {
     rollupOptions: {
       onwarn(warning, warn) {
-        // Suppress warnings during build
+        // Ignore specific warnings
         if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
+        if (warning.code === 'UNRESOLVED_IMPORT' && warning.message.includes('react-is')) return;
         warn(warning);
       }
     },
-    // Ignore linting errors during build
     chunkSizeWarningLimit: 1000,
   },
   server: {
