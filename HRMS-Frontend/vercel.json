@@ -1,9 +1,12 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "buildCommand": "cd HRMS-Frontend && npm run build",
+  "outputDirectory": "HRMS-Frontend/dist",
   "framework": "vite",
-  "installCommand": "npm install",
+  "installCommand": "cd HRMS-Frontend && npm install --legacy-peer-deps",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  ],
+  "env": {
+    "VITE_API_BASE_URL": "https://newhmrsfullybackendapplication.onrender.com"
+  }
 }
