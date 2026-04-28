@@ -7,7 +7,7 @@ import {
   checkIn as apiCheckIn,
   checkOut as apiCheckOut,
 } from "../api/attendanceApi";
-import { notifyCheckIn } from "../utils/notificationHelper.js";
+import { notifyCheckIn } from "../Utils/notificationHelper.js";
 
 /* ================= LOGGED USER ================= */
 const loggedUser = JSON.parse(localStorage.getItem("user")) || {};
