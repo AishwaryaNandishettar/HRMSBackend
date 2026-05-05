@@ -104,3 +104,35 @@
   background: #cbd5e1;
   border-radius: 10px;
 }
+/* ================= MOBILE RESPONSIVE FIX ================= */
+@media (max-width: 768px) {
+
+  .app-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar.closed {
+    width: 100%;
+  }
+
+  .content-area {
+    height: auto;
+  }
+
+  .page-content {
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  /* OPTIONAL: hide overlay if not needed */
+  .sidebar-overlay {
+    display: none;
+  }
+}
