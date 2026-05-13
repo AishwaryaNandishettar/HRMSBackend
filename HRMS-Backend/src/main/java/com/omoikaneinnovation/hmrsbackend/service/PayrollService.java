@@ -30,6 +30,11 @@ public class PayrollService {
         
         // ✅ Enhance payroll data with Employee bank details if missing
         for (Payroll payroll : payrolls) {
+            // Skip records with null employeeId (old/invalid data)
+            if (payroll.getEmployeeId() == null || payroll.getEmployeeId().isEmpty()) {
+                continue;
+            }
+            
             // If bank details are missing in payroll, get them from Employee
             if ((payroll.getBankAccountNumber() == null || payroll.getBankAccountNumber().isEmpty()) ||
                 (payroll.getPfMemberId() == null || payroll.getPfMemberId().isEmpty()) ||
@@ -54,14 +59,14 @@ public class PayrollService {
                     if (payroll.getIfsc() == null || payroll.getIfsc().isEmpty()) {
                         payroll.setIfsc(employee.getIfsc());
                     }
-                    
-                    System.out.println("✅ Enhanced payroll for " + payroll.getEmployeeId() + 
-                                     " with Employee bank details: " + employee.getBankAccountNumber());
                 }
             }
         }
         
-        return payrolls;
+        // Return only records with valid employeeId
+        return payrolls.stream()
+            .filter(p -> p.getEmployeeId() != null && !p.getEmployeeId().isEmpty())
+            .collect(java.util.stream.Collectors.toList());
     }
 
     public List<Payroll> getEmployeePayroll(String empCode){

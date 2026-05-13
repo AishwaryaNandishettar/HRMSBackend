@@ -249,8 +249,7 @@ if (user && user.role === "employee") { // ✅ Strict check only for "employee"
 }
 
 const filteredData = roleBasedData.filter((emp) => {
-  if (!emp.employeeId) return false;
-
+  // ✅ Allow records even if employeeId is null — use empName as fallback identifier
   const searchText = search?.toLowerCase() || "";
 
   const matchesSearch =

@@ -33,6 +33,7 @@ const UpdatePayroll = () => {
     const loadData = async () => {
       try {
         console.log("🔄 Starting to load employees and payroll...");
+        console.log("🔑 Token in localStorage:", localStorage.getItem("token") ? "EXISTS" : "MISSING");
         
         // Fetch both in parallel
         const [empRes, payrollRes] = await Promise.all([
@@ -41,6 +42,7 @@ const UpdatePayroll = () => {
         ]);
 
         console.log("📦 Raw empRes:", empRes);
+        console.log("📦 Raw empRes type:", typeof empRes, Array.isArray(empRes));
         console.log("📦 Raw payrollRes:", payrollRes);
 
         // getAllEmployees() returns response.data directly (already the array)
@@ -51,7 +53,7 @@ const UpdatePayroll = () => {
           console.log("✅ empRes is already an array, length:", empRes.length);
         } else if (Array.isArray(empRes?.data)) {
           empList = empRes.data;
-          console.log("✅ Extracted from empRes.data (array)");
+          console.log("✅ Extracted from empRes.data (array), length:", empRes.data.length);
         } else if (Array.isArray(empRes?.data?.content)) {
           empList = empRes.data.content;
           console.log("✅ Extracted from empRes.data.content (array)");
@@ -80,11 +82,14 @@ const UpdatePayroll = () => {
           // ✅ Use existing payroll values if available, otherwise default to 0
           const existing = payrollMap[emp.employeeId] || {};
 
-          const empId = emp.employeeId || emp.id || emp.empId;
+          // ✅ FALLBACK: use MongoDB _id if employeeId is not set
+          const empId = emp.employeeId || emp.id || emp._id || emp.empId;
           if (!empId) {
-            console.warn("⚠️ Employee has no ID:", emp);
+            console.warn("⚠️ Employee has no ID at all, skipping:", emp);
             return;
           }
+          
+          console.log(`✅ Processing employee: ${emp.fullName || emp.name} (${empId})`);
 
           initial[empId] = {
             companyName: existing.companyName || "OMOIKANE INNOVATIONS PVT LTD",

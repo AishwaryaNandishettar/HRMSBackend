@@ -18,7 +18,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/employee")
-@CrossOrigin(originPatterns = {"http://localhost:*", "https://*.ngrok-free.dev"})
+@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*", "https://*.vercel.app", "https://*.ngrok-free.dev"})
 public class EmployeeController {
 
     @Autowired
