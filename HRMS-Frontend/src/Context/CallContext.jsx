@@ -4,7 +4,7 @@ import { connectSocket, sendCallSignal, subscribeToCallInfo } from '../api/socke
 import TokenManager from '../Utils/tokenManager';
 import webrtcPeer from '../Services/webrtcPeer';
 import activeSpeaker from '../Services/activeSpeaker';
-import ringtoneManager from '../utils/ringtone';
+import ringtoneManager from '../Utils/ringtone';
 
 const CallContext = createContext();
 
