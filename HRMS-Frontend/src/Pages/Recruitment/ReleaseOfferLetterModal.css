@@ -18,17 +18,21 @@
 
 .release-offer-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  inset: 0;
+
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* instead of center */
   justify-content: center;
-  z-index: 9999;
-  padding: 20px;
+
+  padding-top: 90px; /* navbar height + gap */
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+
+  z-index: 99999; /* higher than navbar */
+}
+.release-offer-modal {
+  margin: 0 auto;
+  max-height: calc(100vh - 110px);
 }
 
 .release-offer-modal {

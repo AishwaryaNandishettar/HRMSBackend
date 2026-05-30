@@ -1,28 +1,56 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Payroll.css";
 
-const PayrollProfileCard = ({ employee }) => {
- const isRecord = !!employee;
+import { AuthContext } from "../../Context/Authcontext";
 
-  const profile = {
-   name:
+const PayrollProfileCard = ({ employee }) => {
+  const { user } = useContext(AuthContext);
+
+const isRecord =
+  !!(
     employee?.empName ||
     employee?.fullName ||
     employee?.name ||
-    employee?.employee?.name,
+    employee?.employee?.name
+  );
 
-  role:
-    employee?.department ||
-    employee?.dept ||
-    employee?.designation ||
-    employee?.employee?.role ||
-    "Finance • Accountant",
+console.log("USER =>", user);
+console.log("EMPLOYEE =>", employee);
+  const profile = {
+  name:
+  employee?.empName ||
+  employee?.fullName ||
+  employee?.employee?.fullName ||
+  employee?.employee?.name ||
+  employee?.name ||
+  user?.fullName ||
+  user?.name ||
+  user?.employeeName ||
+  user?.username ||
+  user?.email?.split("@")[0] ||
+  "Aishwarya",
+role:
+  employee?.employee?.role ||
+  employee?.role ||
+  employee?.designation ||
+  employee?.department ||
+  employee?.dept ||
+  user?.designation ||
+  user?.department ||
+  user?.role ||
+  "Employee",
 
-  avatar:
-    employee?.employee?.avatar ||
-    employee?.avatar ||
-    employee?.image ||
-    "https://i.pravatar.cc/80?img=1",
+avatar:
+  employee?.employee?.profileImage ||
+  employee?.employee?.avatar ||
+  employee?.profileImage ||
+  employee?.avatar ||
+  employee?.image ||
+  user?.profileImage ||
+  user?.image ||
+  `https://ui-avatars.com/api/?name=${encodeURIComponent(
+    user?.fullName || user?.name || "Employee"
+  )}`,
 
   gross:
     employee?.gross ||

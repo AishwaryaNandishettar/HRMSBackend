@@ -389,10 +389,16 @@ const handleSubmit = async (e) => {
 </td>
 
 {/* ✅ ADDED BACK: Release Offer Letter button in main table */}
-<td>
+<td onClick={(e) => e.stopPropagation()}>
   {job.status === 'Selected' && (
     <button
-      onClick={() => setOfferLetterJob(job)}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        setOfferLetterJob(job);
+      }}
       style={{
         background: 'linear-gradient(135deg, #16a34a, #22c55e)',
         color: '#fff',

@@ -45,6 +45,16 @@ const [columnFilters, setColumnFilters] = useState({
 const [popupFilterText, setPopupFilterText] =
   useState("");
 
+  const fieldMap = {
+  empid: "assigneeId",
+  employeename: "assigneeName",
+  task: "title",
+  assignedby: "assignedBy",
+  priority: "priority",
+  status: "status",
+  approval: "approval",
+};
+
 const getUniqueValues = (key) => {
   return [
     ...new Set(
@@ -95,15 +105,7 @@ const loadTasks = async () => {
   }
 };
 
-const fieldMap = {
-  empid: "assigneeId",
-  employeename: "assigneeName",
-  task: "title",
-  assignedby: "assignedBy",
-  priority: "priority",
-  status: "status",
-  approval: "approval",
-};
+
 
 
 
@@ -204,34 +206,31 @@ const renderFilterPopup = (key) => {
         )}
 
       </div>
+<div className="taskPage-filterActions">
 
-      <div className="taskPage-filterActions">
+  {/* OK = same as current Close */}
+  <button
+    onClick={() => {
+      setActiveFilter(null);
+      setPopupFilterText("");
+    }}
+  >
+    OK
+  </button>
 
-        <button
-          onClick={() => {
+  {/* Cancel = same as current Clear */}
+  <button
+    onClick={() => {
+      setColumnFilters({
+        ...columnFilters,
+        [key]: [],
+      });
+    }}
+  >
+    Cancel
+  </button>
 
-            setActiveFilter(null);
-            setPopupFilterText("");
-
-          }}
-        >
-          Close
-        </button>
-
-        <button
-          onClick={() => {
-
-            setColumnFilters({
-              ...columnFilters,
-              [key]: [],
-            });
-
-          }}
-        >
-          Clear
-        </button>
-
-      </div>
+</div>
 
     </div>
   );
@@ -357,9 +356,7 @@ const renderFilterPopup = (key) => {
              Task Management
           </h1>
 
-          <p className="taskPage-subTitle">
-            HRMS Role Based Task Tracking System
-          </p>
+        
 
         </div>
 

@@ -1088,8 +1088,19 @@ const sendMessage = async (text, files, replyMessage) => {
             users={users}
             groups={groups}
             selectedChat={selectedChat}
-            onSelectUser={setSelectedChat}
-            onSelectGroup={setSelectedChat}
+            onSelectUser={(user) => {
+  setSelectedChat({
+    ...user,
+    type: "USER",
+  });
+}}
+
+onSelectGroup={(group) => {
+  setSelectedChat({
+    ...group,
+    type: "GROUP",
+  });
+}}
             onCreateGroup={() => setShowGroupModal(true)}
             onShowMeetings={() => setShowMeetings(true)}
             messageCount={unreadUsersCount}

@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import styles from "./Attendance.module.css";
 import { AttendanceContext } from "../Context/AttendanceContext";
 import {
@@ -26,6 +27,9 @@ const getLoggedUser = () => {
 };
 
 export default function Attendance() {
+  const location = useLocation();
+
+const focus = location.state?.focus;
   const today = new Date().toLocaleDateString("en-CA");
   const [selectedDate, setSelectedDate] = useState(today);
 
@@ -38,7 +42,7 @@ export default function Attendance() {
   const popupRef = useRef();
 
   const [records, setRecords] = useState([]);
-
+const [attendanceFilter, setAttendanceFilter] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
@@ -82,8 +86,22 @@ export default function Attendance() {
       // Map backend DTO fields to frontend display fields
       const data = rawData.map((r) => ({
         userId: r.userId || "-",
-        empId: r.empId || r.employeeId || r.userId || "-",
-        name: r.name || r.employeeName || r.fullName || "-",
+    empId:
+  r.role === "admin" ||
+  r.empId === "ADMIN001"
+    ? "ADMIN001"
+    : r.empId ||
+      r.employeeId ||
+      "-",
+
+name:
+  r.role === "admin" ||
+  r.empId === "ADMIN001"
+    ? "Aishwarya"
+    : r.employeeName ||
+      r.name ||
+      r.fullName ||
+      "-",
         department: r.department || r.dept || "-",
         managerId: r.managerId || "-",
         managerEmail: r.managerEmail || r.managerId || "-",
@@ -133,6 +151,7 @@ export default function Attendance() {
     return () => clearInterval(interval);
   }, []);
 
+  
   /* ================= CHECK IN ================= */
   const handleCheckIn = async () => {
     const userId =
@@ -159,8 +178,21 @@ export default function Attendance() {
         try {
           await apiCheckIn({
             userId: String(userId).trim(),
-            empId: loggedUser.employeeId || loggedUser.empId || "-",
-            name: loggedUser.name || loggedUser.employeeName || "N/A",
+          empId:
+  role === "admin"
+    ? "ADMIN001"
+    : loggedUser.empId ||
+      loggedUser.employeeId ||
+      loggedUser.employeeCode ||
+      "-",
+
+name:
+  role === "admin"
+    ? "Aishwarya"
+    : loggedUser.employeeName ||
+      loggedUser.name ||
+      loggedUser.fullName ||
+      "Employee",
             department: loggedUser.department || "General",
             date: selectedDate,
             checkIn: time,
@@ -216,7 +248,11 @@ export default function Attendance() {
         try {
           await apiCheckOut({
             userId: String(userId).trim(),
-            name: recordToUpdate.name || loggedUser.name,
+            name:
+  loggedUser.employeeName ||
+  loggedUser.name ||
+  loggedUser.fullName ||
+  "Admin",
             date: recordToUpdate.date,
             checkOut: time,
             locationOut: `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`,
@@ -261,8 +297,21 @@ export default function Attendance() {
     try {
       await apiCheckIn({
         userId: String(userId).trim(),
-        empId: loggedUser.employeeId || loggedUser.empId || "-",
-        name: loggedUser.name || loggedUser.employeeName || "N/A",
+empId:
+  role === "admin"
+    ? "ADMIN001"
+    : loggedUser.empId ||
+      loggedUser.employeeId ||
+      loggedUser.employeeCode ||
+      "-",
+
+name:
+  role === "admin"
+    ? "Aishwarya"
+    : loggedUser.employeeName ||
+      loggedUser.name ||
+      loggedUser.fullName ||
+      "Employee",
         department: loggedUser.department || "General",
         date: selectedDate,
         checkIn: time,
@@ -326,33 +375,41 @@ export default function Attendance() {
   ...new Set(searchFiltered.map((r) => r[key])),
 ];
 
-  const filteredRecordsFinal = searchFiltered
-   .filter((r) =>
-  Object.keys(filters).every((key) => {
-    if (Array.isArray(filters[key])) {
-      return filters[key].includes(r[key]);
+const filteredRecordsFinal = searchFiltered
+  .filter((r) => {
+    // Existing attendance filters
+    if (attendanceFilter === "forgotCheckout") {
+      return !r.checkOut || r.checkOut === "-";
     }
-    return r[key] === filters[key];
+
+    if (attendanceFilter === "missedCheckin") {
+      return !r.checkIn || r.checkIn === "-";
+    }
+
+    // Header filters
+    for (const key in filters) {
+      if (
+        filters[key] &&
+        filters[key].length > 0 &&
+        !filters[key].includes(r[key])
+      ) {
+        return false;
+      }
+    }
+
+    return true;
   })
-)
-    .filter((r) => {
-      if (!fromDate && !toDate) return true;
-      const recordDate = new Date(r.date);
-      const from = fromDate ? new Date(fromDate) : null;
-      const to = toDate ? new Date(toDate) : null;
-      if (from && recordDate < from) return false;
-      if (to && recordDate > to) return false;
-      return true;
-    })
-    // ✅ Sort by date descending — latest check-in at top, oldest at bottom
-    .sort((a, b) => {
-      const dateCompare = new Date(b.date) - new Date(a.date);
-      if (dateCompare !== 0) return dateCompare;
-      // Same date: sort by check-in time descending
-      const timeA = a.checkIn && a.checkIn !== "-" ? a.checkIn : "00:00:00";
-      const timeB = b.checkIn && b.checkIn !== "-" ? b.checkIn : "00:00:00";
-      return timeB.localeCompare(timeA);
-    });
+  .sort((a, b) => {
+    const dateCompare = new Date(b.date) - new Date(a.date);
+    if (dateCompare !== 0) return dateCompare;
+
+    const timeA =
+      a.checkIn && a.checkIn !== "-" ? a.checkIn : "00:00:00";
+    const timeB =
+      b.checkIn && b.checkIn !== "-" ? b.checkIn : "00:00:00";
+
+    return timeB.localeCompare(timeA);
+  });
 
   const suggestions =
     activeFilter &&

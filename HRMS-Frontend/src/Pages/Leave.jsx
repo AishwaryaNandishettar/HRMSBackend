@@ -84,6 +84,7 @@
         const [ccSuggestions, setCcSuggestions] = useState([]);
         const [leaves, setLeaves] = useState([]);
       const [filters, setFilters] = useState({
+         employeeName: "",   // ← add this
         employee: '',
         empId: '',
       department: '',
@@ -153,12 +154,28 @@ if (key === "empId") return l.empId || l.userId;
 setLeaves(
   data.map(l => ({
     ...l,
-    empId: l.empId || l.userId,
-    department: l.department || l.dept || user?.department,
-    reportingManager: l.reportingManager || l.manager || user?.reportingManager
+
+    empId:
+      l.empId ||
+      l.employeeId ||
+      (l.employeeName === "Aishwarya"
+        ? "ADMIN001"
+        : l.userId) ||
+      "—",
+
+    department:
+      l.department ||
+      l.dept ||
+      user?.department ||
+      "—",
+
+    reportingManager:
+      l.reportingManager ||
+      l.manager ||
+      user?.reportingManager ||
+      "—"
   }))
 );
-
         } catch (err) {
           
           console.error(err);
@@ -171,6 +188,44 @@ setLeaves(
           fetchLeaves();
         }
       }, [user]);
+
+
+      useEffect(() => {
+  if (!user) return;
+
+  const currentUserId =
+    String(
+      user?.empId ||
+      user?.employeeId ||
+      user?.id ||
+      "ADMIN001"
+    );
+
+  const myApprovedLeaves = leaves.filter(
+    l =>
+      String(l.userId) === currentUserId &&
+      cleanStatus(l.status) === "approved"
+  );
+
+  const updatedBalances = { ...defaultMonthlyLeaves };
+
+  myApprovedLeaves.forEach(l => {
+    const days =
+      l.leaveType === "Half Day"
+        ? 0.5
+        : getLeaveDays(
+            l.startDate || l.fromDate,
+            l.endDate || l.toDate
+          );
+
+    if (updatedBalances[l.leaveType] !== undefined) {
+      updatedBalances[l.leaveType] -= days;
+    }
+  });
+
+  setBalances(updatedBalances);
+
+}, [leaves, user]);
 
       useEffect(() => {
         if (isEmployee && leaves.length > 0) {
@@ -217,11 +272,24 @@ setLeaves(
           }
         }
       }, [leaves]);
+      
       useEffect(() => {
-          if (user?.name) {
-            setFormData(prev => ({ ...prev, employeeName: user.name }));
-          }
-        }, [user]);
+  const loggedInName =
+    user?.name ||
+    user?.username ||
+    user?.employeeName ||
+    user?.fullName ||
+    user?.adminName ||
+    JSON.parse(localStorage.getItem("user"))?.name ||
+    JSON.parse(localStorage.getItem("user"))?.username ||
+    "Aishwarya";
+
+  setFormData(prev => ({
+    ...prev,
+    employeeName: loggedInName
+  }));
+}, [user]);
+
         const handleChange = (e) => {
           const { name, value, files } = e.target;
           setFormData(prev => ({ ...prev, [name]: files ? files[0] : value }));
@@ -250,7 +318,12 @@ setLeaves(
         return;
       }
             const payload = {
-              userId: String(user.empId),   // 🔥 FORCE STRING
+              userId: String(
+  user?.empId ||
+  user?.employeeId ||
+  user?.id ||
+  "ADMIN001"
+),// 🔥 FORCE STRING
               
               employeeName: formData.employeeName,
               leaveType: formData.leaveType,
@@ -381,8 +454,13 @@ setBalances(prev => ({
   return (
     roleFilter &&
     tabFilter &&
-    (filters.employee === "" ||
-      empName.toLowerCase().includes(filters.employee.toLowerCase())) &&
+(filters.employeeName === "" ||
+  filters.employeeName
+    .split(",")
+    .some(v =>
+      empName.toLowerCase().trim() ===
+      v.toLowerCase().trim()
+    ))&&
     (filters.leaveType === "" || l?.leaveType === filters.leaveType) &&
     (filters.status === "" || status === cleanStatus(filters.status)) &&
     (!filters.fromDate ||
@@ -562,21 +640,16 @@ const renderCheckboxFilter = (key) => {
               
           
 
-            {/* Role Switcher */}
-            <div style={{ marginBottom: '15px' }}>
-                {isHR && (
-    <button className="policy-btn" onClick={() => setShowPolicy(true)}>
-      Auto Generate Policy
-    </button>
-  )}
-  
-              <label>Simulate Role: </label>
-            <select value={normalizedRole} disabled>
-                <option value="employee">Employee</option>
-                <option value="manager">Manager</option>
-                <option value="hr">HR/Admin</option>
-              </select>
-            </div>
+           {/* Role Switcher Hidden */}
+
+{isHR && (
+  <button
+    className="policy-btn"
+    onClick={() => setShowPolicy(true)}
+  >
+    Auto Generate Policy
+  </button>
+)}
 
             {/* Leave Balances */}
             <div className="status-bar">
@@ -643,7 +716,14 @@ const renderCheckboxFilter = (key) => {
                   <form onSubmit={handleSubmit}>
                     <div className="form-row">
                       <label>Employee Name</label>
-                      <input type="text" name="employeeName" value={formData.employeeName} onChange={handleChange} placeholder="Enter your name" required />
+<input
+  type="text"
+  name="employeeName"
+  value={formData.employeeName}
+  readOnly
+  autoComplete="off"
+  required
+/>
                     </div>
 
                     <div className="form-row">
@@ -782,7 +862,7 @@ const renderCheckboxFilter = (key) => {
         {renderFilterHeader("From", "from")}
 
          {renderFilterHeader("To", "to")}
-
+          <th>No of Leave Days</th>
           {renderFilterHeader("Status", "status")}
           {/* COMMENTS */}
 {renderFilterHeader("Comments", "comments")}
@@ -799,10 +879,15 @@ const renderCheckboxFilter = (key) => {
               {l.employeeName || l.name || l.userName || "N/A"}
             </td>
 
-           <td>
-  {l.empId || l.userId || user?.empId || "—"}
+         <td>
+  {
+    l.empId ||
+    l.employeeId ||
+    l.userId ||
+    user?.empId ||
+    "ADMIN001"
+  }
 </td>
-
 <td>
   {l.department || l.dept || user?.department || user?.dept || "—"}
 </td>
@@ -816,6 +901,14 @@ const renderCheckboxFilter = (key) => {
             <td>{l.startDate || l.fromDate}</td>
 
             <td>{l.endDate || l.toDate}</td>
+            <td>
+  {l.leaveType === "Half Day"
+    ? 0.5
+    : getLeaveDays(
+        l.startDate || l.fromDate,
+        l.endDate || l.toDate
+      )}
+</td>
 
             {/* STATUS COLUMN */}
             <td>

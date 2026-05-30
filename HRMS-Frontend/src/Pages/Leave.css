@@ -186,24 +186,47 @@ body {
   background: linear-gradient(135deg, #eef2ff, #f8fafc);
   min-height: 100vh;
 }
+
+/* Earned Leave - Dark Blue */
 .status-box:nth-child(1) {
-  border-left: 5px solid #3b82f6; /* Earned Leave */
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
 }
 
+/* Sick Leave - Green */
 .status-box:nth-child(2) {
-  border-left: 5px solid #22c55e; /* Sick Leave */
+  background: linear-gradient(135deg, #22c55e, #16a34a);
 }
 
+/* Loss Of Pay - Red */
 .status-box:nth-child(3) {
-  border-left: 5px solid #f59e0b; /* Loss of Pay */
+  background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
+/* Half Day - Yellow */
 .status-box:nth-child(4) {
-  border-left: 5px solid #8b5cf6; /* Half Day */
+  background: linear-gradient(135deg, #facc15, #eab308);
+  color: #111;
 }
 
+.status-box:nth-child(4) h4,
+.status-box:nth-child(4) strong {
+  color: #111 !important;
+}
+
+/* Comp Off - Light Blue */
 .status-box:nth-child(5) {
-  border-left: 5px solid #ef4444; /* Comp Off */
+  background: linear-gradient(135deg, #8ab4f8, #6ea8fe);
+}
+.status-box {
+  height: 90px;
+}
+
+.status-box strong {
+  font-size: 16px;
+}
+
+.status-box h4 {
+  font-size: 14px;
 }
 .status-box {
   position: relative;
@@ -1412,5 +1435,100 @@ body {
   .status-box {
     min-width: calc(50% - 8px);
     flex: unset;
+  }
+}
+.leave-table th,
+.leave-table td {
+  min-width: 140px;
+}
+/* ==========================================
+   LEAVE KPI CARDS - SAME AS RECRUITMENT PAGE
+========================================== */
+
+.status-bar {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.status-box {
+  flex: 1;
+  min-height: 75px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px;
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+
+   padding: 8px 12px;  /* was 12px */
+}
+
+.status-box:hover {
+  transform: translateY(-3px);
+}
+
+.status-box h4 {
+  color: #fff !important;
+  font-size: 10px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+.status-box {
+  min-height: 70px;
+  padding: 8px 12px;
+}
+
+.status-box h4 {
+  margin-bottom: 2px;
+  font-size: 12px;
+}
+
+.status-box strong {
+  font-size: 16px;
+}
+.status-box strong {
+  color: #fff !important;
+  font-size: 34px;
+  font-weight: 700;
+}
+.fixed-btn {
+  margin-top: 20px !important;
+}
+.policy-btn {
+  margin-bottom: 15px;
+}
+/* MOBILE KPI FIX */
+@media screen and (max-width: 768px) {
+
+  .status-bar {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .status-box {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Last KPI card centered */
+  .status-box:last-child {
+    grid-column: 1 / span 2 !important;
+    width: 50% !important;
+    justify-self: center !important;
   }
 }

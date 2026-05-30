@@ -730,3 +730,141 @@ button {
     -webkit-overflow-scrolling: touch;
   }
 }
+/* =========================================
+   FORCE MOBILE STICKY EMP ID + NAME
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+  .tableWrapper {
+    overflow-x: auto !important;
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  .table {
+    min-width: 1400px !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+  }
+
+  /* ===== FIRST COLUMN ===== */
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    position: sticky !important;
+    left: 0 !important;
+    min-width: 90px !important;
+    max-width: 90px !important;
+    background: #fff !important;
+    z-index: 20 !important;
+  }
+
+  /* ===== SECOND COLUMN ===== */
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    position: sticky !important;
+    left: 90px !important;
+    min-width: 110px !important;
+    max-width: 110px !important;
+    background: #fff !important;
+    z-index: 20 !important;
+  }
+
+  /* ===== HEADER FIX ===== */
+  .table thead th:nth-child(1),
+  .table thead th:nth-child(2) {
+    background: #173b7a !important;
+    color: #fff !important;
+    z-index: 50 !important;
+  }
+
+  /* Prevent overlap */
+  .table td,
+  .table th {
+    white-space: nowrap !important;
+  }
+}
+/* =========================================
+   ATTENDANCE FILTER POPUP ALIGNMENT FIX
+========================================= */
+
+.attendanceContainer .popup {
+  min-width: 250px !important;
+}
+
+.attendanceContainer .filterOption {
+  display: grid !important;
+  grid-template-columns: 20px 1fr !important;
+  align-items: center !important;
+  column-gap: 10px !important;
+
+  padding: 6px 8px !important;
+  width: 100% !important;
+
+  box-sizing: border-box;
+}
+
+/* checkbox always left aligned */
+.attendanceContainer .filterOption input[type="checkbox"] {
+  width: 14px !important;
+  height: 14px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  justify-self: start !important;
+}
+
+/* text always starts from same position */
+.attendanceContainer .filterOption span,
+.attendanceContainer .filterOption label,
+.attendanceContainer .filterOption .link {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  text-align: left !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+
+  width: 100%;
+}
+
+/* hover */
+.attendanceContainer .filterOption:hover {
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+/* select all row */
+.attendanceContainer .popup .selectAllRow {
+  display: grid !important;
+  grid-template-columns: 20px 1fr !important;
+  align-items: center !important;
+  column-gap: 10px !important;
+}
+
+/* popup scrollbar */
+.attendanceContainer .popup::-webkit-scrollbar {
+  width: 6px;
+}
+
+.attendanceContainer .popup::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.filterOption {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+
+  padding: 6px 10px;
+  box-sizing: border-box;
+
+  text-align: left;
+  white-space: nowrap;
+  font-size: 13px;
+}

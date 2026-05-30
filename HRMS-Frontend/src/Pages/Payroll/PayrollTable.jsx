@@ -11,6 +11,7 @@ const PayrollTable = ({ data, onViewPayslip, onProfileView , onEditPayroll, onDo
   const [activeFilter, setActiveFilter] = useState(null);
   const [filterText, setFilterText] = useState("");
   const [filters, setFilters] = useState({});
+  const [selectedValues, setSelectedValues] = useState({});
 
   const popupRef = useRef();
    /* =========================
@@ -57,7 +58,13 @@ const PayrollTable = ({ data, onViewPayslip, onProfileView , onEditPayroll, onDo
         data.map((item) => {
           switch (key) {
             case "employeeName":
-              return item.employeeName || item.name || "-";
+  return (
+    item.empName ||
+    item.fullName ||
+    item.employeeName ||
+    item.name ||
+    "-"
+  );
 
             case "employeeId":
               return item.employeeId || item.empId || item.empCode || "-";
@@ -109,9 +116,14 @@ const PayrollTable = ({ data, onViewPayslip, onProfileView , onEditPayroll, onDo
       let value = "";
 
       switch (key) {
-        case "employeeName":
-          value = item.employeeName || item.name || "-";
-          break;
+       case "employeeName":
+  value =
+    item.empName ||
+    item.fullName ||
+    item.employeeName ||
+    item.name ||
+    "-";
+  break;
 
         case "employeeId":
           value = item.employeeId || item.empId || item.empCode || "-";
@@ -156,7 +168,13 @@ const PayrollTable = ({ data, onViewPayslip, onProfileView , onEditPayroll, onDo
           value = "";
       }
 
-      return String(value) === String(filters[key]);
+     if (String(filters[key]).includes(",")) {
+  return filters[key]
+    .split(",")
+    .some(v => String(value) === v);
+}
+
+return String(value) === String(filters[key]);
     });
   });
 
@@ -221,31 +239,89 @@ const totalNet = data.reduce(
                       className="payroll-filter-input"
                     />
 
-                    <div className="payroll-filter-list">
-                      {suggestions.map((s, index) => (
-                        <div
-                          key={index}
-                          className="payroll-filter-item"
-                          onClick={() => {
-                            setFilters({
-                              ...filters,
-                              [col.key]: s,
-                            });
+                   <div className="payroll-filter-list">
 
-                            setActiveFilter(null);
-                            setFilterText("");
-                          }}
-                        >
-                          {s}
-                        </div>
-                      ))}
+  <div className="payroll-filter-item">
+   <input
+  type="checkbox"
+  checked={
+    (selectedValues[col.key] || []).length ===
+    suggestions.length
+  }
+  onChange={(e) => {
+    if (e.target.checked) {
+      setSelectedValues(prev => ({
+        ...prev,
+        [col.key]: suggestions,
+      }));
+    } else {
+      setSelectedValues(prev => ({
+        ...prev,
+        [col.key]: [],
+      }));
+    }
+  }}
+/>
+    <span>(Select All)</span>
+  </div>
+{suggestions.map((s, index) => (
+  <div
+    key={index}
+    className="payroll-filter-item"
+  >
+    <input
+      type="checkbox"
+      checked={
+        selectedValues[col.key]?.includes(s) || false
+      }
+      onChange={(e) => {
+        let updated = selectedValues[col.key] || [];
 
-                      {suggestions.length === 0 && (
-                        <div className="payroll-no-data">
-                          No matching data
-                        </div>
-                      )}
-                    </div>
+        if (e.target.checked) {
+          updated = [...updated, s];
+        } else {
+          updated = updated.filter(v => v !== s);
+        }
+
+        setSelectedValues(prev => ({
+          ...prev,
+          [col.key]: updated,
+        }));
+      }}
+    />
+
+    <span>{s}</span>
+  </div>
+))}
+
+  <div className="payroll-filter-actions">
+    <button
+      className="payroll-ok-btn"
+    onClick={() => {
+  setFilters(prev => ({
+    ...prev,
+    [col.key]:
+      (selectedValues[col.key] || []).join(","),
+  }));
+
+  setActiveFilter(null);
+}}
+    >
+      OK
+    </button>
+
+    <button
+      className="payroll-cancel-btn"
+      onClick={() => {
+        setActiveFilter(null);
+        setFilterText("");
+      }}
+    >
+      Cancel
+    </button>
+  </div>
+
+</div>
                   </div>
                 )}
               </th>

@@ -50,7 +50,10 @@ const [sortConfig, setSortConfig] = useState({
     ...new Set(
       claims
         .map((r) => {
-          const value = r?.[key];
+          const value =
+  r?.[key] ??
+  r?.[normalizeKey(key)] ??
+  "";
           return value ?? "";
         })
         .filter((v) => v !== null && v !== undefined && v !== "")
@@ -296,32 +299,25 @@ const sortColumn = (key, direction) => {
 
   const filteredClaims = claims.filter((claim) => {
   // ROLE FILTER
-  if (role === ROLE_EMP && user?.empCode !== claim.empCode) {
-    return false;
-  }
+ if (role === ROLE_EMP && user?.employeeCode !== claim.employeeCode) {
+  return false;
+}
 
   if (role === ROLE_ADMIN) {
-    const allowed = [
-      "MANAGER_APPROVED",
-      "REJECTED",
-      "INSURANCE_APPROVED",
-      "SETTLED"
-    ];
+  const allowed = [
+    "SUBMITTED",
+    "MANAGER_APPROVED",
+    "REJECTED",
+    "INSURANCE_APPROVED",
+    "SETTLED"
+  ];
 
-    const status = (claim.status || "").toUpperCase();
-    if (!allowed.includes(status)) return false;
+  const status = (claim.status || "").toUpperCase();
+
+  if (!allowed.includes(status)) {
+    return false;
   }
-
-  if (fromMonth && toMonth) {
-    const claimMonth = claim.fromDate
-      ? claim.fromDate.substring(0, 7)
-      : "";
-
-    if (claimMonth < fromMonth || claimMonth > toMonth) {
-      return false;
-    }
-  }
-
+}
   // COLUMN FILTERS (HEADER DROPDOWN FILTERS)
   return Object.keys(filters).every((key) => {
     if (
@@ -331,10 +327,13 @@ const sortColumn = (key, direction) => {
   return true;
 }
 
-const value = claim?.[key] ?? claim?.[normalizeKey(key)];
+const value =
+  claim?.[key] ??
+  claim?.[normalizeKey(key)] ??
+  "";
 
 if (Array.isArray(filters[key])) {
-  return filters[key].includes(value);
+return filters[key].includes(String(value));
 }
 
 return String(value ?? "")
@@ -355,13 +354,13 @@ return String(value ?? "")
 
         <div className="card approved" style={{ color: "white" }}>
           <h4>Approved</h4>
-          <p>{claims.filter(c => c.status === "Insurance Approved" || c.status === "Settled").length}</p>
+          <p>{claims.filter(c => c.status === "INSURANCE_APPROVED" || c.status === "Settled").length}</p>
         </div>
 
         <div className="card pending">
           <h4>Pending</h4>
           <p>{claims.filter(c =>
-            ["Submitted", "Manager Approved"].includes(c.status)
+            ["Submitted", "MANAGER_APPROVED"].includes(c.status)
           ).length}</p>
         </div>
 
@@ -816,11 +815,11 @@ return String(value ?? "")
             <input
               type="checkbox"
               checked={
-                selectedFilterValues[col.key]?.includes(val) ||
+                selectedFilterValues[col.key]?.includes(String(val))||
                 false
               }
               onChange={() =>
-                handleCheckboxChange(col.key, val)
+                handleCheckboxChange(col.key, String(val))
               }
             />
             {val || "Empty"}

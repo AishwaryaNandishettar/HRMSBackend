@@ -138,7 +138,16 @@ export default function ChatMessages({
       onScroll={handleScroll}
     >
       {messages.map((m, i) => {
-        const isMe = m?.senderEmail?.toLowerCase() === loggedInEmail?.toLowerCase();
+       const senderEmail =
+  m?.senderEmail ||
+  m?.sender ||
+  m?.email ||
+  "";
+
+const isMe =
+  senderEmail.toLowerCase() ===
+  loggedInEmail?.toLowerCase();
+
         const msgTime = m?.timestamp || m?.createdAt;
         const currentDate = msgTime ? new Date(msgTime).toDateString() : "";
         const prevMsg = messages[i - 1];
@@ -153,8 +162,14 @@ export default function ChatMessages({
           : null;
 
         // Show sender name only when the sender changes (Teams-style grouping)
-        const prevSenderEmail = prevMsg?.senderEmail;
-        const showSenderName = !isMe && (showDate || prevSenderEmail?.toLowerCase() !== m.senderEmail?.toLowerCase());
+       const prevSenderEmail =
+  prevMsg?.senderEmail ||
+  prevMsg?.sender ||
+  prevMsg?.email ||
+  "";
+  
+        const showSenderName = !isMe && (showDate ||
+prevSenderEmail?.toLowerCase() !== senderEmail?.toLowerCase());
 
         return (
           <div key={m.id || `${i}-${msgTime}`}>
@@ -176,7 +191,10 @@ export default function ChatMessages({
                 {/* Sender name — only shown when sender changes, like Teams */}
                 {showSenderName && (
                   <div className="msg-sender-name">
-                    {m.senderName || m.senderEmail?.split("@")[0]}
+                    {
+  m.senderName ||
+  senderEmail?.split("@")[0]
+}
                   </div>
                 )}
 
@@ -261,7 +279,12 @@ export default function ChatMessages({
           <button onClick={() => { onForward(menu.message); closeMenu(); }}>
             ↗️ Forward
           </button>
-          {menu.message.senderEmail?.toLowerCase() === loggedInEmail?.toLowerCase() && (
+          {(
+  menu.message.senderEmail ||
+  menu.message.sender ||
+  menu.message.email ||
+  ""
+).toLowerCase() === loggedInEmail?.toLowerCase() && (
             <button onClick={() => { onEdit(menu.message); closeMenu(); }}>
               ✏️ Edit
             </button>

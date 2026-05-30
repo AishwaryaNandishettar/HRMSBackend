@@ -1144,3 +1144,149 @@
     z-index: 100;
   }
 }
+/* =========================================================
+   FINAL STICKY HEADER + COLUMN FIX
+========================================================= */
+
+/* wrapper */
+.insurance-container .table-wrapper {
+  overflow: auto !important;
+  position: relative;
+}
+
+/* table */
+.insurance-container .claim-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  position: relative;
+}
+
+/* ALL HEADER CELLS */
+.insurance-container .claim-table thead th {
+  position: sticky !important;
+  top: 0 !important;
+  background: #1f3c88 !important;
+  color: white !important;
+  z-index: 300 !important;
+}
+
+/* =====================================================
+   STICKY COLUMN 1
+===================================================== */
+
+.insurance-container .claim-table thead th:nth-child(1) {
+  left: 0 !important;
+  z-index: 500 !important;
+}
+
+.insurance-container .claim-table tbody td:nth-child(1) {
+  position: sticky !important;
+  left: 0 !important;
+  background: #fff !important;
+  z-index: 100 !important;
+}
+
+/* =====================================================
+   STICKY COLUMN 2
+===================================================== */
+
+.insurance-container .claim-table thead th:nth-child(2) {
+  left: 170px !important;
+  z-index: 500 !important;
+}
+
+.insurance-container .claim-table tbody td:nth-child(2) {
+  position: sticky !important;
+  left: 170px !important;
+  background: #fff !important;
+  z-index: 100 !important;
+}
+
+/* header bg stays visible */
+.insurance-container .claim-table thead th:nth-child(1),
+.insurance-container .claim-table thead th:nth-child(2) {
+  background: #1f3c88 !important;
+}
+
+/* =====================================================
+   MOBILE FIX
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .insurance-container .claim-table thead th:nth-child(1) {
+    left: 0 !important;
+  }
+
+  .insurance-container .claim-table tbody td:nth-child(1) {
+    left: 0 !important;
+  }
+
+  .insurance-container .claim-table thead th:nth-child(2) {
+    left: 95px !important;
+  }
+
+  .insurance-container .claim-table tbody td:nth-child(2) {
+    left: 95px !important;
+  }
+}
+/* =========================================================
+   FILTER POPUP MUST COME ABOVE STICKY COLUMNS
+========================================================= */
+
+.insurance-container .table-header-cell {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.insurance-container .excel-filter-popup {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  z-index: 999999 !important;
+}
+
+/* important */
+.insurance-container .claim-table {
+  overflow: visible !important;
+}
+
+.insurance-container .table-wrapper {
+  overflow: auto !important;
+}
+/* =========================================================
+   FINAL HEADER FREEZE FIX
+   ONLY TABLE BODY SCROLLS
+========================================================= */
+
+.insurance-container .table-wrapper {
+  height: 500px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  position: relative;
+}
+
+/* freeze complete header row */
+.insurance-container .claim-table thead th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 500 !important;
+  background: #1f3c88 !important;
+}
+
+/* sticky column headers above body */
+.insurance-container .claim-table thead th:nth-child(1),
+.insurance-container .claim-table thead th:nth-child(2) {
+  z-index: 700 !important;
+}
+
+/* sticky body columns */
+.insurance-container .claim-table tbody td:nth-child(1),
+.insurance-container .claim-table tbody td:nth-child(2) {
+  z-index: 50 !important;
+}
+
+/* smooth mobile scrolling */
+.insurance-container .table-wrapper {
+  -webkit-overflow-scrolling: touch;
+}

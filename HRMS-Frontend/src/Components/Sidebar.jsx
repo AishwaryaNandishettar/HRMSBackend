@@ -8,13 +8,14 @@ import {
   FaUserCircle,
   FaClock,
   FaCalendarCheck,
+   FaCalendarAlt,
   FaMoneyBillWave,
   FaShieldAlt,
   FaWallet,
   FaIdBadge,
   FaChartBar,
   FaSignOutAlt,
-  FaUmbrellaBeach,
+  
   FaCreditCard,
   FaHandHoldingUsd,
   FaComments,
@@ -146,7 +147,7 @@ const handleMenuClick = () => {
     }`
   }
 >
-    <FaUmbrellaBeach />
+    <FaCalendarAlt />
     {isOpen && <span>Leave Management</span>}
   </NavLink>
 </li>

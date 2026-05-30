@@ -179,7 +179,7 @@ await createReimbursement(formData);
     loadData();
   };
 
-  // ================= FILTER =================
+// ================= FILTER =================
 const filteredData = requests.filter((r) => {
 
   // EMPLOYEE → only own records
@@ -187,25 +187,18 @@ const filteredData = requests.filter((r) => {
     if (user?.empCode !== r.empCode) return false;
   }
 
-  // MANAGER → see all employees
-  if (role === ROLE_MGR) {
-    return true;
-  }
-
-  // ADMIN → see ALL records
-  if (role === ROLE_ADMIN) {
-    return true;
-  }
-
+  // APPLY FILTERS FOR ALL ROLES
   return Object.keys(filters).every((key) => {
+
+    // no filter selected
     if (!filters[key]) return true;
 
     return String(r[key] || "")
       .toLowerCase()
-      .includes(filters[key].toLowerCase());
+      .includes(String(filters[key]).toLowerCase());
+
   });
 });
-
 
   // ================= KPI =================
   const total = requests.length;
@@ -731,15 +724,25 @@ const filteredData = requests.filter((r) => {
       <td>{r.managerName || "-"}</td>
 
       {/* ✅ ATTACHMENT */}
-    <td>
+   <td>
   {r.files && r.files.length > 0 ? (
-    r.files.map((file, i) => (
-      <div key={i}>
-        <a href={file} target="_blank" rel="noreferrer">
-          View File {i + 1}
-        </a>
-      </div>
-    ))
+    r.files.map((file, i) => {
+      const fileUrl = file.startsWith("http")
+        ? file
+        : `http://localhost:8082/${file}`;
+
+      return (
+        <div key={i}>
+          <a
+            href={fileUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View File {i + 1}
+          </a>
+        </div>
+      );
+    })
   ) : (
     "-"
   )}

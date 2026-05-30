@@ -314,14 +314,15 @@
    FROZEN COLUMN 1 - EMPLOYEE ID (STICKY LEFT)
 ========================================================= */
 .insurance-container .col-1 {
+  width: 160px;
+  min-width: 160px;
+  max-width: 160px;
+
   position: sticky;
   left: 0;
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
   z-index: 120;
   background: #fff;
-  box-shadow: 2px 0 4px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 4px -1px rgba(0,0,0,0.1);
 }
 
 .insurance-container .grid-header .col-1 {
@@ -334,14 +335,15 @@
    FROZEN COLUMN 2 - EMPLOYEE NAME (STICKY LEFT)
 ========================================================= */
 .insurance-container .col-2 {
+ width: 160px;
+  min-width: 160px;
+  max-width: 160px;
+
   position: sticky;
-  left: 100px; /* Exactly column 1 width */
-  width: 180px;
-  min-width: 180px;
-  max-width: 180px;
+  left: 0;
   z-index: 120;
   background: #fff;
-  box-shadow: 2px 0 4px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 4px -1px rgba(0,0,0,0.1);
 }
 
 .insurance-container .grid-header .col-2 {
@@ -350,6 +352,10 @@
   box-shadow: 2px 0 4px -1px rgba(0, 0, 0, 0.15);
 }
 
+.insurance-container .grid-body .col-1 {
+  text-align: left;
+  padding-left: 8px;
+}
 /* =========================================================
    SCROLLABLE COLUMNS (3 onwards)
 ========================================================= */
@@ -615,14 +621,19 @@
   /* =========================
      FROZEN COLUMN 1
   ========================= */
-  .insurance-container .col-1 {
-    width: 75px !important;
-    min-width: 75px !important;
-    max-width: 75px !important;
+ .insurance-container .col-1 {
+  width: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+}
 
-    font-size: 11px !important;
-    padding: 8px 5px !important;
-  }
+.insurance-container .col-2 {
+  left: 130px !important;
+
+  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 180px !important;
+}
 
   /* =========================
      FROZEN COLUMN 2
@@ -1006,5 +1017,120 @@
     color: var(--label-color);
     z-index: 2;
     pointer-events: none;
+  }
+}
+/* =========================================
+   FORCE MOBILE STICKY COLUMNS FIX
+========================================= */
+@media (max-width: 768px) {
+
+  .insurance-container .grid-header .col-1,
+  .insurance-container .grid-body .col-1 {
+    position: sticky !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+    background: #fff !important;
+  }
+
+  .insurance-container .grid-header .col-1 {
+    background: #2c5f8d !important;
+  }
+
+  .insurance-container .grid-header .col-2,
+  .insurance-container .grid-body .col-2 {
+    position: sticky !important;
+    left: 75px !important;
+    z-index: 9999 !important;
+    background: #fff !important;
+  }
+
+  .insurance-container .grid-header .col-2 {
+    background: #2c5f8d !important;
+  }
+
+  .insurance-container .table-wrapper {
+    overflow-x: auto !important;
+    position: relative !important;
+  }
+
+  .insurance-container .grid-table {
+    position: relative !important;
+  }
+}
+/* =========================================================
+   FORCE FIX - MOBILE STICKY FILTER POPUP
+========================================================= */
+
+@media (max-width: 768px) {
+
+  /* main wrapper should allow popup outside */
+  .insurance-container,
+  .insurance-container .table-wrapper,
+  .insurance-container .grid-table,
+  .insurance-container .grid-header,
+  .insurance-container .grid-row,
+  .insurance-container .cell {
+    overflow: visible !important;
+  }
+
+  /* IMPORTANT */
+  .insurance-container .grid-header .cell {
+    position: sticky !important;
+    z-index: 10 !important;
+  }
+
+  /* frozen columns lower */
+  .insurance-container .col-1,
+  .insurance-container .col-2 {
+    z-index: 11 !important;
+    overflow: visible !important;
+  }
+
+  /* active popup column highest */
+  .insurance-container .table-header-cell:has(.excel-filter-popup),
+  .insurance-container .table-header-cell:has(.filter-popup) {
+    z-index: 999999 !important;
+    overflow: visible !important;
+  }
+
+  /* popup itself */
+  .insurance-container .excel-filter-popup,
+  .insurance-container .filter-popup {
+    position: absolute !important;
+
+    top: 100% !important;
+    left: 0 !important;
+
+    width: 190px !important;
+    max-width: 190px !important;
+
+    z-index: 99999999 !important;
+
+    overflow: visible !important;
+
+    background: #f3f3f3 !important;
+
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3) !important;
+  }
+
+  /* footer buttons */
+  .insurance-container .excel-filter-footer {
+    display: flex !important;
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+
+  .insurance-container .excel-ok-btn,
+  .insurance-container .excel-cancel-btn {
+    flex: 1 !important;
+    min-width: 0 !important;
+    height: 30px !important;
+    font-size: 12px !important;
+  }
+
+  /* list scroll */
+  .insurance-container .excel-checkbox-list {
+    max-height: 180px !important;
+    overflow-y: auto !important;
   }
 }

@@ -2489,3 +2489,153 @@
     box-shadow: 3px 0 6px rgba(0,0,0,0.08);
   }
 }
+/* =========================================
+   FINAL DESKTOP CLOSE BUTTON FIX
+========================================= */
+
+.payslip-modal.large {
+  position: relative;
+  width: 92%;
+  max-width: 1050px;
+
+  max-height: 92vh;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+
+  background: #fff;
+}
+
+/* HEADER */
+.payslip-header {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+
+  background: #2563eb !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 20px;
+
+  min-height: 70px;
+}
+
+/* TITLE */
+.payslip-header h3 {
+  margin: 0;
+  color: #fff;
+
+  flex: 1;
+
+  padding-right: 60px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+
+  position: absolute !important;
+
+  top: 14px;
+  right: 18px;
+
+  z-index: 99999 !important;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255,255,255,0.22) !important;
+
+  border: 2px solid rgba(255,255,255,0.45);
+
+  color: #fff !important;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  line-height: 1;
+}
+
+/* HOVER */
+.close-btn:hover {
+  transform: scale(1.08);
+  background: rgba(255,255,255,0.32) !important;
+}
+
+/* BODY */
+.payslip-body {
+  overflow-y: auto;
+  max-height: calc(92vh - 70px);
+}
+/* ==========================================
+   PAYROLL FILTER POPUP LIKE ATTENDANCE
+========================================== */
+
+.payroll-filter-popup {
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #bdbdbd;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.payroll-filter-list {
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.payroll-filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 4px 8px;
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.payroll-filter-item input[type="checkbox"] {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.payroll-filter-item span {
+  flex: 1;
+  text-align: left;
+}
+
+.payroll-filter-item:hover {
+  background: #ececec;
+}
+
+.payroll-filter-actions {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 8px;
+  border-top: 1px solid #ddd;
+}
+
+.payroll-ok-btn,
+.payroll-cancel-btn {
+  padding: 2px 14px;
+  font-size: 12px;
+  cursor: pointer;
+}

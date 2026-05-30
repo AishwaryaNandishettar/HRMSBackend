@@ -92,7 +92,7 @@ public CorsConfigurationSource corsConfigurationSource() {
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
     // PUBLIC APIs
      .requestMatchers("/error").permitAll()
-    
+    .requestMatchers("/uploads/**").permitAll()
     .requestMatchers("/api/onboarding/**").permitAll()
     .requestMatchers("/test/**").permitAll()
     .requestMatchers("/api/otp/**").permitAll()

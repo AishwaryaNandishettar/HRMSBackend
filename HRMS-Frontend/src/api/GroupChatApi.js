@@ -178,22 +178,34 @@ export const uploadGroupFile = async (groupId, formData, token) => {
   if (!res.ok) throw new Error(`Group file upload failed: ${res.status}`);
   return res.json();
 };
+/* =========================
+   FETCH UNREAD USERS COUNT
+========================= */
 export const fetchUnreadUsersCount = async (email, token) => {
   const res = await axios.get(
-    `${import.meta.env.VITE_API_BASE_URL}/api/chat/unread-users-count?userEmail=${email}`,
+    `${import.meta.env.VITE_API_BASE_URL}/api/chat/unread-count?receiver=${email}`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
   );
+
   return res.data;
 };
 
+/* =========================
+   FETCH UNREAD MESSAGES PER USER
+========================= */
 export const fetchUnreadMessagesPerUser = async (email, token) => {
   const res = await axios.get(
-    `${import.meta.env.VITE_API_BASE_URL}/api/chat/unread-per-user?userEmail=${email}`,
+    `${import.meta.env.VITE_API_BASE_URL}/api/chat/unread-per-user?receiver=${email}`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
   );
+
   return res.data;
 };

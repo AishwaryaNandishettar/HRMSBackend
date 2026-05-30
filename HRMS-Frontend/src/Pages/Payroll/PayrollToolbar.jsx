@@ -40,10 +40,7 @@ const PayrollToolbar = ({
         <option value="low">Low Salary</option>
       </select>
 
-      <button className="btn-secondary">
-        <FaFilter style={{ marginRight: "6px" }} />
-        Filter
-      </button>
+    
 
       <button className="btn-secondary" onClick={onExport}>Export</button>
 
