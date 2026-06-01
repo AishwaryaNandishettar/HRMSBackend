@@ -116,11 +116,12 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 16px;
+    align-items: start;
   }
 
   /* ================= EMPLOYEE DIRECTORY ================= */
   .emp-panel {
-    height: 420px;
+    height: 380px;
     display: flex;
     flex-direction: column;
   }
@@ -194,11 +195,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-top: 16px;
+    margin-top: 8px;
   }
 
   .chart-box {
-    min-height: 300px;
+    min-height: 260px;
     display: flex;
     flex-direction: column;
     padding: 16px;
@@ -336,7 +337,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 16px;
-    margin-top: 16px;
+    margin-top: 0;
   }
 
   /* ================= PAYROLL ================= */
@@ -1856,7 +1857,7 @@
 
 .chart-row {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   margin-top: 20px;
   position: relative;
   z-index: 1;
@@ -1864,7 +1865,7 @@
 
 .chart-box {
   flex: 1;
-  min-height: 300px;
+  min-height: 260px;
   overflow: hidden;
 }
 .emp-panel {
